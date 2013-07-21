@@ -36,6 +36,11 @@
 		<class>org.openmrs.module.integration.extension.html.AdminList</class>
 	</extension>
 	
+	<privilege>
+		<name>Manage Integration Servers</name>
+		<description>Allows the user to manage Integration module Servers</description>
+	</privilege>
+	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				

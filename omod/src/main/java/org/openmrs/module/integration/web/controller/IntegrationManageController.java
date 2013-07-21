@@ -13,8 +13,16 @@
  */
 package org.openmrs.module.integration.web.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,11 +32,28 @@ import org.openmrs.Person;
 import org.openmrs.api.PatientSetService.TimeModifier;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.query.service.CohortQueryService;
+import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.common.TimeQualifier;
+import org.openmrs.module.reporting.evaluation.parameter.Mapped;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.report.ReportData;
+import org.openmrs.module.reporting.report.ReportRequest;
+import org.openmrs.module.reporting.report.ReportRequest.Priority;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.module.reporting.report.renderer.RenderingException;
+import org.openmrs.module.reporting.report.renderer.RenderingMode;
+import org.openmrs.module.reporting.report.renderer.ReportRenderer;
+import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * The main controller.
@@ -41,7 +66,6 @@ public class  IntegrationManageController {
 	@RequestMapping(value = "/module/integration/manage", method = RequestMethod.GET)
 	public void manage(ModelMap model) {
 		model.addAttribute("user", Context.getAuthenticatedUser());
-		List<Person> providerList = Collections.singletonList(new Person(101-1));
 		CohortQueryService cqs= Context.getService(CohortQueryService.class);
 		//Cohort cohort = cqs.getPatientsHavingEncounters(null,null, TimeQualifier.ANY, null, null, null, null, null, null, null, null, null);
 		Cohort cohort = cqs.getPatientsWithGender(true, false, false);
@@ -49,4 +73,44 @@ public class  IntegrationManageController {
 		model.addAttribute("patients",s);
 		model.addAttribute("count",cohort.getSize());
 	}
+	@RequestMapping(value = "/module/integration/manage", method = RequestMethod.POST)
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ReportDefinitionService rds = Context.getService(ReportDefinitionService.class);
+		ReportDefinition reportDefinition=rds.getDefinitionByUuid("3217bf6e-5a51-4331-b5e2-35761cc1ff18");
+		ReportService rs = Context.getService(ReportService.class);
+		ReportRequest rr= new ReportRequest();
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		/*for (Parameter parameter : reportDefinition.getParameters()) {
+			Object value = null;
+			value = WidgetUtil.parseInput(value, parameter.getType(), parameter.getCollectionType());
+			
+			params.put(parameter.getName(), value);
+		}*/
+		RenderingMode rm=new RenderingMode();
+		List<RenderingMode> renderingModes=rs.getRenderingModes(reportDefinition);
+		try {
+		Class<? extends ReportRenderer> rc = (Class<? extends ReportRenderer>) Context.loadClass("org.openmrs.module.reporting.web.renderers.DefaultWebRenderer");
+		String arg = null;
+		
+		for (RenderingMode mode : renderingModes) {
+			if (mode.getRenderer().getClass().equals(rc) && OpenmrsUtil.nullSafeEquals(mode.getArgument(), arg)) {
+				rm=mode;
+			}
+		}
+		}
+		catch (Exception e) {
+			log.warn("Could not load requested renderer", e);
+		}
+		rr.setReportDefinition(new Mapped<ReportDefinition>(reportDefinition, params));
+		rr.setBaseCohort(null);
+	    rr.setRenderingMode(rm);
+	    rr.setPriority(Priority.NORMAL);
+	    rr.setSchedule("");
+		
+	    rr = rs.queueReport(rr);
+		rs.processNextQueuedReports();
+		//new RedirectView("../reports/reportHistoryOpen.form?uuid="+rr.getUuid());
+		return new ModelAndView(new RedirectView("../../module/reporting/reports/reportHistoryOpen.form?uuid="+rr.getUuid()));
+	}
+	
 }

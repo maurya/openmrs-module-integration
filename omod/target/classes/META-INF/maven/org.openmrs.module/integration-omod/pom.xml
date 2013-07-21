@@ -37,7 +37,7 @@
 			<groupId>org.openmrs.module</groupId>
 						
 			<artifactId>reporting-api</artifactId>
-												
+				<scope>provided</scope>								
 		</dependency>
 						
 		<!-- End OpenMRS modules -->
