@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.openmrs.module.integration.DataElement" table="data_element">
+		<id name="dataElementId" type="long" column="id"
+			unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<discriminator column="id" insert="false" />
+
+		<property name="uuid" type="java.lang.String" column="uuid"
+			length="38" unique="true" />
+			
+			
+
+		<property name="dataElementName" type="java.lang.String" column="data_element_name"
+			not-null="true" length="255" />
+			
+			<property name="dataElementCode" type="java.lang.String" column="data_element_code"
+			not-null="true" length="255" />
+			
+			<property name="dataElementUid" type="java.lang.String" column="data_element_uid"
+			not-null="true" length="255" />
+			
+			<property name="dataElementType" type="java.lang.String" column="data_element_type"
+			not-null="true" length="255" />
+			
+			<!-- not yet decided about either only concept, for now it's concept -->
+			<property name="dataElementMappedConcept" type="long" column="mapped_concept_id" />
+			
+			
+			
+			<property name="serverId" type="long" column="server_id"
+			not-null="true" />
+		<many-to-one name="id" class="org.openmrs.module.integration.IntegrationServer"
+			not-null="true">
+			<column name="serverId" />
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

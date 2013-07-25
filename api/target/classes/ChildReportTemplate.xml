@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.openmrs.module.integration.ChildReportTemplate" table="report_template">
+		<id name="reportTemplateId" type="long" column="id"
+			unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<discriminator column="id" insert="false" />
+
+		<property name="uuid" type="java.lang.String" column="uuid"
+			length="38" unique="true" />
+			
+			
+
+		<property name="reportTemplateName" type="java.lang.String" column="report_name"
+			not-null="true" length="255" />
+			
+			<property name="reportTemplateCode" type="java.lang.String" column="report_code"
+			not-null="true" length="255" />
+			
+			<property name="reportTemplateDescription" type="java.lang.String" column="report_description"
+			not-null="true" length="1000" />
+			
+			<property name="reportTemplateMaster" type="java.lang.String" column="master_template"
+			not-null="true" length="255" />
+			
+			<property name="mappedReportId" type="long" column="report_mapped_id" />
+			<many-to-one name="id" class="org.openmrs.SerializedObject"
+			not-null="true">
+			<column name="report_mapped_id" />
+			</many-to-one>
+			
+			<property name="reportTemplateMapped" type="boolean" column="report_attributes_mapped"
+			length="1" not-null="true" />
+			
+			
+			<property name="serverId" type="long" column="server_id"
+			not-null="true" />
+		<many-to-one name="id" class="org.openmrs.module.integration.IntegrationServer"
+			not-null="true">
+			<column name="serverId" />
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

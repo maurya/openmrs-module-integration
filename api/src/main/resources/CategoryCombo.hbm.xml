@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.openmrs.module.integration.CategoryCombo" table="category_combo">
+		<id name="categoryComboId" type="long" column="id"
+			unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<discriminator column="id" insert="false" />
+
+		<property name="uuid" type="java.lang.String" column="uuid"
+			length="38" unique="true" />
+
+		<property name="categoryComboCode" type="java.lang.String" column="category_combo_code"
+			not-null="true" length="255" />
+			
+			<property name="categoryComboName" type="java.lang.String" column="category_combo_name"
+			not-null="true" length="255" />
+			
+			<property name="categoryComboValueCode" type="java.lang.String" column="category_combo_value_code"
+			not-null="true" length="255" />
+			
+			<property name="categoryComboValueName" type="java.lang.String" column="category_combo_value_name"
+			not-null="true" length="255" />
+			
+			<property name="serverId" type="long" column="server_id"
+			not-null="true" />
+		<many-to-one name="id" class="org.openmrs.module.integration.IntegrationServer"
+			not-null="true">
+			<column name="serverId" />
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>
