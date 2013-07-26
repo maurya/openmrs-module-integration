@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.DataElement" table="data_element">
+	<class name="org.openmrs.module.integration.DataElement" table="dhis_dataelement">
 		<id name="dataElementId" type="long" column="id"
 			unsaved-value="0">
 			<generator class="native" />
@@ -14,29 +14,29 @@
 			
 			
 
-		<property name="dataElementName" type="java.lang.String" column="data_element_name"
-			not-null="true" length="255" />
+		<property name="dataElementName" type="java.lang.String" column="name"
+			not-null="true" length="230" />
 			
-			<property name="dataElementCode" type="java.lang.String" column="data_element_code"
-			not-null="true" length="255" />
+			<property name="dataElementCode" type="java.lang.String" column="code"
+			not-null="true" length="50" />
 			
-			<property name="dataElementUid" type="java.lang.String" column="data_element_uid"
-			not-null="true" length="255" />
+			<property name="dataElementUid" type="java.lang.String" column="uid"
+			not-null="true" length="11" />
 			
-			<property name="dataElementType" type="java.lang.String" column="data_element_type"
-			not-null="true" length="255" />
+			<property name="dataElementType" type="java.lang.String" column="type"
+			not-null="true" length="50" />
 			
-			<!-- not yet decided about either only concept, for now it's concept -->
-			<property name="dataElementMappedConcept" type="long" column="mapped_concept_id" />
+			<property name="dataElementMappedObjectType" type="java.lang.String" column="mapped_object_type"
+			not-null="true" length="50" />
+
+			<property name="dataElementMappedObjectId" type="long" column="mapped_object_id" />
 			
-			
-			
-			<property name="serverId" type="long" column="server_id"
-			not-null="true" />
-		<many-to-one name="id" class="org.openmrs.module.integration.IntegrationServer"
+	 <property name="lastUpdated" type="java.util.Date" column="last_updated"
+			length="19" />
+				
+		<many-to-one name="serverId" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
-			<column name="serverId" />
-		</many-to-one>
-		
+			<column name="server_Id" />
+		</many-to-one>		
 	</class>
 </hibernate-mapping>

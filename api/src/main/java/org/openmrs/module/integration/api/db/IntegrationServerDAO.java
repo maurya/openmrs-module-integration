@@ -16,7 +16,7 @@ public interface IntegrationServerDAO {
 	
 	IntegrationServer saveIntegrationServer(IntegrationServer IntegrationServer);
 	
-	IntegrationServer deleteIntegrationServer(IntegrationServer IntegrationServer);
+	void deleteIntegrationServer(IntegrationServer IntegrationServer);
 	
 	List<IntegrationServer> getAllIntegrationServers();
 	

@@ -10,17 +10,10 @@ public interface DataElementDAO {
 	
 	DataElement getDataElementByUuid(String uuid);
 	
-	DataElement getDataElementByName(String name);
-	
-	DataElement getDataElementByCode(String code);
-	
-	DataElement getDataElementByUid(String uid);
-	
 	List<DataElement> getDataElementsByServer(int id);
-	
-	
+		
 	DataElement saveDataElement(DataElement DataElement);
 	
-	DataElement deleteDataElement(DataElement DataElement);	
+	void deleteDataElement(DataElement DataElement);	
 
 }

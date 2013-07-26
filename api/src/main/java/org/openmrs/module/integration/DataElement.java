@@ -1,5 +1,7 @@
 package org.openmrs.module.integration;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -8,12 +10,14 @@ public class DataElement extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int dataElementId;
-	private String dataElementName;
 	private String uuid;
+	private String dataElementName;
 	private String dataElementCode;
 	private String dataElementUid;
 	private String dataElementType;
-	private String dataElementMappedConcept;
+	private String dataElementMappedObjectType;
+	private int dataElementMappedObjectId;
+	private Date lastUpdated;
 	private int serverId;
 
 	@Override
@@ -73,13 +77,29 @@ public class DataElement extends BaseOpenmrsObject {
 		this.dataElementType = dataElementType;
 	}
 	
-	public String getDataElementMappedConcept() {
-		return dataElementMappedConcept;
+	public String getDataElementMappedObjectType() {
+		return dataElementMappedObjectType;
 	}
 
-	public void setDataElementMappedConcept(String dataElementMappedConcept) {
-		this.dataElementMappedConcept = dataElementMappedConcept;
+	public void setDataElementMappedObjectType(String dataElementMappedObjectType) {
+		this.dataElementMappedObjectType = dataElementMappedObjectType;
 	}
+	public int getDataElementMappedObjectId() {
+		return dataElementMappedObjectId;
+	}
+
+	public void setDataElementMappedObjectId(int dataElementMappedObjectId) {
+		this.dataElementMappedObjectId = dataElementMappedObjectId;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	
 	public int getServerId() {
 		return serverId;
 	}

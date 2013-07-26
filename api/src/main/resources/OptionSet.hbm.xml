@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.CategoryCombo" table="dhis_categorycombo">
-		<id name="categoryComboId" type="long" column="id"
+	<class name="org.openmrs.module.integration.OptionSet" table="dhis_optionset">
+		<id name="optionSetId" type="long" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -12,24 +12,34 @@
 		<property name="uuid" type="java.lang.String" column="uuid"
 			length="38" unique="true" />
 			
-			<property name="categoryComboName" type="java.lang.String" column="name"
+			
+
+		<property name="optionSetName" type="java.lang.String" column="name"
 			not-null="true" length="230" />
 			
-		<property name="categoryComboCode" type="java.lang.String" column="code"
-			not-null="true" length="50" />		
-						
-			<property name="categoryComboValueName" type="java.lang.String" column="value_name"
-			not-null="true" length="230" />
-			
-			<property name="categoryComboValueCode" type="java.lang.String" column="value_code"
+			<property name="optionSetCode" type="java.lang.String" column="code"
 			not-null="true" length="50" />
-					
+			
+			<property name="optionSetValueName" type="java.lang.String" column="value_name"
+			not-null="true" length="230" />
+			
+			<property name="optionSetValueCode" type="java.lang.String" column="value_code"
+			not-null="true" length="50" />
+			
+			<property name="mappedObjectType" type="java.lang.String" column="mappedobject_type" 
+			not-null="false" length="50"/>
+			
+			<property name="mappedObjectId" type="long" column="mappedobject_id"
+			 not-null="false"/>
+			 
 			 <property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
-				
+			
+			
 		<many-to-one name="serverId" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />
-		</many-to-one>		
+		</many-to-one>
+		
 	</class>
 </hibernate-mapping>

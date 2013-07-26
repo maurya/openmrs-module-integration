@@ -12,15 +12,10 @@ public interface CategoryComboDAO {
 	
 	CategoryCombo getCategoryComboByUuid(String uuid);
 	
-	CategoryCombo getCategoryComboByName(String name);
-	
-	CategoryCombo getCategoryComboByCode(String code);
-	
 	List<CategoryCombo> getCategoryComboByServer(int id);
 	
 	CategoryCombo saveCategoryCombo(CategoryCombo CategoryCombo);
 	
-	CategoryCombo deleteCategoryCombo(CategoryCombo CategoryCombo);	
-
+	void deleteCategoryCombo(CategoryCombo CategoryCombo);	
 
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.OptionSet" table="optionset">
-		<id name="optionSetId" type="long" column="id"
+	<class name="org.openmrs.module.integration.CategoryCombo" table="category_combo">
+		<id name="categoryComboId" type="long" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -11,27 +11,18 @@
 
 		<property name="uuid" type="java.lang.String" column="uuid"
 			length="38" unique="true" />
-			
-			
 
-		<property name="optionSetName" type="java.lang.String" column="optionset_name"
+		<property name="categoryComboCode" type="java.lang.String" column="category_combo_code"
 			not-null="true" length="255" />
 			
-			<property name="optionSetCode" type="java.lang.String" column="optionset_code"
+			<property name="categoryComboName" type="java.lang.String" column="category_combo_name"
 			not-null="true" length="255" />
 			
-			<property name="optionSetValueName" type="java.lang.String" column="optionset_value_name"
+			<property name="categoryComboValueCode" type="java.lang.String" column="category_combo_value_code"
 			not-null="true" length="255" />
 			
-			<property name="optionSetValueCode" type="java.lang.String" column="optionset_value_code"
+			<property name="categoryComboValueName" type="java.lang.String" column="category_combo_value_name"
 			not-null="true" length="255" />
-			
-			<property name="mappedObjectType" type="java.lang.String" column="mappedobject_type" 
-			not-null="false" length="255"/>
-			
-			<property name="mappedObjectId" type="java.lang.String" column="mappedobject_id"
-			 not-null="false" length="255"/>
-			
 			
 			<property name="serverId" type="long" column="server_id"
 			not-null="true" />

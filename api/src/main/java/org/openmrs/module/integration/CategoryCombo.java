@@ -1,5 +1,7 @@
 package org.openmrs.module.integration;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -8,11 +10,12 @@ public class CategoryCombo extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int categoryComboId;
-	private String categoryComboName;
 	private String uuid;
+	private String categoryComboName;
 	private String categoryComboCode;
 	private String categoryComboValueName;
 	private String categoryComboValueCode;
+	private Date lastUpdated;
 	private int serverId;
 
 	@Override
@@ -70,6 +73,14 @@ public class CategoryCombo extends BaseOpenmrsObject {
 
 	public void setCategoryComboValueCode(String categoryComboValueCode) {
 		this.categoryComboValueCode = categoryComboValueCode;
+	}
+	
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 	public int getServerId() {

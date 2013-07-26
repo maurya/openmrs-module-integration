@@ -1,5 +1,7 @@
 package org.openmrs.module.integration;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -8,13 +10,14 @@ public class OptionSet extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int optionSetId;
-	private String optionSetName;
 	private String uuid;
+	private String optionSetName;
 	private String optionSetCode;
 	private String optionSetValueName;
 	private String optionSetValueCode;
 	private String mappedObjectType;
-	private String mappedObjectId;
+	private int mappedObjectId;
+	private Date lastUpdated;
 	private int serverId;
 
 	@Override
@@ -80,12 +83,19 @@ public class OptionSet extends BaseOpenmrsObject {
 	public void setMappedObjectType(String mappedObjectType) {
 		this.mappedObjectType = mappedObjectType;
 	}
-	public String getMappedObjectId() {
+	public int getMappedObjectId() {
 		return mappedObjectId;
 	}
 
-	public void setmappedObjectId(String mappedObjectId) {
+	public void setmappedObjectId(int mappedObjectId) {
 		this.mappedObjectId = mappedObjectId;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 	public int getServerId() {

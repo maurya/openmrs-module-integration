@@ -2,23 +2,19 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.CategoryComboOptionSetLink" table="categorycombo_optionset_link">
+	<class name="org.openmrs.module.integration.CategoryComboToOptionSet" table="dhis_categorycombo_optionset">
 		<id name="categoryComboOptionSetLinkId" type="long" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
-		<property name="categoryComboId" type="long" column="categorycombo_id"
-			not-null="true" />
-		<many-to-one name="id" class="org.openmrs.module.integration.CategoryCombo"
+		<many-to-one name="categoryComboId" class="org.openmrs.module.integration.CategoryCombo"
 			not-null="true">
-			<column name="categoryComboId" />
+			<column name="categorycombo_id" />
 		</many-to-one>
-		<property name="id" type="long" column="optionset_id"
-			not-null="true" />
 		<many-to-one name="optionSetId" class="org.openmrs.module.integration.OptionSet"
 			not-null="true">
-			<column name="optionSetId" />
+			<column name="optionset_id" />
 		</many-to-one>
 </class>
 </hibernate-mapping>

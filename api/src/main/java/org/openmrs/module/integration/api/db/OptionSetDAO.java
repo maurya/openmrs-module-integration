@@ -10,15 +10,10 @@ public interface OptionSetDAO {
 	
 	OptionSet getOptionSetByUuid(String uuid);
 	
-	OptionSet getOptionSetByName(String name);
-	
-	OptionSet getOptionSetByCode(String code);
-	
 	List<OptionSet> getOptionSetsByServer(int id);
-	
 	
 	OptionSet saveOptionSet(OptionSet OptionSet);
 	
-	OptionSet deleteOptionSet(OptionSet OptionSet);	
+	void deleteOptionSet(OptionSet OptionSet);	
 
 }

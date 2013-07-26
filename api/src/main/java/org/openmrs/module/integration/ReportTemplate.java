@@ -1,20 +1,22 @@
 package org.openmrs.module.integration;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class ChildReportTemplate extends BaseOpenmrsObject {
+public class ReportTemplate extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int reportTemplateId;
-	private String reportTemplateName;
 	private String uuid;
+	private String reportTemplateName;
 	private String reportTemplateCode;
-	private String reportTemplateDescription;
+	private String frequency;
 	private String reportTemplateMaster;
-	private String mappedReportId;
-	private boolean reportTemplateMapped;
+	private int mappedReportId;
+	private Date lastUpdated;
 	private int serverId;
 
 	@Override
@@ -59,12 +61,12 @@ public class ChildReportTemplate extends BaseOpenmrsObject {
 		this.reportTemplateCode = reportTemplateCode;
 	}
 	
-	public String getReportTemplateDescription() {
-		return reportTemplateDescription;
+	public String getFrequency() {
+		return frequency;
 	}
 
-	public void setReportTemplateDescription(String reportTemplateDescription) {
-		this.reportTemplateDescription = reportTemplateDescription;
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
 	}
 	public String getReportTemplateMaster() {
 		return reportTemplateMaster;
@@ -73,19 +75,19 @@ public class ChildReportTemplate extends BaseOpenmrsObject {
 	public void setReportTemplateMaster(String reportTemplateMaster) {
 		this.reportTemplateMaster = reportTemplateMaster;
 	}
-	public String getMappedReportiId() {
+	public int getMappedReportiId() {
 		return mappedReportId;
 	}
 
-	public void setMappedReportId(String mappedReportId) {
+	public void setMappedReportId(int mappedReportId) {
 		this.mappedReportId = mappedReportId;
 	}
-	public boolean getReportTemplateMapped() {
-		return reportTemplateMapped;
+	public Date getLastUpdated() {
+		return lastUpdated;
 	}
 
-	public void setmappedObjectId(boolean reportTemplateMapped) {
-		this.reportTemplateMapped = reportTemplateMapped;
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 	public int getServerId() {

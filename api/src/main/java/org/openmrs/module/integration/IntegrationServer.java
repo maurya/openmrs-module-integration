@@ -8,13 +8,14 @@ public class IntegrationServer extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int integrationServerId;
-	private String serverName;
 	private String uuid;
-	private String url;
+	private String serverName;
+	private String serverDescription;
 	private String userName;
 	private String password;
+	private String url;
 	private String email;
-	private String serverDescription;
+
 
 	@Override
 	public Integer getId() {

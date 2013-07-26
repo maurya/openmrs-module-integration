@@ -3,20 +3,20 @@ package org.openmrs.module.integration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CategoryComboOptionSetLink {
+public class CategoryComboToOptionSet {
 
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
-	private int categoryComboOptionSetLinkId;
+	private int categoryComboOptionSetId;
 	private int categoryComboId;
 	private int optionSetId;
 	
-	public int getCategoryComboOptionSetLinkId() {
-		return categoryComboOptionSetLinkId;
+	public int getCategoryComboOptionSetId() {
+		return categoryComboOptionSetId;
 	}
 
-	public void setCategoryComboOptionSetLinkId(int categoryComboOptionSetLinkId) {
-		this.categoryComboOptionSetLinkId = categoryComboOptionSetLinkId;
+	public void setCategoryComboOptionSetId(int categoryComboOptionSetId) {
+		this.categoryComboOptionSetId = categoryComboOptionSetId;
 	}
 	public int getCategoryComboId() {
 		return categoryComboId;
