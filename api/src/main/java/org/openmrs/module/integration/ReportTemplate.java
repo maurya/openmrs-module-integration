@@ -10,14 +10,13 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int reportTemplateId;
-	private String uuid;
 	private String reportTemplateName;
 	private String reportTemplateCode;
 	private String frequency;
-	private String reportTemplateMaster;
-	private int mappedReportId;
+	private String mappedReportUuid;
+	private String mappedReportName;
 	private Date lastUpdated;
-	private int serverId;
+	private IntegrationServer integrationServer;
 
 	@Override
 	public Integer getId() {
@@ -35,14 +34,6 @@ public class ReportTemplate extends BaseOpenmrsObject {
 
 	public void setReportTemplateId(int reportTemplateId) {
 		this.reportTemplateId = reportTemplateId;
-	}
-	
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 	
 	public String getReportTemplateName() {
@@ -68,19 +59,19 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
 	}
-	public String getReportTemplateMaster() {
-		return reportTemplateMaster;
+	public String getMappedReportUuid() {
+		return mappedReportUuid;
 	}
 
-	public void setReportTemplateMaster(String reportTemplateMaster) {
-		this.reportTemplateMaster = reportTemplateMaster;
+	public void setMappedReportUuid(String mappedReportUuid) {
+		this.mappedReportUuid = mappedReportUuid;
 	}
-	public int getMappedReportiId() {
-		return mappedReportId;
+	public String getMappedReportName() {
+		return mappedReportName;
 	}
 
-	public void setMappedReportId(int mappedReportId) {
-		this.mappedReportId = mappedReportId;
+	public void setMappedReportName(String mappedReportName) {
+		this.mappedReportName = mappedReportName;
 	}
 	public Date getLastUpdated() {
 		return lastUpdated;
@@ -89,12 +80,13 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-	
-	public int getServerId() {
-		return serverId;
-	}
+	public void setIntegrationServer(IntegrationServer integrationServer)
+    {
+        this.integrationServer = integrationServer;
+    }
 
-	public void setServerId(int serverId) {
-		this.serverId = serverId;
-	}
+    public IntegrationServer getIntegrationServer()
+    {
+        return this.integrationServer;
+    }
 }

@@ -24,16 +24,16 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>${project.parent.groupId}.${project.parent.artifactId}.api.Integration_nsServiceService</value>
+				<value>org.openmrs.module.integration.api.DhisService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.Integration_nsServiceServiceImpl">
+						<bean class="org.openmrs.module.integration.api.impl.DhisServiceImpl">
 							<property name="dao">
-								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateIntegration_nsServiceDAO">
+								<bean class="org.openmrs.module.integration.api.db.hibernate.HibernateDhisDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>
@@ -51,5 +51,4 @@
 			</list>
 		</property>
 	</bean>
-	
 </beans>

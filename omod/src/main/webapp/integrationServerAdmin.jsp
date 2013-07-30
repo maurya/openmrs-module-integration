@@ -15,26 +15,32 @@
 			"bAutoWidth": false
 		} );
 		
-		$('#neworedit').load(function() {
-			$('#neworedit').attr("display","none");
-			});
-		 
-		$(".editdetails").click(function (showdetails){
-			$('#name').text(${serverItem});
-			$('#description').text(${serverItem});
-			$('#url').text(${serverItem});
-			$('#username').text(${serverItem});
-			$('#password').text(${serverItem});
-			$('#email').text(${serverItem});
-			$('#neworedit').removeAttr("display");
+		$('.neworedit').hide();
+		$("#addNew").click( function() {
+			$('.neworedit').show();
+			
 		});
-		} );
+		});
 
 	function confirmDelete(name) {
-		if (confirm("Are you sure you want to delete " + name + "?")) {
-			document.location.href = '${pageContext.request.contextPath}/module/integration/purgeServer.form?name=' + name;
-		}
+		if(confirm("Do you want to delete this server"))
+		 {
+			$("#"+name).remove();
+			 $.post(openmrsContextPath + "/module/integration/deleteServer.form",{serverName: name});	
 	}
+	}
+	
+	function editServer(name) {
+		$.post("${pageContext.request.contextPath}/module/integration/getServerDetails.form",{serverName: name}, function(data) {			
+			$("#servername").val(data.serverName);
+			$("#description").val(data.serverDescription);
+			$("#url").val(data.url);
+			$("#uname").val(data.userName);
+			$("#password").val(data.password);
+			$("#email").val(data.email);
+			$('.neworedit').show();
+			 	            });
+		}
 
 </script>
 
@@ -56,25 +62,25 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${serverItems}" var="serverItem" >
-					<tr>
+					<tr id="${serverItem.serverName}">
 						<td width="20%" nowrap>
-							${serverItem}
+							${serverItem.serverName}
 						</td>
 						<td width="20%">
-							${serverItem}
+							${serverItem.serverDescription}
 						</td>
 						<td width="20%">
-							${serverItem}
+							${serverItem.url}
 						</td>
-						<td width="1%" align="center" nowrap>
+						<td width="1%" align="center" nowrap >
 						&nbsp;
-							<a href="manageDatasets.form?name=${serverItem}">
+							<a href="manageReportTemplates.form?name=${serverItem.serverName}">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0"/>	
 									</a>
 							&nbsp;
-							<a href="#" class="editdetails"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
+							<a href="javascript:editServer('${serverItem.serverName}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
 							&nbsp;
-							<a href="javascript:confirmDelete('${serverItem}');"><img src="<c:url value='/images/trash.gif'/>" border="0"/></a>
+							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0"/></a>
 						</td>
 					</tr>
 				</c:forEach>	
@@ -82,40 +88,49 @@
 			<tfoot>
 			</tfoot>
 		</table>
-		<button id="New" class="newdetails">Add New</button>
+		<button id="addNew" class="newdetails">Add New</button>
 		</div>
-		<div id="neworedit" >
+		<div id="neworedit" class="neworedit" >
+		<b class="boxHeader">
+			
+				
+				Server	
+				
+				
+			
+		</b>
+		<div class="box" >
 		<form id="detailsedit">
-		<table><tbody>
+		<table><tbody>	
 <tr>
 <td>Name</td>
 <td>:</td>
-<td><input id="name" type="text" name="name" size="20"></td>
+<td><input id="servername" type="text" size="40"></td>
 </tr>
 <tr>
 <td>Description</td>
 <td>:</td>
-<td><input id="description" type="text" name="description" size="20"></td>
+<td><input id="description" type="text"size="40"></td>
 </tr>
 <tr>
 <td>URL</td>
 <td>:</td>
-<td><input id="url" type="text" name="url" size="20"></td>
+<td><input id="url" type="text" size="40"></td>
 </tr>
 <tr>
 <td>User Name</td>
 <td>:</td>
-<td><input id="uname" type="text" name="uname" size="20"></td>
+<td><input id="uname" type="text" size="20"></td>
 </tr>
 <tr>
 <td>Password</td>
 <td>:</td>
-<td><input id="password" type="password" name="password" size="20"></td>
+<td><input id="password" type="password" size="20"></td>
 </tr>
 <tr>
 <td>EmailID</td>
 <td>:</td>
-<td><input id="email" type="text" name="email" size="20"></td>
+<td><input id="email" type="text" size="20"></td>
 </tr>
 <tr>
 <td></td>
@@ -131,5 +146,7 @@ type="reset" value="Cancel"></td>
 </tbody>
 </table>
 </form>
-		</div>
+</div>
+</div>
+
 <%@ include file="/WEB-INF/template/footer.jsp"%>

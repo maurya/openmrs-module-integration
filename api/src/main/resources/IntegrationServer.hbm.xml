@@ -3,11 +3,10 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.IntegrationServer" table="dhis_integrationserver">
-		<id name="integrationServerId" type="long" column="id"
+		<id name="integrationServerId" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<discriminator column="id" insert="false" />
 
 		<property name="uuid" type="java.lang.String" column="uuid"
 			length="38" unique="true" />
@@ -15,8 +14,8 @@
 		<property name="serverName" type="java.lang.String" column="name"
 			not-null="true" length="230" />
 			
-		<property name="serverDescription" type="java.lang.String" column="server_description"
-			not-null="true" length="1000" />			
+		<property name="serverDescription" type="java.lang.String" column="description"
+			not-null="false" length="1000" />			
 					
 		<property name="userName" type="java.lang.String" column="username"
 			not-null="true" length="255" />
@@ -28,6 +27,9 @@
 			not-null="true" length="255" />
 			
 		<property name="email" type="java.lang.String" column="email"
+			not-null="true" length="255" />
+			
+		<property name="masterTemplate" type="java.lang.String" column="mastertemplate"
 			not-null="true" length="255" />
 				
 	</class>

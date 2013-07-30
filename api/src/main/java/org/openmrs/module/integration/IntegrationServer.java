@@ -15,6 +15,7 @@ public class IntegrationServer extends BaseOpenmrsObject {
 	private String password;
 	private String url;
 	private String email;
+	private String masterTemplate;
 
 
 	@Override
@@ -43,19 +44,19 @@ public class IntegrationServer extends BaseOpenmrsObject {
 		this.uuid = uuid;
 	}
 	
-	public String getName() {
+	public String getServerName() {
 		return serverName;
 	}
 
-	public void setName(String name) {
+	public void setServerName(String name) {
 		this.serverName = name;
 	}
 	
-	public String getDescription() {
+	public String getServerDescription() {
 		return serverDescription;
 	}
 
-	public void setDescription(String description) {
+	public void setServerDescription(String description) {
 		this.serverDescription = description;
 	}
 	
@@ -87,5 +88,13 @@ public class IntegrationServer extends BaseOpenmrsObject {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getMasterTemplate() {
+		return masterTemplate;
+	}
+
+	public void setMasterTemplate(String masterTemplate) {
+		this.masterTemplate = masterTemplate;
 	}
 }

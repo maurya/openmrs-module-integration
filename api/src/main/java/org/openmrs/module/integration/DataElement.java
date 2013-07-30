@@ -16,9 +16,9 @@ public class DataElement extends BaseOpenmrsObject {
 	private String dataElementUid;
 	private String dataElementType;
 	private String dataElementMappedObjectType;
-	private int dataElementMappedObjectId;
+	private Integer dataElementMappedObjectId;
 	private Date lastUpdated;
-	private int serverId;
+	private IntegrationServer integrationServer;
 
 	@Override
 	public Integer getId() {
@@ -100,12 +100,14 @@ public class DataElement extends BaseOpenmrsObject {
 	}
 
 	
-	public int getServerId() {
-		return serverId;
-	}
+	public void setIntegrationServer(IntegrationServer integrationServer)
+    {
+        this.integrationServer = integrationServer;
+    }
 
-	public void setServerId(int serverId) {
-		this.serverId = serverId;
-	}
+    public IntegrationServer getIntegrationServer()
+    {
+        return this.integrationServer;
+    }
 
 }

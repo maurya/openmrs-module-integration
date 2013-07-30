@@ -11,26 +11,26 @@ public class DataValueTemplate extends BaseOpenmrsObject {
 
 	private int dataValueTemplateId;
 	private String uuid;
-	private int dataElementId;
-	private int categoryComboId;
-	private int reportTemplateId;
+	private DataElement dataElement;
+	private CategoryOption categoryOption;
+	private ReportTemplate reportTemplate;
 	private Date lastUpdated;
 
 	@Override
 	public Integer getId() {
-		return getValueTemplateId();
+		return getDataValueTemplateId();
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setValueTemplateId(id);		
+		setDataValueTemplateId(id);		
 	}
 
-	public int getValueTemplateId() {
+	public int getDataValueTemplateId() {
 		return dataValueTemplateId;
 	}
 
-	public void setValueTemplateId(int dataValueTemplateId) {
+	public void setDataValueTemplateId(int dataValueTemplateId) {
 		this.dataValueTemplateId = dataValueTemplateId;
 	}
 	
@@ -41,26 +41,26 @@ public class DataValueTemplate extends BaseOpenmrsObject {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	public int getDataElementId() {
-		return dataElementId;
+	public DataElement getDataElement() {
+		return dataElement;
 	}
 
-	public void setDataElementId(int dataElementId) {
-		this.dataElementId = dataElementId;
+	public void setDataElement(DataElement dataElement) {
+		this.dataElement = dataElement;
 	}
-	public int getCategoryComboId() {
-		return categoryComboId;
-	}
-
-	public void setCategoryComboId(int categoryComboId) {
-		this.categoryComboId = categoryComboId;
-	}
-	public int getReportTemplateId() {
-		return reportTemplateId;
+	public CategoryOption getCategoryOption() {
+		return categoryOption;
 	}
 
-	public void setReportTemplateId(int reportTemplateId) {
-		this.reportTemplateId = reportTemplateId;
+	public void setCategoryOption(CategoryOption categoryOption) {
+		this.categoryOption = categoryOption;
+	}
+	public ReportTemplate getReportTemplate() {
+		return reportTemplate;
+	}
+
+	public void setReportTemplate(ReportTemplate reportTemplate) {
+		this.reportTemplate = reportTemplate;
 	}
 	public Date getLastUpdated() {
 		return lastUpdated;

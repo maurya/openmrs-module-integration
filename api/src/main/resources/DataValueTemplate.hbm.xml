@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.DataValueTemplate" table="dhis_datavaluetemplate">
-		<id name="dataValueTemplateId" type="long" column="id"
+		<id name="dataValueTemplateId" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -12,18 +12,18 @@
 		<property name="uuid" type="java.lang.String" column="uuid"
 			length="38" unique="true" />
 			
-				<many-to-one name="dataElementId" class="org.openmrs.module.integration.DataElement"
-			not-null="true">
-			<column name="dataelementId_id" />
+				<many-to-one name="dataElement" class="org.openmrs.module.integration.DataElement"
+			not-null="true" lazy="false">
+			<column name="dataelement_id" />
 		</many-to-one>
 
-				<many-to-one name="categoryComboId" class="org.openmrs.module.integration.CategoryCombo"
-			not-null="true">
-			<column name="categorycombo_id" />
+				<many-to-one name="categoryOption" class="org.openmrs.module.integration.CategoryOption"
+			not-null="true" lazy="false">
+			<column name="categoryoption_id" />
 		</many-to-one>
 		
-				<many-to-one name="reportTemplateId" class="org.openmrs.module.integration.ReportTemplate"
-			not-null="true">
+				<many-to-one name="reportTemplate" class="org.openmrs.module.integration.ReportTemplate"
+			not-null="true" lazy="false">
 			<column name="reporttemplate_id" />
 		</many-to-one>
 			

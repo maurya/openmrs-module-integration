@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.ReportTemplate" table="dhis_reporttemplate">
-		<id name="reportTemplateId" type="long" column="id"
+		<id name="reportTemplateId" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -23,19 +23,15 @@
 			<property name="frequency" type="java.lang.String" column="frequency"
 			not-null="true" length="230" />
 			
-			<property name="reportTemplateMaster" type="java.lang.String" column="mastertemplate"
-			not-null="true" length="255" />
+			<property name="mappedReportUuid" type="java.lang.String" column="report_definition_uuid"/>
 			
-			<many-to-one name="mappedReportId" class="org.openmrs.SerializedObject"
-			not-null="true">
-			<column name="report_definition_id" />
-			</many-to-one>
+			<property name="mappedReportName" type="java.lang.String" column="report_definition_name"/>
 			
 			
  			<property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
 				
-		<many-to-one name="serverId" class="org.openmrs.module.integration.IntegrationServer"
+		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />
 		</many-to-one>

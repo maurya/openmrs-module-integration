@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.openmrs.module.integration.Option" table="dhis_option">
+		<id name="optionId" type="int" column="id"
+			unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<discriminator column="id" insert="false" />
+
+		<property name="uuid" type="java.lang.String" column="uuid"
+			length="38" unique="true" />
+			
+			
+
+		<property name="name" type="java.lang.String" column="name"
+			not-null="true" length="230" />
+			
+			<property name="code" type="java.lang.String" column="code"
+			not-null="true" length="50" />
+			
+			<property name="setName" type="java.lang.String" column="set_name"
+			not-null="true" length="230" />
+			
+			<property name="setCode" type="java.lang.String" column="set_code"
+			not-null="true" length="50" />
+			
+			<property name="mappedObjectType" type="java.lang.String" column="mappedobject_type" 
+			not-null="false" length="50"/>
+			
+			<property name="mappedObjectId" type="long" column="mappedobject_id"
+			 not-null="false"/>
+			 
+			 <property name="lastUpdated" type="java.util.Date" column="last_updated"
+			length="19" />
+			
+			
+		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
+			not-null="true">
+			<column name="server_Id" />
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

@@ -44,7 +44,14 @@
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				
-		Integration_ns.hbm.xml
+<!-- 		Integration_ns.hbm.xml -->
+		IntegrationServer.hbm.xml
+		CategoryOption.hbm.xml
+		Option.hbm.xml
+		ReportTemplate.hbm.xml
+		DataElement.hbm.xml
+		DataValueTemplate.hbm.xml
+		CategoryOptionToOption.hbm.xml
 				
 	</mappingFiles>
 
