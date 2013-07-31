@@ -2,10 +2,10 @@ package org.openmrs.module.integration.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.integration.CategoryOption;
-import org.openmrs.module.integration.CategoryOptionToOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
@@ -34,7 +34,7 @@ public interface DhisService extends OpenmrsService {
 	@Transactional
 	public IntegrationServer saveIntegrationServer(IntegrationServer IntegrationServer);
 	
-	@Transactional(readOnly = true)
+	@Transactional
 	public void deleteIntegrationServer(IntegrationServer IntegrationServer);
 	
 
@@ -70,19 +70,6 @@ public interface DhisService extends OpenmrsService {
 		
 	@Transactional
 	public void deleteCategoryOption(CategoryOption CategoryOption);	
-	
-	//Category combo to option set methods
-	@Transactional(readOnly = true)
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByCategoryOption(CategoryOption CategoryOption);
-		
-	@Transactional(readOnly = true)
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByOption(Option Option);
-		
-	@Transactional
-	public CategoryOptionToOption saveCategoryOptionToOption(CategoryOptionToOption CategoryOptionToOption);
-		
-	@Transactional
-	public void deleteCategoryOptionToOption(CategoryOptionToOption CategoryOptionToOption);	
 	
 	//report template methods
 	@Transactional(readOnly = true)
@@ -145,6 +132,10 @@ public interface DhisService extends OpenmrsService {
 	@Transactional(readOnly = true)
 	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
 			ReportTemplate reportTemplate);
+	
+	@Transactional(readOnly = true)
+	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) ;
 
 
 		

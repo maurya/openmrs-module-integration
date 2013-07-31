@@ -18,43 +18,51 @@
 	} );
 
 </script>
-<h2>Hi</h2>
-
-<div >
+<h2>Report Template : ${reportTemplate.reportTemplateName}</h2>
+	
+		<div >
 		       			<table class="integration-data-table display">
 			<thead>
 				<tr>
 					<th>Data Element Name</th>
 					<th>Code</th>
 					<th>uid</th>
-					<th>Category Combo's</th>
 					<th>Mapped Object Id</th>
+					<th>Category Options</th>
+					<th>Option Sets</th>	
 					<th>Last Updated</th>
 					<th align="center" width="1%">Edit mappings</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${Keys}" var="key" >
+				<c:forEach items="${DataElementToCategoryOptionDictionary}" var="key" >
 					<tr>
-						<td width="20%">
-							${key}
+						<td width="10%">
+							${key.key.dataElementName}
+						</td>
+						<td width="10%">
+							${key.key.dataElementCode}
+						</td>
+						<td width="10%">
+							${key.key.dataElementUid}
+						</td>
+						<td width="10%">
+							${key.key.dataElementMappedObjectId}
 						</td>
 						<td width="20%">
-							${key.uid}
+							<c:forEach items="${key.value}" var="categoryOption" >
+							<p>${categoryOption.name}</p>
+							</c:forEach>
 						</td>
 						<td width="20%">
-<!-- 							<c:forEach items="${DataElementToCategoryOptionDictionary.get(${key})}" var="categoryOption" >
- 							${categoryOption.Name} 
-							</c:forEach>	 -->
+						<c:forEach items="${key.value}" var="categoryOption" >
+							<c:forEach items="${categoryOption.options}" var="Option" >
+							<p>${Option.setName}</p>
+							</c:forEach>
+							</c:forEach>
 						</td>
 						<td width="20%">
-							${key.dataElementMappedObjectId}
-						</td>
-						<td width="20%">
-							<input type="checkbox" checked="checked">
-						</td>
-						<td width="20%">
-							${key.lastUpdated}
+							${key.key.lastUpdated}
 						</td>
 						<td width="1%" align="center" nowrap>
 							&nbsp;
@@ -67,5 +75,4 @@
 			</tfoot>
 		</table>
 		</div>
-
 <%@ include file="/WEB-INF/template/footer.jsp"%>

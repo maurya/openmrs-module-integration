@@ -18,9 +18,16 @@
 	} );
 
 </script>
-<h2><spring:message code="${server.serverName}"/></h2>
+<h2>Server Name : <spring:message code="${server.serverName}"/></h2>
 
 <div >
+ <div id="button" align="right">
+                    <button >
+                    Update Templates
+                    </button>
+            </div>
+			<br/>
+
 		       			<table class="integration-data-table display">
 			<thead>
 				<tr>
@@ -36,31 +43,38 @@
 			<tbody>
 				<c:forEach items="${reportTemplates}" var="reportTemplate" >
 					<tr>
-						<td width="20%">
+						<td width="10%">
 							${reportTemplate.reportTemplateName}
 						</td>
-						<td width="20%">
+						<td width="10%">
 							${reportTemplate.reportTemplateCode}
 						</td>
-						<td width="20%">
+						<td width="10%">
 							${reportTemplate.frequency}
 						</td>
-						<td width="20%">
+						<td width="10%">
 							${reportTemplate.mappedReportName}
 						</td>
-						<td width="20%">
+						<td width="10%">
 							<input type="checkbox" checked="checked">
 						</td>
-						<td width="20%">
+						<td width="10%">
 							${reportTemplate.lastUpdated}
 						</td>
-						<td width="1%" align="center" nowrap>
-								&nbsp;
-							<a href="showDataElementsAndOptions.form?reportTemplateId=${reportTemplate.reportTemplateId}">
-										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0"/>	
-									</a>
+						<td align="center" nowrap>
+						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.reportTemplateId}">
+						  <button >
+                   Edit Data Templates
+                    </button>
+                    </a>
+                     <a href="showOptions.form?reportTemplateId=${reportTemplate.reportTemplateId}">
+                      <button >
+                   Edit Optionsets
+                    </button>
+                     </a>
 							&nbsp;
 							<a href=""><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
+							
 						</td>
 					</tr>
 				</c:forEach>	

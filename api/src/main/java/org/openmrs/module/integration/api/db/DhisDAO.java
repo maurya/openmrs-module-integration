@@ -3,7 +3,6 @@ package org.openmrs.module.integration.api.db;
 import java.util.List;
 
 import org.openmrs.module.integration.CategoryOption;
-import org.openmrs.module.integration.CategoryOptionToOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
@@ -51,16 +50,7 @@ public interface DhisDAO {
 	CategoryOption saveCategoryOption(CategoryOption CategoryOption);
 	
 	void deleteCategoryOption(CategoryOption CategoryOption);	
-	
-	
-	//Category combo to option set methods
-	List<CategoryOptionToOption> getCategoryOptionToOptionByCategoryOption(CategoryOption CategoryOption);
-	
-	List<CategoryOptionToOption> getCategoryOptionToOptionByOption(Option Option);
-	
-	CategoryOptionToOption saveCategoryOptionToOption(CategoryOptionToOption CategoryOptionToOption);
-	
-	void deleteCategoryOptionToOption(CategoryOptionToOption CategoryOptionToOption);	
+		
 
 	//report template methods
 	ReportTemplate getReportTemplateById(Integer id);
@@ -100,5 +90,11 @@ public interface DhisDAO {
 	DataValueTemplate saveDataValueTemplate(DataValueTemplate DataValueTemplate);
 	
 	void deleteDataValueTemplate(DataValueTemplate DataValueTemplate);	
+	
+	//Miscellaneous methods
+	
+	List<CategoryOption> getCategoryComboOptionsByUid(String uid);
+	
+	List<Option> getOptionSetOptionsByCode(String uid) ;
 
 }

@@ -51,7 +51,6 @@
 		ReportTemplate.hbm.xml
 		DataElement.hbm.xml
 		DataValueTemplate.hbm.xml
-		CategoryOptionToOption.hbm.xml
 				
 	</mappingFiles>
 

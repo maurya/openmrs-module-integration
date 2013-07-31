@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.module.integration.CategoryOption;
-import org.openmrs.module.integration.CategoryOptionToOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
@@ -143,40 +142,6 @@ public class HibernateDhisDAO implements DhisDAO{
 		sessionFactory.getCurrentSession().delete(CategoryOption);
 	}
 
-	//category combo to option set
-	
-	@Override
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByCategoryOption(
-			CategoryOption CategoryOption) {
-		@SuppressWarnings("unchecked")
-		List<CategoryOptionToOption> list = sessionFactory.getCurrentSession().createCriteria(CategoryOptionToOption.class)
-		        .add(Restrictions.eq("categoryOptionId", CategoryOption)).addOrder(Order.asc("categoryOptionToOptionId")).list();
-		return list;
-	}
-
-	@Override
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByOption(
-			Option option) {
-		@SuppressWarnings("unchecked")
-		List<CategoryOptionToOption> list = sessionFactory.getCurrentSession().createCriteria(CategoryOptionToOption.class)
-		        .add(Restrictions.eq("option", option)).addOrder(Order.asc("categoryOptionToOptionId")).list();
-		return list;
-	}
-
-	@Override
-	public CategoryOptionToOption saveCategoryOptionToOption(
-			CategoryOptionToOption CategoryOptionToOption) {
-		sessionFactory.getCurrentSession().saveOrUpdate(CategoryOptionToOption);
-		return CategoryOptionToOption;
-	}
-
-	@Override
-	public void deleteCategoryOptionToOption(
-			CategoryOptionToOption CategoryOptionToOption) {
-		sessionFactory.getCurrentSession().delete(CategoryOptionToOption);
-		
-	}
-
 	//report template
 	@Override
 	public ReportTemplate getReportTemplateById(Integer id) {
@@ -295,6 +260,22 @@ public class HibernateDhisDAO implements DhisDAO{
 	@Override
 	public void deleteDataValueTemplate(DataValueTemplate DataValueTemplate) {
 		sessionFactory.getCurrentSession().delete(DataValueTemplate);
+	}
+
+	@Override
+	public List<CategoryOption> getCategoryComboOptionsByUid(String uid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Option> getOptionSetOptionsByCode(String code) {
+		@SuppressWarnings("unchecked")
+		List<Option> OptionList= sessionFactory.getCurrentSession().createCriteria(Option.class)
+								.add(Restrictions.eq("set_code", code))
+								.addOrder(Order.desc("name")).list();
+		 
+	        return OptionList;
 	}
 
 

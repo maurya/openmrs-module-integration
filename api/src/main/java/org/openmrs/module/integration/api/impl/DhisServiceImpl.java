@@ -2,14 +2,15 @@ package org.openmrs.module.integration.api.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.integration.CategoryOption;
-import org.openmrs.module.integration.CategoryOptionToOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
@@ -148,34 +149,6 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByCategoryOption(
-			CategoryOption CategoryOption) {
-		return dao.getCategoryOptionToOptionByCategoryOption(CategoryOption);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<CategoryOptionToOption> getCategoryOptionToOptionByOption(
-			Option Option) {
-		return dao.getCategoryOptionToOptionByOption(Option);
-	}
-
-	@Override
-	@Transactional
-	public CategoryOptionToOption saveCategoryOptionToOption(
-			CategoryOptionToOption CategoryOptionToOption) {
-		return dao.saveCategoryOptionToOption(CategoryOptionToOption);
-	}
-
-	@Override
-	@Transactional
-	public void deleteCategoryOptionToOption(
-			CategoryOptionToOption CategoryOptionToOption) {
-		dao.deleteCategoryOptionToOption(CategoryOptionToOption);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public ReportTemplate getReportTemplateById(Integer id) {
 		return dao.getReportTemplateById(id);
 	}
@@ -292,7 +265,6 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		
 		DataElement de=new DataElement();
 		CategoryOption co=new CategoryOption();
-		DataValueTemplate dve=new DataValueTemplate();
 		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
 		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
 		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
@@ -310,5 +282,20 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		return DataElementToCategoryOptionDictionary;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) {
+		Set<Option> OptionsList=new HashSet<Option>();
+		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
+		for(DataValueTemplate d:DataValueTemplateList){
+			categoryOptionList.add(d.getCategoryOption());
+			}
+		for(CategoryOption co: categoryOptionList){
+			OptionsList.addAll(co.getOptions());
+			}
+		return OptionsList;
+	}
 
 }

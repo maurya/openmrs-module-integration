@@ -30,6 +30,11 @@
 			 <property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
 				
+		<set name="Options" table="dhis_categorycombo_optionset">
+            <key column="categoryoption_id" not-null="true" />
+            <one-to-many class="org.openmrs.module.integration.Option" />
+        </set>	
+				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />

@@ -37,7 +37,7 @@
 			$("#url").val(data.url);
 			$("#uname").val(data.userName);
 			$("#password").val(data.password);
-			$("#email").val(data.email);
+			$("#emailurl").val(data.email);
 			$('.neworedit').show();
 			 	            });
 		}
@@ -128,9 +128,14 @@
 <td><input id="password" type="password" size="20"></td>
 </tr>
 <tr>
-<td>EmailID</td>
+<td>Transport</td>
 <td>:</td>
-<td><input id="email" type="text" size="20"></td>
+<td>
+<select>
+  <option value="Email">Email</option>
+  <option value="Url">Url</option>
+</select>
+<input id="emailurl" type="text" size="20"></td>
 </tr>
 <tr>
 <td></td>

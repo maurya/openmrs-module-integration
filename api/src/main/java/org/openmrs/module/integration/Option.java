@@ -1,6 +1,8 @@
 package org.openmrs.module.integration;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +20,7 @@ public class Option extends BaseOpenmrsObject {
 	private String mappedObjectType;
 	private int mappedObjectId;
 	private Date lastUpdated;
+	private Set<CategoryOption> categoryOptions=new HashSet<CategoryOption>();
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -97,6 +100,15 @@ public class Option extends BaseOpenmrsObject {
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+	
+	 public Set<CategoryOption> getCategoryOptions() {
+	        return categoryOptions;
+	    }
+	 
+	    public void setCategoryOptions(Set<CategoryOption> categoryOptions) {
+	        this.categoryOptions = categoryOptions;
+	    }
+	 
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)
     {
