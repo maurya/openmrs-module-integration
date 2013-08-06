@@ -30,6 +30,11 @@
 			
  			<property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
+			
+			<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
+			not-null="true">
+			<column name="server_Id" />
+		</many-to-one>		
 		
 	</class>
 </hibernate-mapping>

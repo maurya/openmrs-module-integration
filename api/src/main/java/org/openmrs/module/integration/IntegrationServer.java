@@ -8,7 +8,6 @@ public class IntegrationServer extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
 	private int integrationServerId;
-	private String uuid;
 	private String serverName;
 	private String serverDescription;
 	private String userName;
@@ -34,14 +33,6 @@ public class IntegrationServer extends BaseOpenmrsObject {
 
 	public void setIntegrationServerId(int integrationServerId) {
 		this.integrationServerId = integrationServerId;
-	}
-	
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 	
 	public String getServerName() {

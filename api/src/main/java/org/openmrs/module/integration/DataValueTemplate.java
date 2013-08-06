@@ -7,14 +7,14 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
 public class DataValueTemplate extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(IntegrationServer.class);
+	public static Log log = LogFactory.getLog(DataValueTemplate.class);
 
 	private int dataValueTemplateId;
-	private String uuid;
 	private DataElement dataElement;
 	private CategoryOption categoryOption;
 	private ReportTemplate reportTemplate;
 	private Date lastUpdated;
+	private IntegrationServer integrationServer;
 
 	@Override
 	public Integer getId() {
@@ -33,14 +33,7 @@ public class DataValueTemplate extends BaseOpenmrsObject {
 	public void setDataValueTemplateId(int dataValueTemplateId) {
 		this.dataValueTemplateId = dataValueTemplateId;
 	}
-	
-	public String getUuid() {
-		return uuid;
-	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 	public DataElement getDataElement() {
 		return dataElement;
 	}
@@ -69,4 +62,13 @@ public class DataValueTemplate extends BaseOpenmrsObject {
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+	public void setIntegrationServer(IntegrationServer integrationServer)
+    {
+        this.integrationServer = integrationServer;
+    }
+
+    public IntegrationServer getIntegrationServer()
+    {
+        return this.integrationServer;
+    }
 }

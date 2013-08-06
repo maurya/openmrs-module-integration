@@ -7,10 +7,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
 public class DataElement extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(IntegrationServer.class);
+	public static Log log = LogFactory.getLog(DataElement.class);
 
 	private int dataElementId;
-	private String uuid;
 	private String dataElementName;
 	private String dataElementCode;
 	private String dataElementUid;
@@ -36,14 +35,6 @@ public class DataElement extends BaseOpenmrsObject {
 
 	public void setDataElementId(int dataElementId) {
 		this.dataElementId = dataElementId;
-	}
-	
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 	
 	public String getDataElementName() {

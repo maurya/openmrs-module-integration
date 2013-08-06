@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.CategoryOption" table="dhis_categoryoption">
-		<id name="categoryOptionId" type="int" column="id"
+		<id name="categoryOptionId" type="int" column="categoryoption_id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -30,9 +30,9 @@
 			 <property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
 				
-		<set name="Options" table="dhis_categorycombo_optionset">
+		<set name="options" table="dhis_categorycombo_optionset" lazy="false">
             <key column="categoryoption_id" not-null="true" />
-            <one-to-many class="org.openmrs.module.integration.Option" />
+            <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
         </set>	
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"

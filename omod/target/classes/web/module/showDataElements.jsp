@@ -56,9 +56,7 @@
 						</td>
 						<td width="20%">
 						<c:forEach items="${key.value}" var="categoryOption" >
-							<c:forEach items="${categoryOption.options}" var="Option" >
-							<p>${Option.setName}</p>
-							</c:forEach>
+							<p>${categoryOption.comboName}</p>
 							</c:forEach>
 						</td>
 						<td width="20%">

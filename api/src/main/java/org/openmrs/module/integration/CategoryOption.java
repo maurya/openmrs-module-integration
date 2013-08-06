@@ -9,10 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
 public class CategoryOption extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(IntegrationServer.class);
+	public static Log log = LogFactory.getLog(CategoryOption.class);
 
 	private int categoryOptionId;
-	private String uuid;
 	private String name;
 	private String code;
 	private String uid;
@@ -38,14 +37,6 @@ public class CategoryOption extends BaseOpenmrsObject {
 
 	public void setCategoryOptionId(int categoryOptionId) {
 		this.categoryOptionId = categoryOptionId;
-	}
-	
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 	
 	public String getName() {

@@ -16,8 +16,12 @@
 		} );
 		
 		$('.neworedit').hide();
-		$("#addNew").click( function() {
+		$(".newdetails").click( function() {
 			$('.neworedit').show();
+			
+		});
+		$(".cancel").click( function() {
+			$('.neworedit').hide();
 			
 		});
 		});
@@ -25,19 +29,13 @@
 	function confirmDelete(name) {
 		if(confirm("Do you want to delete this server"))
 		 {
-			$("#"+name).remove();
-			 $.post(openmrsContextPath + "/module/integration/deleteServer.form",{serverName: name});	
+			 $.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",{serverName: name});	
+			 location.reload();
 	}
 	}
 	
 	function editServer(name) {
 		$.post("${pageContext.request.contextPath}/module/integration/getServerDetails.form",{serverName: name}, function(data) {			
-			$("#servername").val(data.serverName);
-			$("#description").val(data.serverDescription);
-			$("#url").val(data.url);
-			$("#uname").val(data.userName);
-			$("#password").val(data.password);
-			$("#emailurl").val(data.email);
 			$('.neworedit').show();
 			 	            });
 		}
@@ -88,7 +86,11 @@
 			<tfoot>
 			</tfoot>
 		</table>
-		<button id="addNew" class="newdetails">Add New</button>
+		 <div id="button" align="right">
+                    <button id="addNew" class="newdetails">
+                   Add New
+                    </button>
+            </div>
 		</div>
 		<div id="neworedit" class="neworedit" >
 		<b class="boxHeader">
@@ -100,58 +102,61 @@
 			
 		</b>
 		<div class="box" >
-		<form id="detailsedit">
-		<table><tbody>	
-<tr>
-<td>Name</td>
-<td>:</td>
-<td><input id="servername" type="text" size="40"></td>
-</tr>
-<tr>
-<td>Description</td>
-<td>:</td>
-<td><input id="description" type="text"size="40"></td>
-</tr>
-<tr>
-<td>URL</td>
-<td>:</td>
-<td><input id="url" type="text" size="40"></td>
-</tr>
-<tr>
-<td>User Name</td>
-<td>:</td>
-<td><input id="uname" type="text" size="20"></td>
-</tr>
-<tr>
-<td>Password</td>
-<td>:</td>
-<td><input id="password" type="password" size="20"></td>
-</tr>
-<tr>
-<td>Transport</td>
-<td>:</td>
-<td>
-<select>
-  <option value="Email">Email</option>
-  <option value="Url">Url</option>
-</select>
-<input id="emailurl" type="text" size="20"></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><input type="submit" name="submit" value="Save"> <input
-type="reset" value="Cancel"></td>
-</tr>
-</tbody>
-</table>
-</form>
-</div>
+				<form:form modelAttribute="integrationServer" method="post" id="detailsedit" action="saveIntegrationServer.form" >
+					<table>
+						<tbody>	
+							<tr>
+								<td>Name</td>
+								<td>:</td>
+								<td><form:input path="serverName" id="servername" size="40" /></td>
+							</tr>
+							<tr>
+								<td>Description</td>
+								<td>:</td>
+								<td><form:input path="serverDescription" id="description" size="40" /></td>
+							</tr>
+							<tr>
+								<td>URL</td>
+								<td>:</td>
+								<td><form:input path="url" id="url" size="40" /></td>
+							</tr>
+							<tr>
+								<td>User Name</td>
+								<td>:</td>
+								<td><form:input path="userName" id="uname" size="20" /></td>
+							</tr>
+							<tr>
+								<td>Password</td>
+								<td>:</td>
+								<td><form:password path="password" id="password" size="20"/></td>
+							</tr>
+							<tr>
+								<td>Transport</td>
+								<td>:</td>
+								<td>
+									<select>
+									  <option value="Email">Email</option>
+									  <option value="Url">Url</option>
+									</select>
+									<form:input path="email" id="emailurl" size="20"/>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td><input type="submit" name="submit" value="Save"/> <input
+								type="reset" value="Cancel" class="cancel">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form:form>
+		</div>
 </div>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>

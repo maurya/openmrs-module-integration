@@ -2,6 +2,7 @@ package org.openmrs.module.integration.web.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryOption;
@@ -23,11 +24,11 @@ public class ShowOptionsController {
 		DhisService dhisService = Context.getService(DhisService.class);
 		ReportTemplate reportTemplate=dhisService.getReportTemplateById(reportTemplateId);
 		model.addAttribute("reportTemplate",reportTemplate);
-		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary= dhisService.getDataElementToCategoryOptionDictionaryByReportTemplate(reportTemplate);
-		model.addAttribute("DataElementToCategoryOptionDictionary",DataElementToCategoryOptionDictionary);
+	/*	Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary= dhisService.getDataElementToCategoryOptionDictionaryByReportTemplate(reportTemplate);
+		model.addAttribute("DataElementToCategoryOptionDictionary",DataElementToCategoryOptionDictionary);*/
 		
-//		Map<Option,CategoryOption> OptionToCategoryOptionDictionary= dhisService.getOptionToCategoryOptionDictionaryByReportTemplate(reportTemplate);
-//		model.addAttribute("OptionToCategoryOptionDictionary",OptionToCategoryOptionDictionary);
+		Set<Option> OptionList= dhisService.getOptionToCategoryOptionDictionaryByReportTemplate(reportTemplate);
+		model.addAttribute("OptionList",OptionList);
 	}
 
 }

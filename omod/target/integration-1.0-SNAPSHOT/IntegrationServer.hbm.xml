@@ -30,7 +30,7 @@
 			not-null="true" length="255" />
 			
 		<property name="masterTemplate" type="java.lang.String" column="mastertemplate"
-			not-null="true" length="255" />
+		 length="255" />
 				
 	</class>
 </hibernate-mapping>

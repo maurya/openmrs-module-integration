@@ -270,8 +270,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
 		for(DataValueTemplate d:DataValueTemplateList){
 			de=d.getDataElement();
-			co=d.getCategoryOption();
-			
+			co=d.getCategoryOption();			
 			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
 			if(temporaryCategoryOptionList== null){	
 				temporaryCategoryOptionList=new ArrayList<CategoryOption>();

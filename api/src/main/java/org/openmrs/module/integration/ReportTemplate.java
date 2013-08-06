@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
 public class ReportTemplate extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(IntegrationServer.class);
+	public static Log log = LogFactory.getLog(ReportTemplate.class);
 
 	private int reportTemplateId;
 	private String reportTemplateName;
