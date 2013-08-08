@@ -34,10 +34,18 @@
 	}
 	}
 	
-	function editServer(name) {
-		$.post("${pageContext.request.contextPath}/module/integration/getServerDetails.form",{serverName: name}, function(data) {			
-			$('.neworedit').show();
-			 	            });
+	function editServer(id) {
+	
+			$("#id").val($.trim($("#sid"+id).html()));
+			$("#servername").val($.trim($("#sname"+id).html()));
+			$("#description").val($.trim($("#sdescription"+id).html()));
+			$("#url").val($.trim($("#surl"+id).html()));
+			$("#uname").val($.trim($("#suserName"+id).html()));
+			$("#password").val($.trim($("#spassword"+id).html()));
+			$("#emailurl").val($.trim($("#semail"+id).html()));
+			$("#masterTemplate").val($.trim($("#smasterTemplate"+id).html()));
+
+					$('.neworedit').show();
 		}
 
 </script>
@@ -49,7 +57,7 @@
 <h2><spring:message code="integration.serverAdmin"/></h2>
 
 <div >
-		       			<table class="integration-data-table display">
+		       			<table id="table" class="integration-data-table display">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -60,15 +68,30 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${serverItems}" var="serverItem" >
-					<tr id="${serverItem.serverName}">
-						<td width="20%" nowrap>
+					<tr id="${serverItem.integrationServerId}" >
+					<td id="sid${serverItem.integrationServerId}" STYLE=display:NONE >
+							${serverItem.integrationServerId}
+						</td>
+						<td width="20%" nowrap id="sname${serverItem.integrationServerId}">
 							${serverItem.serverName}
 						</td>
-						<td width="20%">
+						<td width="20%" id="sdescription${serverItem.integrationServerId}">
 							${serverItem.serverDescription}
 						</td>
-						<td width="20%">
+						<td width="20%" id="surl${serverItem.integrationServerId}">
 							${serverItem.url}
+						</td>
+						<td id="suserName${serverItem.integrationServerId}" STYLE=display:NONE>
+							${serverItem.userName}
+						</td>
+						<td id="spassword${serverItem.integrationServerId}" STYLE=display:NONE>
+							${serverItem.password}
+						</td>
+						<td id="semail${serverItem.integrationServerId}" STYLE=display:NONE>
+							${serverItem.email}
+						</td>
+						<td id="smasterTemplate${serverItem.integrationServerId}" STYLE=display:NONE>
+							${serverItem.masterTemplate}
 						</td>
 						<td width="1%" align="center" nowrap >
 						&nbsp;
@@ -76,7 +99,7 @@
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0"/>	
 									</a>
 							&nbsp;
-							<a href="javascript:editServer('${serverItem.serverName}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
+							<a href="javascript:editServer('${serverItem.integrationServerId}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
 							&nbsp;
 							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0"/></a>
 						</td>
@@ -108,12 +131,16 @@
 							<tr>
 								<td>Name</td>
 								<td>:</td>
-								<td><form:input path="serverName" id="servername" size="40" /></td>
+								<td>
+								<form:hidden path="integrationServerId" id="id"/>
+								<form:input path="serverName" id="servername" size="40" /></td>
 							</tr>
 							<tr>
 								<td>Description</td>
 								<td>:</td>
-								<td><form:input path="serverDescription" id="description" size="40" /></td>
+								<td>
+								<form:hidden path="masterTemplate" id="masterTemplate"/>
+								<form:input path="serverDescription" id="description" size="40" /></td>
 							</tr>
 							<tr>
 								<td>URL</td>

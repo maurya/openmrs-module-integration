@@ -6,7 +6,6 @@ import java.util.Map;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
-import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.stereotype.Controller;
@@ -29,5 +28,22 @@ public class ShowDataElementsController {
 //		Map<Option,CategoryOption> OptionToCategoryOptionDictionary= dhisService.getOptionToCategoryOptionDictionaryByReportTemplate(reportTemplate);
 //		model.addAttribute("OptionToCategoryOptionDictionary",OptionToCategoryOptionDictionary);
 	}
+	
+	@RequestMapping(value = "/module/integration/saveDataElementMapping", method = RequestMethod.POST)
+    public void saveReportTemplate(@RequestParam(value = "mappedDataElement", required=true) String mappedDataElement,
+    		@RequestParam(value = "id", required=true) String id){
+		try {
+			if(mappedDataElement!=null){
+			DhisService dhisService = Context.getService(DhisService.class);	
+			DataElement dataElement=dhisService.getDataElementById(Integer.parseInt((id)));
+			
+			dataElement.setDataElementMappedObjectId(Integer.parseInt((mappedDataElement)));
+			dhisService.saveDataElement(dataElement);
+			}
+        }
+        catch (Exception e) {
+	       
+        }		
+    }
 
 }

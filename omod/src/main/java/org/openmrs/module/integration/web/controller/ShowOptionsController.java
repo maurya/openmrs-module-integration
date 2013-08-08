@@ -30,5 +30,22 @@ public class ShowOptionsController {
 		Set<Option> OptionList= dhisService.getOptionToCategoryOptionDictionaryByReportTemplate(reportTemplate);
 		model.addAttribute("OptionList",OptionList);
 	}
+	
+	@RequestMapping(value = "/module/integration/saveOptionsSetMapping", method = RequestMethod.POST)
+    public void saveReportTemplate(@RequestParam(value = "mappedOption", required=true) String mappedOption,
+    		@RequestParam(value = "id", required=true) String id){
+		try {
+			if(mappedOption!=null){
+			DhisService dhisService = Context.getService(DhisService.class);	
+			Option option=dhisService.getOptionById(Integer.parseInt((id)));
+			
+			option.setmappedObjectId(Integer.parseInt((mappedOption)));
+			dhisService.saveOption(option);
+			}
+        }
+        catch (Exception e) {
+	       
+        }		
+    }
 
 }

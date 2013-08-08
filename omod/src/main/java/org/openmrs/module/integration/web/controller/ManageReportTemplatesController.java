@@ -25,5 +25,22 @@ public class ManageReportTemplatesController {
 		reportTemplates=dhisService.getReportTemplatesByServer(server);
 		model.addAttribute("reportTemplates",reportTemplates);
 	}
+	
+	@RequestMapping(value = "/module/integration/saveReportTemplateMapping", method = RequestMethod.POST)
+    public void saveReportTemplate(@RequestParam(value = "mappedReport", required=true) String mappedReport,
+    		@RequestParam(value = "id", required=true) String id){
+		try {
+			if(mappedReport!=null){
+			DhisService dhisService = Context.getService(DhisService.class);	
+			ReportTemplate report=dhisService.getReportTemplateById(Integer.parseInt((id)));
+			
+			report.setMappedReportName(mappedReport);
+			dhisService.saveReportTemplate(report);
+			}
+        }
+        catch (Exception e) {
+	       
+        }		
+    }
 
 }

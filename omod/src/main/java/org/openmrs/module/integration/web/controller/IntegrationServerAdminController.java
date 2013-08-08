@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
@@ -69,14 +67,9 @@ public class IntegrationServerAdminController {
     @RequestMapping(value = "/module/integration/saveIntegrationServer", method = RequestMethod.POST)
     public String saveServer(@ModelAttribute(value="integrationServer") IntegrationServer server,
             HttpServletRequest request){
-    	IntegrationServer newserver = new IntegrationServer();
 		try {
 			
 			DhisService dhisService = Context.getService(DhisService.class);	
-			newserver=dhisService.getIntegrationServerByName(server.getServerName());
-			if(newserver != null){
-				newserver=server;
-			}
 			dhisService.saveIntegrationServer(server);
         }
         catch (Exception e) {
