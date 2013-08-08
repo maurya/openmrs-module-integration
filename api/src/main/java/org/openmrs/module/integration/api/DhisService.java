@@ -137,6 +137,7 @@ public interface DhisService extends OpenmrsService {
 	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) ;
 
-
+	@Transactional(readOnly = true)
+	public List<ReportTemplate> getAllReportTemplatesMapped();
 		
 }

@@ -30,7 +30,7 @@
 		}
 		function saveOptionSet() {
 	
-			var mapped=$("#mappedDataElement").val();
+			var mapped=$("#mappedOption").val();
 		var idmap=$("#id").val();
 				 $.post("${pageContext.request.contextPath}/module/integration/saveOptionsSetMapping.form",{mappedOption: mapped,id: idmap},function() {
 		               //alert('got data');

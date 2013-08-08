@@ -57,6 +57,8 @@ public interface DhisDAO {
 	
 	ReportTemplate getReportTemplateByUuid(String uuid);
 	
+	List<ReportTemplate> getAllReportTemplates();
+	
 	List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer);
 	
 	ReportTemplate saveReportTemplate(ReportTemplate ReportTemplate);

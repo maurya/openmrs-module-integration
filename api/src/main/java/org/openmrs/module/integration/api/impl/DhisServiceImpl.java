@@ -297,4 +297,16 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		return OptionsList;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<ReportTemplate> getAllReportTemplatesMapped() {
+		List<ReportTemplate> mappedReportTemplates= dao.getAllReportTemplates();
+		for(ReportTemplate rt:mappedReportTemplates){
+			
+			if(rt.getMappedReportUuid()==null)
+				mappedReportTemplates.remove(rt);
+		}
+		return mappedReportTemplates;
+	}
+
 }

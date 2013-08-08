@@ -95,6 +95,10 @@
 						</td>
 						<td width="1%" align="center" nowrap >
 						&nbsp;
+							<a href="locationMapping.form?name=${serverItem.serverName}">
+										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/mapicon.png" border="0"/>	
+									</a>
+						&nbsp;
 							<a href="manageReportTemplates.form?name=${serverItem.serverName}">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0"/>	
 									</a>

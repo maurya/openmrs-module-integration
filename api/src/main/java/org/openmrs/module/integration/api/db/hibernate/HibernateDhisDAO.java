@@ -278,5 +278,14 @@ public class HibernateDhisDAO implements DhisDAO{
 	        return OptionList;
 	}
 
+	@Override
+	public List<ReportTemplate> getAllReportTemplates() {
+		
+		@SuppressWarnings("unchecked")
+		List<ReportTemplate> ReportTemplateList=sessionFactory.getCurrentSession().createCriteria(ReportTemplate.class).list();
+
+return ReportTemplateList;
+	}
+
 
 }
