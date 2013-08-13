@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metaData>
+	<categories>
+		<category name="EPI/nutrition age" created="2011-12-24T11:24:25.155+0000"
+			lastUpdated="2013-05-28T07:32:43.922+0000" id="YNZyaJHiHYq">
+			<concept name="default" created="2013-03-04T10:41:07.349+0000"
+				lastUpdated="2013-03-04T10:41:07.349+0000" id="oo43k7FXQ2g" />
+			<dataDimension>true</dataDimension>
+			<categoryOptions>
+				<categoryOption name="&lt; 12 mths" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="btOyqprQ9e8" />
+				<categoryOption name="12 to 59 mths" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="GEqzEKCHoGA" />
+			</categoryOptions>
+		</category>
+		<category name="Gender" created="2011-12-24T11:24:25.155+0000"
+			lastUpdated="2013-05-28T07:27:46.728+0000" id="cX5k9anHEHd">
+			<concept name="default" created="2013-03-04T10:41:07.349+0000"
+				lastUpdated="2013-03-04T10:41:07.349+0000" id="oo43k7FXQ2g" />
+			<dataDimension>true</dataDimension>
+			<categoryOptions>
+				<categoryOption name="Female" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="apsOixVZlf1" />
+				<categoryOption name="Male" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="jRbMi0aBjYn" />
+			</categoryOptions>
+		</category>
+	</categories>
+</metaData>
