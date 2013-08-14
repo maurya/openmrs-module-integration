@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.CategoryOption" table="dhis_categoryoption">
-		<id name="categoryOptionId" type="int" column="id"
+	<class name="org.openmrs.module.integration.CategoryCombo" table="dhis_categorycombo">
+		<id name="id" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -18,15 +18,19 @@
 		<property name="code" type="java.lang.String" column="code"
 			not-null="true" length="50" />		
 			
-		<set name="options" table="dhis_categoryoption_option" lazy="false">
-            <key column="categoryoption_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
+			<property name="uid" type="java.lang.String" column="uid"
+			not-null="true" length="11" />	
+			
+		<set name="categoryOptions" table="dhis_catcombo_combooption" lazy="false">
+            <key column="catcombo_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.CategoryOption" column="catoption_id" />
         </set>	
 				
-		<set name="categoryCombos" table="dhis_catcombo_combooption" lazy="false">
-            <key column="catoption_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.CategoryCombo" column="catcombo_id" />
-        </set>	
+		<set name="optionSets" table="dhis_catcombo_optionset" lazy="false">
+            <key column="catcombo_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
+        </set>			
+				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />

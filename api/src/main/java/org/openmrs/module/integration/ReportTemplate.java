@@ -14,7 +14,7 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	private String reportTemplateCode;
 	private String frequency;
 	private String mappedReportUuid;
-	private String mappedReportName;
+	private String uid;
 	private Date lastUpdated;
 	private IntegrationServer integrationServer;
 
@@ -66,12 +66,12 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public void setMappedReportUuid(String mappedReportUuid) {
 		this.mappedReportUuid = mappedReportUuid;
 	}
-	public String getMappedReportName() {
-		return mappedReportName;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setMappedReportName(String mappedReportName) {
-		this.mappedReportName = mappedReportName;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public Date getLastUpdated() {
 		return lastUpdated;

@@ -20,17 +20,20 @@
 			<property name="code" type="java.lang.String" column="code"
 			not-null="true" length="50" />
 			
-			<property name="cohortdefUuid" type="java.lang.String" column="cohortdef_uuid"
+			<property name="uid" type="java.lang.String" column="uid"
+			not-null="true" length="11" />	
+			
+		<property name="dimensionUuid" type="java.lang.String" column="dimension_uuid"
 			length="38"/>
 			
-		<set name="categoryOptions" inverse="true" table="dhis_categorycombo_optionset" lazy="false">
-            <key column="option_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.CategoryOption" column="categoryoption_id" />
+		<set name="categoryCombos" inverse="true" table="dhis_catcombo_optionset" lazy="false">
+            <key column="optionset_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.CategoryCombo" column="catcombo_id" />
         </set>
 			
-		<set name="optionSets" inverse="true" table="dhis_optionset_option" lazy="false">
-            <key column="option_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
+		<set name="options" inverse="true" table="dhis_optionset_option" lazy="false">
+            <key column="optionset_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
         </set>
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">

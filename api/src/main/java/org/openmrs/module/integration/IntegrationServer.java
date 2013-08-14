@@ -1,5 +1,7 @@
 package org.openmrs.module.integration;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
@@ -13,8 +15,10 @@ public class IntegrationServer extends BaseOpenmrsObject {
 	private String userName;
 	private String password;
 	private String url;
-	private String email;
+	private String emailorurl;
+	private String transportType;
 	private String masterTemplate;
+	private Date lastUpdated;
 
 
 	@Override
@@ -73,12 +77,20 @@ public class IntegrationServer extends BaseOpenmrsObject {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getEmail() {
-		return email;
+	public String getEmailorurl() {
+		return emailorurl;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailorurl(String emailorurl) {
+		this.emailorurl = emailorurl;
+	}
+	
+	public String getTransportType() {
+		return transportType;
+	}
+
+	public void setTransportType(String transportType) {
+		this.transportType = transportType;
 	}
 	
 	public String getMasterTemplate() {
@@ -87,5 +99,13 @@ public class IntegrationServer extends BaseOpenmrsObject {
 
 	public void setMasterTemplate(String masterTemplate) {
 		this.masterTemplate = masterTemplate;
+	}
+	
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 }

@@ -20,26 +20,18 @@
 			<property name="code" type="java.lang.String" column="code"
 			not-null="true" length="50" />
 			
-			<property name="setName" type="java.lang.String" column="set_name"
-			not-null="true" length="230" />
-			
-			<property name="setCode" type="java.lang.String" column="set_code"
-			not-null="true" length="50" />
-			
-			<property name="mappedObjectType" type="java.lang.String" column="mapped_object_type" 
-			not-null="false" length="50"/>
-			
-			<property name="mappedObjectId" type="int" column="mapped_object_id"
-			 not-null="false"/>
-			 
-			 <property name="lastUpdated" type="java.util.Date" column="last_updated"
-			length="19" />
+			<property name="cohortdefUuid" type="java.lang.String" column="cohortdef_uuid"
+			length="38"/>
 			
 		<set name="categoryOptions" inverse="true" table="dhis_categorycombo_optionset" lazy="false">
             <key column="option_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.CategoryOption" column="categoryoption_id" />
         </set>
 			
+		<set name="optionSets" inverse="true" table="dhis_optionset_option" lazy="false">
+            <key column="option_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
+        </set>
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />

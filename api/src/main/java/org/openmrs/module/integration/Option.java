@@ -14,12 +14,9 @@ public class Option extends BaseOpenmrsObject {
 	private int optionId;
 	private String name;
 	private String code;
-	private String setName;
-	private String setCode;
-	private String mappedObjectType;
-	private int mappedObjectId;
-	private Date lastUpdated;
-	private Set<CategoryOption> categoryOptions=new HashSet<CategoryOption>();
+	private String cohortdefUuid;
+	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>();
+	private Set<OptionSet> optionSets=  new HashSet<OptionSet>();
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -56,40 +53,12 @@ public class Option extends BaseOpenmrsObject {
 		this.code = code;
 	}
 	
-	public String getSetName() {
-		return setName;
+	public String getCohortdefUuid() {
+		return cohortdefUuid;
 	}
 
-	public void setSetName(String setName) {
-		this.setName = setName;
-	}
-	public String getSetCode() {
-		return setCode;
-	}
-
-	public void setSetCode(String setCode) {
-		this.setCode = setCode;
-	}
-	public String getMappedObjectType() {
-		return mappedObjectType;
-	}
-
-	public void setMappedObjectType(String mappedObjectType) {
-		this.mappedObjectType = mappedObjectType;
-	}
-	public int getMappedObjectId() {
-		return mappedObjectId;
-	}
-
-	public void setmappedObjectId(int mappedObjectId) {
-		this.mappedObjectId = mappedObjectId;
-	}
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+	public void setCohortdefUuid(String cohortdefUuid) {
+		this.cohortdefUuid = cohortdefUuid;
 	}
 	
 	 public Set<CategoryOption> getCategoryOptions() {
@@ -99,7 +68,14 @@ public class Option extends BaseOpenmrsObject {
 	    public void setCategoryOptions(Set<CategoryOption> categoryOptions) {
 	        this.categoryOptions = categoryOptions;
 	    }
+	
+	 public Set<OptionSet> getOptionSets() {
+	        return optionSets;
+	    }
 	 
+	    public void setOptionSets(Set<OptionSet> optionSets) {
+	        this.optionSets = optionSets;
+	    }
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)
     {

@@ -14,9 +14,9 @@ public class DataElement extends BaseOpenmrsObject {
 	private String dataElementCode;
 	private String dataElementUid;
 	private String dataElementType;
-	private String dataElementMappedObjectType;
-	private Integer dataElementMappedObjectId;
+	private String cohortDefinitionUuid;
 	private Date lastUpdated;
+	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -68,20 +68,14 @@ public class DataElement extends BaseOpenmrsObject {
 		this.dataElementType = dataElementType;
 	}
 	
-	public String getDataElementMappedObjectType() {
-		return dataElementMappedObjectType;
+	public String getCohortDefinitionUuid() {
+		return cohortDefinitionUuid;
 	}
 
-	public void setDataElementMappedObjectType(String dataElementMappedObjectType) {
-		this.dataElementMappedObjectType = dataElementMappedObjectType;
+	public void setCohortDefinitionUuid(String cohortDefinitionUuid) {
+		this.cohortDefinitionUuid = cohortDefinitionUuid;
 	}
-	public int getDataElementMappedObjectId() {
-		return dataElementMappedObjectId;
-	}
-
-	public void setDataElementMappedObjectId(int dataElementMappedObjectId) {
-		this.dataElementMappedObjectId = dataElementMappedObjectId;
-	}
+	
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
@@ -89,6 +83,16 @@ public class DataElement extends BaseOpenmrsObject {
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+
+	public void setCategoryCombo(CategoryCombo categoryCombo)
+    {
+        this.categoryCombo = categoryCombo;
+    }
+
+    public CategoryCombo getCategoryCombo()
+    {
+        return this.categoryCombo;
+    }
 
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)

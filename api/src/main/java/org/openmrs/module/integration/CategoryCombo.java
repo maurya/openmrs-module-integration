@@ -8,15 +8,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class CategoryOption extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(CategoryOption.class);
+public class CategoryCombo extends BaseOpenmrsObject {
+	public static Log log = LogFactory.getLog(CategoryCombo.class);
 
 	private int categoryOptionId;
 	private String name;
 	private String code;
-
-	private Set<Option> options=  new HashSet<Option>();
-	private Set<CategoryCombo> categoryCombos=  new HashSet<CategoryCombo>();
+	private String uid;
+	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>();
+	private Set<OptionSet> optionSets=  new HashSet<OptionSet>();
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -53,21 +53,28 @@ public class CategoryOption extends BaseOpenmrsObject {
 		this.code = code;
 	}
 	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 	
-	 public Set<Option> getOptions() {
-	        return options;
+	 public Set<CategoryOption> getCategoryOptions() {
+	        return categoryOptions;
 	    }
 	 
-	    public void setOptions(Set<Option> options) {
-	        this.options = options;
+	    public void setCategoryOptions(Set<CategoryOption> categoryOptions) {
+	        this.categoryOptions = categoryOptions;
 	    }
-	    
-	    public Set<CategoryCombo> getCategoryCombos() {
-	        return categoryCombos;
+	
+	 public Set<OptionSet> getOptionSets() {
+	        return optionSets;
 	    }
 	 
-	    public void setCategoryCombos(Set<CategoryCombo> categoryCombos) {
-	        this.categoryCombos = categoryCombos;
+	    public void setOptionSets(Set<OptionSet> optionSets) {
+	        this.optionSets = optionSets;
 	    }
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)

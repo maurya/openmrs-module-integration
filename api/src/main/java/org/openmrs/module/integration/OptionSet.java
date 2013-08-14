@@ -8,33 +8,35 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class CategoryOption extends BaseOpenmrsObject {
-	public static Log log = LogFactory.getLog(CategoryOption.class);
+public class OptionSet extends BaseOpenmrsObject {
+	public static Log log = LogFactory.getLog(OptionSet.class);
 
-	private int categoryOptionId;
+	private int optionId;
 	private String name;
 	private String code;
-
+	private String uid;
+	private String dimensionUuid;
 	private Set<Option> options=  new HashSet<Option>();
 	private Set<CategoryCombo> categoryCombos=  new HashSet<CategoryCombo>();
+	
 	private IntegrationServer integrationServer;
 
 	@Override
 	public Integer getId() {
-		return getCategoryOptionId();
+		return getOptionId();
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setCategoryOptionId(id);		
+		setOptionId(id);		
 	}
 
-	public int getCategoryOptionId() {
-		return categoryOptionId;
+	public int getOptionId() {
+		return optionId;
 	}
 
-	public void setCategoryOptionId(int categoryOptionId) {
-		this.categoryOptionId = categoryOptionId;
+	public void setOptionId(int optionId) {
+		this.optionId = optionId;
 	}
 	
 	public String getName() {
@@ -53,6 +55,22 @@ public class CategoryOption extends BaseOpenmrsObject {
 		this.code = code;
 	}
 	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	
+	public String getDimensionUuid() {
+		return dimensionUuid;
+	}
+
+	public void setDimensionUuid(String dimensionUuid) {
+		this.dimensionUuid = dimensionUuid;
+	}
+	
 	
 	 public Set<Option> getOptions() {
 	        return options;
@@ -69,6 +87,7 @@ public class CategoryOption extends BaseOpenmrsObject {
 	    public void setCategoryCombos(Set<CategoryCombo> categoryCombos) {
 	        this.categoryCombos = categoryCombos;
 	    }
+	
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)
     {

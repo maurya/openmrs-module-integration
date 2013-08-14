@@ -25,6 +25,7 @@ public class RunReportsController {
 		DhisService dhisService = Context.getService(DhisService.class);
 		
 		reports=dhisService.getAllReportTemplatesMapped();
+		
 		model.addAttribute("reports",reports);
 	}
 

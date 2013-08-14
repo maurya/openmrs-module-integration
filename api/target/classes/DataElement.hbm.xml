@@ -25,14 +25,17 @@
 			
 			<property name="dataElementType" type="java.lang.String" column="type"
 			not-null="true" length="50" />
-			
-			<property name="dataElementMappedObjectType" type="java.lang.String" column="mapped_object_type"
-			not-null="true" length="50" />
 
-			<property name="dataElementMappedObjectId" type="int" column="mapped_object_id" />
+			<property name="cohortDefinitionUuid" type="java.lang.String" column="cohortdef_uuid"
+			length="38"  />
 			
 	 <property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
+
+		<many-to-one name="categoryCombo" class="org.openmrs.module.integration.CategoryCombo"
+			not-null="true">
+			<column name="categorycombo_id" />
+		</many-to-one>		
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
