@@ -11,7 +11,7 @@ import org.openmrs.BaseOpenmrsObject;
 public class CategoryCombo extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(CategoryCombo.class);
 
-	private int categoryOptionId;
+	private int categoryComboId;
 	private String name;
 	private String code;
 	private String uid;
@@ -21,20 +21,20 @@ public class CategoryCombo extends BaseOpenmrsObject {
 
 	@Override
 	public Integer getId() {
-		return getCategoryOptionId();
+		return getCategoryComboId();
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setCategoryOptionId(id);		
+		setCategoryComboId(id);		
 	}
 
-	public int getCategoryOptionId() {
-		return categoryOptionId;
+	public int getCategoryComboId() {
+		return categoryComboId;
 	}
 
-	public void setCategoryOptionId(int categoryOptionId) {
-		this.categoryOptionId = categoryOptionId;
+	public void setCategoryComboId(int categoryComboId) {
+		this.categoryComboId = categoryComboId;
 	}
 	
 	public String getName() {

@@ -11,7 +11,7 @@ import org.openmrs.BaseOpenmrsObject;
 public class OptionSet extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(OptionSet.class);
 
-	private int optionId;
+	private int optionSetId;
 	private String name;
 	private String code;
 	private String uid;
@@ -23,20 +23,20 @@ public class OptionSet extends BaseOpenmrsObject {
 
 	@Override
 	public Integer getId() {
-		return getOptionId();
+		return getOptionSetId();
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setOptionId(id);		
+		setOptionSetId(id);		
 	}
 
-	public int getOptionId() {
-		return optionId;
+	public int getOptionSetId() {
+		return optionSetId;
 	}
 
-	public void setOptionId(int optionId) {
-		this.optionId = optionId;
+	public void setOptionSetId(int optionSetId) {
+		this.optionSetId = optionSetId;
 	}
 	
 	public String getName() {

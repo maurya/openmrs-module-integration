@@ -10,11 +10,14 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.Option;
+import org.openmrs.module.integration.OptionSet;
+import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.transaction.annotation.Transactional;
@@ -258,7 +261,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		
 	}
 
-	@Override
+	/*@Override
 	@Transactional(readOnly = true)
 	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
@@ -307,6 +310,100 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 				mappedReportTemplates.remove(rt);
 		}
 		return mappedReportTemplates;
+	}
+*/
+	@Override
+	@Transactional(readOnly = true)
+	public OrgUnit getOrgUnitById(Integer id) {
+		return dao.getOrgUnitById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public OrgUnit getOrgUnitByUuid(String uuid) {
+		return dao.getOrgUnitByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrgUnit> getOrgUnitByServer(IntegrationServer integrationServer) {
+		return dao.getOrgUnitByServer(integrationServer);
+	}
+
+	@Override
+	@Transactional
+	public OrgUnit saveOrgUnit(OrgUnit OrgUnit) {
+		return dao.saveOrgUnit(OrgUnit);
+	}
+
+	@Override
+	@Transactional
+	public void deleteOrgUnit(OrgUnit OrgUnit) {
+		dao.deleteOrgUnit(OrgUnit);
+		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryCombo getCategoryComboById(Integer id) {
+		return dao.getCategoryComboById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryCombo getCategoryComboByUuid(String uuid) {
+		return dao.getCategoryComboByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CategoryCombo> getCategoryComboByServer(
+			IntegrationServer integrationServer) {
+		return dao.getCategoryComboByServer(integrationServer);
+	}
+
+	@Override
+	@Transactional
+	public CategoryCombo saveCategoryCombo(CategoryCombo CategoryCombo) {
+		return dao.saveCategoryCombo(CategoryCombo);
+	}
+
+	@Override
+	@Transactional
+	public void deleteCategoryCombo(CategoryCombo CategoryCombo) {
+		dao.deleteCategoryCombo(CategoryCombo);
+		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public OptionSet getOptionSetById(Integer id) {
+		return dao.getOptionSetById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public OptionSet getOptionSetByUuid(String uuid) {
+		return dao.getOptionSetByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<OptionSet> getOptionSetsByServer(
+			IntegrationServer integrationServer) {
+		return dao.getOptionSetsByServer(integrationServer);
+	}
+
+	@Override
+	@Transactional
+	public OptionSet saveOptionSet(OptionSet OptionSet) {
+		return dao.saveOptionSet(OptionSet);
+	}
+
+	@Override
+	@Transactional
+	public void deleteOptionSet(OptionSet OptionSet) {
+		dao.deleteOptionSet(OptionSet);
 	}
 
 }
