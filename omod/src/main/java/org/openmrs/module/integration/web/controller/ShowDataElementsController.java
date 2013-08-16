@@ -37,7 +37,7 @@ public class ShowDataElementsController {
 			DhisService dhisService = Context.getService(DhisService.class);	
 			DataElement dataElement=dhisService.getDataElementById(Integer.parseInt((id)));
 			
-			dataElement.setDataElementMappedObjectId(Integer.parseInt((mappedDataElement)));
+			dataElement.setCohortDefinitionUuid(mappedDataElement);
 			dhisService.saveDataElement(dataElement);
 			}
         }

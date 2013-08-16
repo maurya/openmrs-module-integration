@@ -168,6 +168,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer) {
 		return dao.getReportTemplatesByServer(integrationServer);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<ReportTemplate> getAllReportTemplates(){
+		return dao.getAllReportTemplates();
+	}
 
 	@Override
 	@Transactional
@@ -405,5 +411,44 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public void deleteOptionSet(OptionSet OptionSet) {
 		dao.deleteOptionSet(OptionSet);
 	}
+
+	@Override
+	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) {
+		DataElement de=new DataElement();
+		CategoryOption co=new CategoryOption();
+		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
+		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
+		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		for(DataValueTemplate d:DataValueTemplateList){
+			de=d.getDataElement();
+			co=d.getCategoryOption();			
+			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
+			if(temporaryCategoryOptionList== null){	
+				temporaryCategoryOptionList=new ArrayList<CategoryOption>();
+				DataElementToCategoryOptionDictionary.put(de, temporaryCategoryOptionList);
+			}
+			temporaryCategoryOptionList.add(co);
+		}
+		return DataElementToCategoryOptionDictionary;
+		
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) {
+		Set<Option> OptionsList=new HashSet<Option>();
+		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
+		for(DataValueTemplate d:DataValueTemplateList){
+			categoryOptionList.add(d.getCategoryOption());
+			}
+		for(CategoryOption co: categoryOptionList){
+			OptionsList.addAll(co.getOptions());
+			}
+		return OptionsList;
+	}
+
 
 }

@@ -49,6 +49,10 @@ public interface DhisService extends OpenmrsService {
 			
 		@Transactional(readOnly = true)
 		public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer);
+		
+		
+		@Transactional(readOnly = true)
+		public List<ReportTemplate> getAllReportTemplates();
 			
 		@Transactional
 		public ReportTemplate saveReportTemplate(ReportTemplate ReportTemplate);
@@ -182,7 +186,11 @@ public interface DhisService extends OpenmrsService {
 	
 	
 	
+	//misc methods
 	
+	public Map<DataElement,List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(ReportTemplate ReportTemplate);
+	
+	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(ReportTemplate ReportTemplate);
 	
 		
 }

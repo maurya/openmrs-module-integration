@@ -7,6 +7,8 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +34,11 @@ public class ManageReportTemplatesController {
 		try {
 			if(mappedReport!=null){
 			DhisService dhisService = Context.getService(DhisService.class);	
+			ReportDefinitionService reportDefinitionService=Context.getService(ReportDefinitionService.class);
 			ReportTemplate report=dhisService.getReportTemplateById(Integer.parseInt((id)));
-			
-			report.setMappedReportName(mappedReport);
-			dhisService.saveReportTemplate(report);
+			ReportDefinition reportDefinition= reportDefinitionService.getDefinitionByUuid(report.getUuid());
+			reportDefinition.setName(mappedReport);
+			reportDefinitionService.saveDefinition(reportDefinition);
 			}
         }
         catch (Exception e) {

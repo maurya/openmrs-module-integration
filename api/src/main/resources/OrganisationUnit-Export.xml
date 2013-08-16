@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metaData>
+	<organisationUnits>
+		<organisationUnit code="OU_222702" name=" Panderu MCHP"
+			created="2012-02-17T14:54:39.987+0000" lastUpdated="2012-02-17T14:54:39.987+0000"
+			shortName=" Panderu MCHP" level="4"
+			href="http://apps.dhis2.org/demo/api/organisationUnits/ueuQlqb8ccl"
+			id="ueuQlqb8ccl">
+			<parent code="OU_222690" name="Nongowa" created="2012-02-17T14:54:39.987+0000"
+				lastUpdated="2012-02-17T14:54:39.987+0000"
+				href="http://apps.dhis2.org/demo/api/organisationUnits/KIUCimTXf8Q"
+				id="KIUCimTXf8Q" />
+			<openingDate>1994-01-01</openingDate>
+			<active>true</active>
+		</organisationUnit>
+		<organisationUnit code="OU_651071" name="Adonkia CHP"
+			created="2012-02-17T14:54:39.987+0000" lastUpdated="2012-02-17T14:54:39.987+0000"
+			shortName="Adonkia CHP" level="4"
+			href="http://apps.dhis2.org/demo/api/organisationUnits/Rp268JB6Ne4"
+			id="Rp268JB6Ne4">
+			<parent code="OU_278366" name="Rural Western Area" created="2012-02-17T14:54:39.987+0000"
+				lastUpdated="2012-02-17T14:54:39.987+0000"
+				href="http://apps.dhis2.org/demo/api/organisationUnits/qtr8GGlm4gg"
+				id="qtr8GGlm4gg" />
+			<openingDate>2010-01-01</openingDate>
+			<active>true</active>
+		</organisationUnit>
+		<organisationUnit code="OU_278371" name="Afro Arab Clinic"
+			created="2012-02-17T14:54:39.987+0000" lastUpdated="2012-02-17T14:54:39.987+0000"
+			shortName="Afro Arab Clinic" level="4"
+			href="http://apps.dhis2.org/demo/api/organisationUnits/cDw53Ej8rju"
+			id="cDw53Ej8rju">
+			<parent code="OU_278366" name="Rural Western Area" created="2012-02-17T14:54:39.987+0000"
+				lastUpdated="2012-02-17T14:54:39.987+0000"
+				href="http://apps.dhis2.org/demo/api/organisationUnits/qtr8GGlm4gg"
+				id="qtr8GGlm4gg" />
+			<openingDate>2008-01-01</openingDate>
+			<active>true</active>
+		</organisationUnit>
+		<organisationUnit code="OU_678892" name="Agape CHP"
+			created="2012-02-17T14:54:39.987+0000" lastUpdated="2012-02-17T14:54:39.987+0000"
+			shortName="Agape CHP" level="4"
+			href="http://apps.dhis2.org/demo/api/organisationUnits/GvFqTavdpGE"
+			id="GvFqTavdpGE">
+			<parent code="OU_546" name="Kakua" created="2012-02-17T14:54:39.987+0000"
+				lastUpdated="2012-02-17T14:54:39.987+0000"
+				href="http://apps.dhis2.org/demo/api/organisationUnits/U6Kr7Gtpidn"
+				id="U6Kr7Gtpidn" />
+			<openingDate>2010-01-01</openingDate>
+			<active>true</active>
+		</organisationUnit>
+	</organisationUnits>
+</metaData>

@@ -39,7 +39,7 @@ public class ShowOptionsController {
 			DhisService dhisService = Context.getService(DhisService.class);	
 			Option option=dhisService.getOptionById(Integer.parseInt((id)));
 			
-			option.setmappedObjectId(Integer.parseInt((mappedOption)));
+			option.setCohortdefUuid(mappedOption);
 			dhisService.saveOption(option);
 			}
         }

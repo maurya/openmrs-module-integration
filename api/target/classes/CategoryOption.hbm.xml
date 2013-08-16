@@ -23,10 +23,11 @@
             <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
         </set>	
 				
-		<set name="categoryCombos" table="dhis_catcombo_combooption" lazy="false">
-            <key column="catoption_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.CategoryCombo" column="catcombo_id" />
-        </set>	
+        <many-to-one name="categoryCombo" class="org.openmrs.module.integration.CategoryCombo"
+			not-null="true">
+			<column name="catcombo_id" />
+		</many-to-one>	
+				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />
