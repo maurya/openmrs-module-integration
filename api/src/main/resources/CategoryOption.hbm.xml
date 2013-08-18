@@ -18,15 +18,17 @@
 		<property name="code" type="java.lang.String" column="code"
 			not-null="true" length="50" />		
 			
+
 		<set name="options" table="dhis_categoryoption_option" lazy="false">
             <key column="categoryoption_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
         </set>	
-				
-        <many-to-one name="categoryCombo" class="org.openmrs.module.integration.CategoryCombo"
-			not-null="true">
-			<column name="catcombo_id" />
-		</many-to-one>	
+     
+        
+        <set name="categoryCombos" table="dhis_categoryoption_option" lazy="false">
+            <key column="catoption_id" not-null="true" />
+            <many-to-many class="org.openmrs.module.integration.CategoryCombo" column="catcombo_id" />
+        </set>	
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">

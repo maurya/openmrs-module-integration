@@ -10,7 +10,7 @@
 		<discriminator column="id" insert="false" />
 
 		<property name="uuid" type="java.lang.String" column="uuid"
-			length="38" unique="true" />
+			length="38" unique="true"  not-null="true"/>
 			
 			<property name="name" type="java.lang.String" column="name"
 			not-null="true" length="230" />
@@ -26,10 +26,12 @@
             <many-to-many class="org.openmrs.module.integration.CategoryOption" column="catoption_id" />
         </set>	
 				
-		<set name="optionSets" table="dhis_catcombo_optionset" lazy="false">
+
+	<set name="optionSets" table="dhis_catcombo_optionset" lazy="false">
             <key column="catcombo_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
-        </set>			
+        </set>	
+        	
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">

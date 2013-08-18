@@ -16,7 +16,8 @@ public class CategoryOption extends BaseOpenmrsObject {
 	private String code;
 
 	private Set<Option> options=  new HashSet<Option>();
-	private CategoryCombo categoryCombo;
+	private Set<CategoryCombo> categoryCombos=  new HashSet<CategoryCombo>();
+	//private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -62,12 +63,12 @@ public class CategoryOption extends BaseOpenmrsObject {
 	        this.options = options;
 	    }
 	    
-	    public CategoryCombo getCategoryCombo() {
-	        return categoryCombo;
+	    public Set<CategoryCombo> getCategoryCombos() {
+	        return categoryCombos;
 	    }
 	 
-	    public void setCategoryCombo(CategoryCombo categoryCombo) {
-	        this.categoryCombo = categoryCombo;
+	    public void setCategoryCombos(Set<CategoryCombo> categoryCombos) {
+	        this.categoryCombos = categoryCombos;
 	    }
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)

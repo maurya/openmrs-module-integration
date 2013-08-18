@@ -3,14 +3,14 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.Option" table="dhis_option">
-		<id name="optionId" type="int" column="option_id"
+		<id name="optionId" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
 
 		<property name="uuid" type="java.lang.String" column="uuid"
-			length="38" unique="true" />
+			length="38" unique="true" not-null="true" />
 			
 			
 
@@ -23,13 +23,15 @@
 			<property name="cohortdefUuid" type="java.lang.String" column="cohortdef_uuid"
 			length="38"/>
 			
-		<set name="categoryOptions" inverse="true" table="dhis_categoryoption_option" lazy="false">
-            <key column="categoryoption_id" not-null="true" />
+	
+		<set name="categoryOptions" inverse="false" table="dhis_categoryoption_option" lazy="false">
+            <key column="option_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.CategoryOption" column="categoryoption_id" />
-        </set>
+        </set> 
+        
 			
-		<set name="optionSets" inverse="true" table="dhis_optionset_option" lazy="false">
-            <key column="optionset_id" not-null="true" />
+		<set name="optionSets" table="dhis_optionset_option" lazy="false">
+            <key column="option_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
         </set>
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"

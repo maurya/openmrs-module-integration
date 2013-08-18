@@ -46,6 +46,13 @@
 				
 <!-- 		Integration_ns.hbm.xml -->
 		IntegrationServer.hbm.xml
+		<!--
+		
+		
+		OrgUnit.hbm.xml 
+		
+		
+		-->
 		CategoryCombo.hbm.xml
 		CategoryOption.hbm.xml
 		OptionSet.hbm.xml
@@ -53,7 +60,6 @@
 		ReportTemplate.hbm.xml
 		DataElement.hbm.xml
 		DataValueTemplate.hbm.xml
-		OrgUnit.hbm.xml
 				
 	</mappingFiles>
 

@@ -75,38 +75,6 @@
 				
 		<!-- End OpenMRS core -->
 		
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.2.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jvnet.jaxb2.maven2</groupId>
-			<artifactId>maven-jaxb2-plugin</artifactId>
-			<version>0.8.3</version>
-		</dependency>
-				
-		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-runtime</artifactId>
-			<version>0.6.4</version>
-		</dependency>
-		
-		<dependency>
- 			<groupId>org.springframework.ws</groupId>
- 			<artifactId>spring-ws-core</artifactId>
- 			<version>2.0.3.RELEASE</version>
- 		</dependency>
- 		
- 		<dependency>
- 			<groupId>org.springframework</groupId>
- 			<artifactId>spring-web</artifactId>
- 			<version>3.0.5.RELEASE</version>
- 			<type>jar</type>
- 			<scope>compile</scope>
- 		</dependency>
-		
 	</dependencies>
 	
 	<build>
@@ -123,45 +91,6 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
-		<plugins>
-
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.8.3</version>
-				<executions>
-					<execution>
-					<goals>
-							<goal>generate</goal>
-						</goals>
-					<phase>validate</phase>
-						<configuration>
-							<args>
-								<arg>-XtoString</arg>
-								<arg>-Xequals</arg>
-								<arg>-XhashCode</arg>
-								<arg>-Xcopyable</arg>
-							</args>
-							<plugins>
-								<plugin>
-									<groupId>org.jvnet.jaxb2_commons</groupId>
-									<artifactId>jaxb2-basics</artifactId>
-									<version>0.6.4</version>
-								</plugin>
-							</plugins>
-							<schemaIncludes>
-								<include>metaData.xsd</include>
-								<include>MasterTemplate.xsd</include>
-							</schemaIncludes>
-							<generatePackage>org.openmrs.module.integration.jaxb</generatePackage>
-						</configuration>					
-						
-					</execution>
-				</executions>
-			</plugin>
-			
-		</plugins>
-		
 	</build>
 
 </project>
