@@ -63,13 +63,13 @@
 				<c:forEach items="${OptionList}" var="option" >
 					<tr>
 						<td width="10%">
-							${option.setName}
+							${option.name}
 						</td>
 						<td width="10%">
-							${option.setCode}
+							${option.code}
 						</td>
 						<td width="10%">
-							${option.uuid}
+							${option.uid}
 						</td>
 						<td width="20%">
 						<c:forEach items="${option.categoryOptions}" var="categoryOption" >

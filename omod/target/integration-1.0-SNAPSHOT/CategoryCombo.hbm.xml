@@ -21,13 +21,13 @@
 			<property name="uid" type="java.lang.String" column="uid"
 			not-null="true" length="11" />	
 			
-		<set name="categoryOptions" table="dhis_catcombo_combooption" lazy="false">
+		<set name="categoryOptions" table="dhis_catcombo_combooption" >
             <key column="catcombo_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.CategoryOption" column="catoption_id" />
         </set>	
 				
 
-	<set name="optionSets" table="dhis_catcombo_optionset" lazy="false">
+	<set name="optionSets" inverse="false" table="dhis_catcombo_optionset">
             <key column="catcombo_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
         </set>	

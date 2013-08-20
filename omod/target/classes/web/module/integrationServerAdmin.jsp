@@ -88,7 +88,7 @@
 							${serverItem.password}
 						</td>
 						<td id="semail${serverItem.integrationServerId}" STYLE=display:NONE>
-							${serverItem.email}
+							${serverItem.emailorurl}
 						</td>
 						<td id="smasterTemplate${serverItem.integrationServerId}" STYLE=display:NONE>
 							${serverItem.masterTemplate}
@@ -169,7 +169,7 @@
 									  <option value="Email">Email</option>
 									  <option value="Url">Url</option>
 									</select>
-									<form:input path="email" id="emailurl" size="20"/>
+									<form:input path="emailorurl" id="emailurl" size="20"/>
 								</td>
 							</tr>
 							<tr>

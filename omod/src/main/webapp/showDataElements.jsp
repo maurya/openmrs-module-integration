@@ -57,7 +57,6 @@
 					<th>uid</th>
 					<th>Mapped Object Id</th>
 					<th>Category Options</th>
-					<th>Option Sets</th>	
 					<th>Last Updated</th>
 					<th align="center" width="1%">Edit mappings</th>
 				</tr>
@@ -75,16 +74,11 @@
 							${key.key.dataElementUid}
 						</td>
 						<td width="10%" id="mappedobjectid${key.key.dataElementId}">
-							${key.key.dataElementMappedObjectId}
+							${key.key.cohortDefinitionUuid}
 						</td>
 						<td width="20%">
 							<c:forEach items="${key.value}" var="categoryOption" >
 							<p>${categoryOption.name}</p>
-							</c:forEach>
-						</td>
-						<td width="20%">
-						<c:forEach items="${key.value}" var="categoryOption" >
-							<p>${categoryOption.comboName}</p>
 							</c:forEach>
 						</td>
 						<td width="20%">

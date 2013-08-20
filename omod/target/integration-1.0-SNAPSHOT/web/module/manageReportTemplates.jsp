@@ -6,10 +6,10 @@
 	$(document).ready(function() {
 		
 		$(".integration-data-table").dataTable( {
-			"bPaginate": true,
+			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
-			"bFilter": true,
+			"bFilter": false,
 			"bSort": true,
 			"bInfo": true,
 			"bAutoWidth": false
@@ -81,7 +81,7 @@
 							${reportTemplate.frequency}
 						</td>
 						<td width="10%" id="mappedReport${reportTemplate.reportTemplateId}">
-							${reportTemplate.mappedReportName}
+							${reportTemplate.mappedReportUuid}
 						</td>
 						<td width="10%" id="check${reportTemplate.reportTemplateId}">
 							<input type="checkbox" checked="checked">

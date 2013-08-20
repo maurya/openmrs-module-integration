@@ -24,13 +24,13 @@
 			length="38"/>
 			
 	
-		<set name="categoryOptions" inverse="false" table="dhis_categoryoption_option" lazy="false">
+		<set name="categoryOptions" inverse="false" table="dhis_categoryoption_option" >
             <key column="option_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.CategoryOption" column="categoryoption_id" />
         </set> 
         
 			
-		<set name="optionSets" table="dhis_optionset_option" lazy="false">
+		<set name="optionSets" table="dhis_optionset_option">
             <key column="option_id" not-null="true" />
             <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
         </set>
