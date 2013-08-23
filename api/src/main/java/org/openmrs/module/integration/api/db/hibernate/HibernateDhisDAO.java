@@ -1,9 +1,12 @@
 package org.openmrs.module.integration.api.db.hibernate;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -228,7 +231,7 @@ public class HibernateDhisDAO implements DhisDAO{
 
 		@Override
 		public List<DataValueTemplate> getDataValueTemplateByReportTemplate(
-				ReportTemplate reportTemplate) {
+				ReportTemplate reportTemplate) {	
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
 			        .add(Restrictions.eq("reportTemplate", reportTemplate)).addOrder(Order.asc("dataValueTemplateId")).list();
@@ -399,6 +402,28 @@ public class HibernateDhisDAO implements DhisDAO{
 	public void deleteOption(Option Option) {
 			sessionFactory.getCurrentSession().delete(Option);
 	}
+
+//	@Override
+//	public List<OptionSet> getOptionSetsByReportTemplate(
+//			ReportTemplate ReportTemplate) {
+//		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+//		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
+//		for(DataValueTemplate d:DataValueTemplateList){
+//			categoryOptionList.add(d.getCategoryOption());
+//			}
+//		int[] tags = {};
+//		
+//		String sql = "select distinct o from OptionSet o"  +
+//                "join o.categoryCombos cc " +
+//                "where cc.id in (:tags)";
+//		@SuppressWarnings("unchecked")
+//		List<OptionSet> OptionSets = sessionFactory.getCurrentSession().createSQLQuery(sql)
+//			    .addEntity("OptionSet", OptionSet.class)
+//			    .setParameterList("tags", tags)
+//			.list();
+//		return OptionSets;
+//	}
+
 	
 	
 	

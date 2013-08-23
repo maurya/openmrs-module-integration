@@ -188,9 +188,9 @@ public interface DhisService extends OpenmrsService {
 	
 	//misc methods
 	
-	public Map<DataElement,List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(ReportTemplate ReportTemplate);
+	public Map<DataElement,CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(ReportTemplate ReportTemplate);
 	
-	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(ReportTemplate ReportTemplate);
+	public Set<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
 	
 		
 }
