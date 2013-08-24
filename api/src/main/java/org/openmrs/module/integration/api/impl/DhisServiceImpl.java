@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -413,41 +414,42 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	}
 
 	@Override
-	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
+	public Map<DataElement, CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
 		DataElement de=new DataElement();
 		CategoryOption co=new CategoryOption();
-		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
+		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary = new HashMap<DataElement, CategoryCombo>();
 		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<CategoryCombo> categoryComboList=new HashSet<CategoryCombo>();;
 		for(DataValueTemplate d:DataValueTemplateList){
 			de=d.getDataElement();
-			co=d.getCategoryOption();			
-			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
-			if(temporaryCategoryOptionList== null){	
-				temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-				DataElementToCategoryOptionDictionary.put(de, temporaryCategoryOptionList);
+			co=d.getCategoryOption();
+			categoryComboList=co.getCategoryCombos();
+			for(CategoryCombo c:categoryComboList){
+				DataElementToCategoryComboDictionary.put(de,c);
 			}
-			temporaryCategoryOptionList.add(co);
 		}
-		return DataElementToCategoryOptionDictionary;
+		return DataElementToCategoryComboDictionary;
 		
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
-	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
+	public Set<OptionSet> getOptionSetsByReportTemplate(
 			ReportTemplate ReportTemplate) {
-		Set<Option> OptionsList=new HashSet<Option>();
+		Set<OptionSet> OptionSetList=new HashSet<OptionSet>();
+		Set<CategoryCombo> categoryComboList=new HashSet<CategoryCombo>();
 		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
 		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
 		for(DataValueTemplate d:DataValueTemplateList){
 			categoryOptionList.add(d.getCategoryOption());
 			}
 		for(CategoryOption co: categoryOptionList){
-			OptionsList.addAll(co.getOptions());
+			categoryComboList.addAll(co.getCategoryCombos());
 			}
-		return OptionsList;
+		for(CategoryCombo cc: categoryComboList){
+			OptionSetList.addAll(cc.getOptionSets());
+			}
+		return OptionSetList;
 	}
 
 

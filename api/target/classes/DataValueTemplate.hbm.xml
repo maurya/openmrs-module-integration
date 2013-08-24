@@ -23,7 +23,7 @@
 		</many-to-one>
 		
 				<many-to-one name="reportTemplate" class="org.openmrs.module.integration.ReportTemplate"
-			not-null="true" lazy="false">
+			not-null="true">
 			<column name="reporttemplate_id" />
 		</many-to-one>
 			
@@ -32,7 +32,7 @@
 			length="19" />
 			
 			<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
-			not-null="true">
+			not-null="true" >
 			<column name="server_Id" />
 		</many-to-one>		
 		

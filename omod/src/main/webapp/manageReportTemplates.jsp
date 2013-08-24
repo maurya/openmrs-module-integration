@@ -5,18 +5,24 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
+		$('#addOrEditPopup').dialog({
+			autoOpen: false,
+			modal: true,
+			title: 'Add Or Edit Report Template',
+			width: '90%'
+		});
+		
 		$(".integration-data-table").dataTable( {
-			"bPaginate": true,
+			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
-			"bFilter": true,
+			"bFilter": false,
 			"bSort": true,
 			"bInfo": true,
 			"bAutoWidth": false
 		} );
-		$('.neworedit').hide();
 		$(".cancel").click( function() {
-			$('.neworedit').hide();
+			$('#addOrEditPopup').dialog('close');	
 			
 		});
 
@@ -27,7 +33,7 @@
 			$("#id").val(id);
 			$("#reportName").val($.trim($("#name"+id).html()));
 			$("#mappedReport").val($.trim($("#mappedReport"+id).html()));
-					$('.neworedit').show();
+			$('#addOrEditPopup').dialog('open');
 		}
 		function saveReportTemplate() {
 	
@@ -46,26 +52,22 @@
 				
 		}
 </script>
-<h2>Server Name : <spring:message code="${server.serverName}"/></h2>
+<h2><spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
 
 <div >
- <div id="button" align="right">
-                    <button >
-                    Update Templates
-                    </button>
-            </div>
 			<br/>
 
 		       			<table class="integration-data-table display">
 			<thead>
 				<tr>
-					<th>Report Template Name</th>
-					<th>Code</th>
-					<th>Periodicity</th>
-					<th>Report Mapped To</th>
-					<th>Attributes Mapped</th>
-					<th>Last Updated</th>
-					<th align="center" width="1%">Actions</th>
+					<th><spring:message code="integration.general.name"/></th>
+					<th><spring:message code="integration.general.code"/></th>
+					<th><spring:message code="integration.general.frequency"/></th>
+					<th><spring:message code="integration.general.baseCohort"/></th>
+					<th><spring:message code="integration.general.reportMappedTo"/></th>
+					<th><spring:message code="integration.general.validMappings"/></th>
+					<th><spring:message code="integration.general.lastUpdated"/></th>
+					<th align="center" width="1%"><spring:message code="integration.general.actions"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -81,7 +83,10 @@
 							${reportTemplate.frequency}
 						</td>
 						<td width="10%" id="mappedReport${reportTemplate.reportTemplateId}">
-							${reportTemplate.mappedReportName}
+							${reportTemplate.mappedReportUuid}
+						</td>
+						<td width="10%" id="mappedReport${reportTemplate.reportTemplateId}">
+							${reportTemplate.mappedReportUuid}
 						</td>
 						<td width="10%" id="check${reportTemplate.reportTemplateId}">
 							<input type="checkbox" checked="checked">
@@ -90,21 +95,25 @@
 							${reportTemplate.lastUpdated}
 						</td>
 						<td align="center" nowrap>
+							<a href="javascript:editReportTemplate('${reportTemplate.reportTemplateId}');"> <button >
+                  <spring:message code="integration.button.editReports"/>
+                    </button>
+                    </a>
+							
+						
+						
 						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.reportTemplateId}">
 						  <button >
-                   Edit Data Elements
+                   <spring:message code="integration.button.mapDataElement"/>
                     </button>
                     </a>
                      <a href="showOptions.form?reportTemplateId=${reportTemplate.reportTemplateId}">
                       <button >
-                   Edit Options
+                   <spring:message code="integration.button.mapOptionSets"/>
                     </button>
                      </a>
-							&nbsp;
-							<a href="javascript:editReportTemplate('${reportTemplate.reportTemplateId}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
-							
-						</td>
-					</tr>
+                     </td>
+										</tr>
 				</c:forEach>	
 			</tbody>
 			<tfoot>
@@ -112,28 +121,21 @@
 		</table>
 		</div>
 		
-			<div id="neworedit" class="neworedit" >
-		<b class="boxHeader">
-			
-				
-				Report Mapping	
-				
-				
-			
-		</b>
-		<div class="box" >
-				<form method="post" id="detailsedit" >
+		<div id="addOrEditPopup">
+					<b class="boxHeader"><spring:message code="integration.reportMapping"/></b>
+					<div class="box">
+					<form method="post" id="detailsedit" >
 					<table>
 						<tbody>	
 							<tr>
-								<td>Report Name</td>
+								<td><spring:message code="integration.general.name"/></td>
 								<td>:</td>
 								<td>
 								<input id="id" type="hidden"/>
 								<input id="reportName" type="text" size="40" /></td>
 							</tr>
 							<tr>
-								<td>Mapped Report</td>
+								<td><spring:message code="integration.general.reportMappedTo"/></td>
 								<td>:</td>
 								<td>
 								<input id="mappedReport" type="text" size="40" /></td>
@@ -148,14 +150,14 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td><a href="javascript:saveReportTemplate();"><input type="button" value="Save" /> </a><input
-								type="reset" value="Cancel" class="cancel">
+								<td><a href="javascript:saveReportTemplate();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
+								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
-		</div>
-</div>
+					</div>
+					</div>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>

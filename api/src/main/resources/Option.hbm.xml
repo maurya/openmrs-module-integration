@@ -24,15 +24,19 @@
 			length="38"/>
 			
 	
-		<set name="categoryOptions" inverse="false" table="dhis_categoryoption_option" lazy="false">
+		<set name="categoryOptions" inverse="false" table="dhis_categoryoption_option">
             <key column="option_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.CategoryOption" column="categoryoption_id" />
+             <many-to-many entity-name="org.openmrs.module.integration.CategoryOption">
+                <column name="categoryoption_id" not-null="true" />
+            </many-to-many>
         </set> 
         
 			
-		<set name="optionSets" table="dhis_optionset_option" lazy="false">
+		<set name="optionSets" table="dhis_optionset_option">
             <key column="option_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.OptionSet" column="optionset_id" />
+            <many-to-many entity-name="org.openmrs.module.integration.OptionSet">
+                <column name="optionset_id" not-null="true" />
+            </many-to-many>
         </set>
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">

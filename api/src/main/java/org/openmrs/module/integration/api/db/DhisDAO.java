@@ -1,6 +1,7 @@
 package org.openmrs.module.integration.api.db;
 
 import java.util.List;
+import java.util.Set;
 
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -135,5 +136,8 @@ public interface DhisDAO {
 	
 	void deleteOption(Option Option);
 	
+	//misc
+//	
+//	 List<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
 	
 }

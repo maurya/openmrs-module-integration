@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+   
+   
+   
+<!--    <changeSet id="integration-serverdetails" author="maurya"> -->
+<!--         <preConditions onFail="MARK_RAN"> -->
+<!--         	<not><tableExists tableName="integration_servers" /></not> -->
+<!--         </preConditions> -->
+<!--         <comment> -->
+<!-- 			Create table to persist server details -->
+<!--         </comment> -->
+<!--         <createTable tableName="integration_servers"> -->
+<!--             <column name="id" autoIncrement="true" type="int"> -->
+<!--                 <constraints nullable="false" primaryKey="true" /> -->
+<!--             </column> -->
+<!-- 			<column name="uuid" type="char(38)"> -->
+<!-- 				<constraints nullable="false" unique="true" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="server_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="server_description" type="varchar(1000)" /> -->
+<!-- 			<column name="url" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="username" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="password" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="email" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!--         </createTable> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet id="integration-dataset-details" author="maurya"> -->
+<!--         <preConditions onFail="MARK_RAN"> -->
+<!--         	<not><tableExists tableName="integration_dataset_details" /></not> -->
+<!--         </preConditions> -->
+<!--         <comment> -->
+<!-- 			Create table to persist dataset details for a server -->
+<!--         </comment> -->
+<!--         <createTable tableName="integration_dataset_details"> -->
+<!--             <column name="id" autoIncrement="true" type="int"> -->
+<!--                 <constraints nullable="false" primaryKey="true" /> -->
+<!--             </column> -->
+<!-- 			<column name="uuid" type="char(38)"> -->
+<!-- 				<constraints nullable="false" unique="true" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="dataset_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="dataset_description" type="varchar(1000)" /> -->
+<!-- 			<column name="mapped_to" type="char(38)"/> -->
+<!-- 			<column name="code" type="varchar(255)"> -->
+<!-- 			</column> -->
+<!-- 			<column name="attributes_mapped" type="boolean" defaultValueBoolean="false"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!--         </createTable> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet author="maurya" id="fk_for_mapped_to"> -->
+<!-- 		<comment>Add mapped_to FK to integration_dataset_details</comment> -->
+<!-- 		<addForeignKeyConstraint constraintName="integration_dataset_details_mapped_to" -->
+<!-- 			baseTableName="integration_dataset_details" baseColumnNames="mapped_to" -->
+<!-- 			referencedTableName="serialized_object" referencedColumnNames="uuid" /> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet id="integration-category-combo" author="maurya"> -->
+<!--         <preConditions onFail="MARK_RAN"> -->
+<!--         	<not><tableExists tableName="integration_category_combo" /></not> -->
+<!--         </preConditions> -->
+<!--         <comment> -->
+<!-- 			Create table to persist category combo details -->
+<!--         </comment> -->
+<!--         <createTable tableName="integration_category_combo"> -->
+<!--             <column name="id" autoIncrement="true" type="int"> -->
+<!--                 <constraints nullable="false" primaryKey="true" /> -->
+<!--             </column> -->
+<!-- 			<column name="uuid" type="char(38)"> -->
+<!-- 				<constraints nullable="false" unique="true" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="category_combo_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="category_combo_id" type="char(38)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="category_value_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="category_value_id" type="char(38)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="server_id" type="int"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!--         </createTable> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet author="maurya" id="fk_for_categorycombo_server_id"> -->
+<!-- 		<comment>Add server_id FK to integration_category_combo</comment> -->
+<!-- 		<addForeignKeyConstraint constraintName="integration_category_combo_server_id" -->
+<!-- 			baseTableName="integration_category_combo" baseColumnNames="server_id" -->
+<!-- 			referencedTableName="integration_servers" referencedColumnNames="id" /> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet id="integration-optionset" author="maurya"> -->
+<!--         <preConditions onFail="MARK_RAN"> -->
+<!--         	<not><tableExists tableName="integration_optionset" /></not> -->
+<!--         </preConditions> -->
+<!--         <comment> -->
+<!-- 			Create table to persist optionsets -->
+<!--         </comment> -->
+<!--         <createTable tableName="integration_optionset"> -->
+<!--             <column name="id" autoIncrement="true" type="int"> -->
+<!--                 <constraints nullable="false" primaryKey="true" /> -->
+<!--             </column> -->
+<!-- 			<column name="uuid" type="char(38)"> -->
+<!-- 				<constraints nullable="false" unique="true" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="optionset_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="optionset_id" type="char(38)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="optionset_value_name" type="varchar(255)"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!-- 			<column name="optionset_value_id" type="char(38)"> -->
+<!-- 				<constraints nullable="false"/> -->
+<!-- 			</column> -->
+<!-- 			<column name="mapping_id" type="int"> -->
+<!-- 				<constraints nullable="false" /> -->
+<!-- 			</column> -->
+<!--         </createTable> -->
+<!-- 	</changeSet> -->
+<!-- 	<changeSet author="maurya" id="fk_for_optionset_mapping_id"> -->
+<!-- 		<comment>Add mapping_id FK to integration_opionset</comment> -->
+<!-- 		<addForeignKeyConstraint constraintName="integration_optionset_mapping_id" -->
+<!-- 			baseTableName="integration_optionset" baseColumnNames="mapping_id" -->
+<!-- 			referencedTableName="integration_category_combo" referencedColumnNames="id" /> -->
+<!-- 	</changeSet> -->
+</databaseChangeLog>

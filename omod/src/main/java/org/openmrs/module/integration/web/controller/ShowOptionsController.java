@@ -8,6 +8,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.Option;
+import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.stereotype.Controller;
@@ -24,11 +25,8 @@ public class ShowOptionsController {
 		DhisService dhisService = Context.getService(DhisService.class);
 		ReportTemplate reportTemplate=dhisService.getReportTemplateById(reportTemplateId);
 		model.addAttribute("reportTemplate",reportTemplate);
-	/*	Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary= dhisService.getDataElementToCategoryOptionDictionaryByReportTemplate(reportTemplate);
-		model.addAttribute("DataElementToCategoryOptionDictionary",DataElementToCategoryOptionDictionary);*/
-		
-		Set<Option> OptionList= dhisService.getOptionToCategoryOptionDictionaryByReportTemplate(reportTemplate);
-		model.addAttribute("OptionList",OptionList);
+		Set<OptionSet> OptionSetList = dhisService.getOptionSetsByReportTemplate(reportTemplate);
+		model.addAttribute("OptionSetList",OptionSetList);
 	}
 	
 	@RequestMapping(value = "/module/integration/saveOptionsSetMapping", method = RequestMethod.POST)

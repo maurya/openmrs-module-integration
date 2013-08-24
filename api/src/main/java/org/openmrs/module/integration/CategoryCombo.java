@@ -15,8 +15,8 @@ public class CategoryCombo extends BaseOpenmrsObject {
 	private String name;
 	private String code;
 	private String uid;
-	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>();
-	private Set<OptionSet> optionSets=  new HashSet<OptionSet>();
+	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>(0);
+	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
 	private IntegrationServer integrationServer;
 
 	@Override
