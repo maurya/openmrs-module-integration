@@ -5,19 +5,25 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
+		$('#addOrEditPopup').dialog({
+			autoOpen: false,
+			modal: true,
+			title: 'Map Data Element',
+			width: '90%'
+		});
+		
 		$(".integration-data-table").dataTable( {
 			"bPaginate": true,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
-			"bFilter": true,
+			"bFilter": false,
 			"bSort": true,
 			"bInfo": true,
 			"bAutoWidth": false
 		} );
 
-		$('.neworedit').hide();
 		$(".cancel").click( function() {
-			$('.neworedit').hide();
+			$('#addOrEditPopup').dialog('close');	
 			
 		});
 	} );
@@ -27,7 +33,7 @@
 			$("#id").val(id);
 			$("#dataElementName").val($.trim($("#name"+id).html()));
 			$("#mappedDataElement").val($.trim($("#mappedobjectid"+id).html()));
-					$('.neworedit').show();
+			$('#addOrEditPopup').dialog('open');
 		}
 		function saveDataElement() {
 	
@@ -46,47 +52,41 @@
 		}
 
 </script>
-<h2>Report Template : ${reportTemplate.reportTemplateName}</h2>
+<h2><spring:message code="integration.dhis.reportTemplate"/> : ${reportTemplate.reportTemplateName}</h2>
 	
 		<div >
 		       			<table class="integration-data-table display">
 			<thead>
 				<tr>
-					<th>Data Element Name</th>
-					<th>Code</th>
-					<th>uid</th>
-					<th>Mapped Object Id</th>
-					<th>Category Options</th>
-					<th>Last Updated</th>
-					<th align="center" width="1%">Edit mappings</th>
+					<th><spring:message code="integration.dhis.dataElement"/></th>
+					<th><spring:message code="integration.general.code"/></th>
+					<th><spring:message code="integration.general.mappedTo"/></th>
+					<th><spring:message code="integration.dhis.categoryCombo"/></th>
+					<th><spring:message code="integration.general.lastUpdated"/></th>
+					<th align="center" width="1%"><spring:message code="integration.general.lastUpdated"/><spring:message code="integration.general.editMapping"/></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${DataElementToCategoryOptionDictionary}" var="key" >
-					<tr id="${key.key.dataElementId}">
-						<td width="10%" id="name${key.key.dataElementId}" >
-							${key.key.dataElementName}
+				<c:forEach items="${DataElementToCategoryComboDictionary}" var="element" >
+					<tr id="${element.key.dataElementId}">
+						<td width="10%" id="name${element.key.dataElementId}" >
+							${element.key.dataElementName}
 						</td>
-						<td width="10%" id="code${key.key.dataElementId}">
-							${key.key.dataElementCode}
+						<td width="10%" id="code${element.key.dataElementId}">
+							${element.key.dataElementCode}
 						</td>
-						<td width="10%" id="uid${key.key.dataElementId}">
-							${key.key.dataElementUid}
-						</td>
-						<td width="10%" id="mappedobjectid${key.key.dataElementId}">
-							${key.key.cohortDefinitionUuid}
+						<td width="10%" id="mappedobjectid${element.key.dataElementId}">
+							${element.key.cohortDefinitionUuid}
 						</td>
 						<td width="20%">
-							<c:forEach items="${key.value}" var="categoryOption" >
-							<p>${categoryOption.name}</p>
-							</c:forEach>
+						${element.value.name}
 						</td>
 						<td width="20%">
 							${key.key.lastUpdated}
 						</td>
 						<td width="1%" align="center" nowrap>
 							&nbsp;
-							<a href="javascript:editDataElement('${key.key.dataElementId}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
+							<a href="javascript:editDataElement('${element.key.dataElementId}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapDataElement"/>'/></a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -95,29 +95,21 @@
 			</tfoot>
 		</table>
 		</div>
-		
-			<div id="neworedit" class="neworedit" >
-		<b class="boxHeader">
-			
-				
-				Data Element Mapping
-				
-				
-			
-		</b>
-		<div class="box" >
-				<form method="post" id="detailsedit" >
+		<div id="addOrEditPopup">
+					<b class="boxHeader"><spring:message code="integration.dhis.dataElement"/> <spring:message code="integration.Mapping"/></b>
+					<div class="box">
+					<form method="post" id="detailsedit" >
 					<table>
 						<tbody>	
 							<tr>
-								<td>Data Element</td>
+								<td><spring:message code="integration.dhis.dataElement"/></td>
 								<td>:</td>
 								<td>
 								<input id="id" type="hidden"/>
 								<input id="dataElementName" type="text" size="40" /></td>
 							</tr>
 							<tr>
-								<td>Mapped DataElement</td>
+								<td><spring:message code="integration.general.mappedTo"/></td>
 								<td>:</td>
 								<td>
 								<input id="mappedDataElement" type="text" size="40" /></td>
@@ -132,13 +124,13 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td><a href="javascript:saveDataElement();"><input type="button" value="Save" /> </a><input
-								type="reset" value="Cancel" class="cancel">
+								<td><a href="javascript:saveDataElement();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
+								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
+					</div>					
 		</div>
-</div>
 <%@ include file="/WEB-INF/template/footer.jsp"%>

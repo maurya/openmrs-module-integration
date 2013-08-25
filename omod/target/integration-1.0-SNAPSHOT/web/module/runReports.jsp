@@ -6,10 +6,10 @@
 	$(document).ready(function() {
 		
 		$(".report-table").dataTable( {
-			"bPaginate": true,
+			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
-			"bFilter": true,
+			"bFilter": false,
 			"bSort": true,
 			"bInfo": true,
 			"bAutoWidth": false
@@ -17,18 +17,17 @@
 	} );
 
 </script>
-<h2>Reports To Run</h2>
+<h2><spring:message code="integration.header.reportsToRun"/></h2>
 
 <div >
 		   <table class="report-table display">
 			<thead>
 				<tr>
-					<th>Report Template Name</th>
-					<th>Code</th>
-					<th>Periodicity</th>
-					<th>Report Mapped To</th>
-					<th>Last Updated</th>
-					<th align="center" width="1%">Actions</th>
+					<th><spring:message code="integration.general.name"/></th>
+					<th><spring:message code="integration.general.code"/></th>
+					<th><spring:message code="integration.general.frequency"/></th>
+					<th><spring:message code="integration.general.reportMappedTo"/></th>
+					<th align="center" width="1%"><spring:message code="integration.general.actions"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,17 +40,14 @@
 							${report.reportTemplateCode}
 						</td>
 						<td width="10%" id="frequency${report.reportTemplateId}">
-							${reportTemplate.frequency}
+							${report.frequency}
 						</td>
 						<td width="10%" id="mappedReport${report.reportTemplateId}">
-							${report.mappedReportName}
-						</td>
-						<td width="10%" id="lastUpdated${report.reportTemplateId}">
-							${report.lastUpdated}
+							${report.mappedReportUuid}
 						</td>
 						<td align="center" nowrap>
 							&nbsp;
-							<a href=""><img src="<c:url value='/images/play.gif'/>" border="0"/></a>
+							<a href=""><img src="<c:url value='/images/play.gif'/>" border="0" title='<spring:message code="integration.runReports"/>'/></a>
 							
 						</td>
 					</tr>

@@ -37,6 +37,10 @@ public interface DhisDAO {
 		
 		ReportTemplate getReportTemplateByUuid(String uuid);
 		
+		ReportTemplate getReportTemplateByUid(String uid,IntegrationServer integrationServer);
+		
+		ReportTemplate getReportTemplateByCode(String code,IntegrationServer integrationServer);
+		
 		List<ReportTemplate> getAllReportTemplates();
 		
 		List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer);
@@ -49,6 +53,10 @@ public interface DhisDAO {
 		OrgUnit getOrgUnitById(Integer id);
 		
 		OrgUnit getOrgUnitByUuid(String uuid);
+		
+		OrgUnit getOrgUnitByUid(String uid,IntegrationServer integrationServer);
+		
+		OrgUnit getOrgUnitByCode(String code,IntegrationServer integrationServer);
 		
 		List<OrgUnit> getAllOrgUnits();
 		
@@ -65,6 +73,10 @@ public interface DhisDAO {
 		DataElement getDataElementById(Integer id);
 		
 		DataElement getDataElementByUuid(String uuid);
+		
+		DataElement getDataElementByUid(String uid,IntegrationServer integrationServer);
+		
+		DataElement getDataElementByCode(String code,IntegrationServer integrationServer);
 		
 		List<DataElement> getDataElementsByServer(IntegrationServer integrationServer);
 			
@@ -93,6 +105,10 @@ public interface DhisDAO {
 		
 		CategoryCombo getCategoryComboByUuid(String uuid);
 		
+		CategoryCombo getCategoryComboByUid(String uid,IntegrationServer integrationServer);
+		
+		CategoryCombo getCategoryComboByCode(String code,IntegrationServer integrationServer);
+		
 		List<CategoryCombo> getCategoryComboByServer(IntegrationServer integrationServer);
 		
 		CategoryCombo saveCategoryCombo(CategoryCombo CategoryCombo);
@@ -106,6 +122,10 @@ public interface DhisDAO {
 		
 		CategoryOption getCategoryOptionByUuid(String uuid);
 		
+		CategoryOption getCategoryOptionByUid(String uid,IntegrationServer integrationServer);
+		
+		CategoryOption getCategoryOptionByCode(String code,IntegrationServer integrationServer);
+		
 		List<CategoryOption> getCategoryOptionByServer(IntegrationServer integrationServer);
 		
 		CategoryOption saveCategoryOption(CategoryOption CategoryOption);
@@ -118,6 +138,10 @@ public interface DhisDAO {
 		
 		OptionSet getOptionSetByUuid(String uuid);
 		
+		OptionSet getOptionSetByUid(String uid,IntegrationServer integrationServer);
+		
+		OptionSet getOptionSetByCode(String code,IntegrationServer integrationServer);
+		
 		List<OptionSet> getOptionSetsByServer(IntegrationServer integrationServer);
 		
 		OptionSet saveOptionSet(OptionSet OptionSet);
@@ -129,6 +153,10 @@ public interface DhisDAO {
 	Option getOptionById(Integer id);
 	
 	Option getOptionByUuid(String uuid);
+	
+	Option getOptionByUid(String uid,IntegrationServer integrationServer);
+	
+	Option getOptionByCode(String code,IntegrationServer integrationServer);
 	
 	List<Option> getOptionsByServer(IntegrationServer integrationServer);
 	
