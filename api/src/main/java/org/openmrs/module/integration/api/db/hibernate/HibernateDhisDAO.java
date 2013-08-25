@@ -93,8 +93,27 @@ public class HibernateDhisDAO implements DhisDAO{
 		@Override
 		public ReportTemplate getReportTemplateByUuid(String uuid) {
 			return (ReportTemplate) sessionFactory.getCurrentSession().createCriteria(ReportTemplate.class)
-			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();	}
+			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();	
+			
+		}
 
+		@Override
+		public ReportTemplate getReportTemplateByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (ReportTemplate) sessionFactory.getCurrentSession().createCriteria(ReportTemplate.class)
+					.add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public ReportTemplate getReportTemplateByCode(String code,
+				IntegrationServer integrationServer) {
+			return (ReportTemplate) sessionFactory.getCurrentSession().createCriteria(ReportTemplate.class)
+					.add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
 
 		@Override
 		public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer) {
@@ -140,6 +159,25 @@ public class HibernateDhisDAO implements DhisDAO{
 			return (OrgUnit) sessionFactory.getCurrentSession().createCriteria(OrgUnit.class)
 			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
 		}
+		
+		@Override
+		public OrgUnit getOrgUnitByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (OrgUnit) sessionFactory.getCurrentSession().createCriteria(OrgUnit.class)
+					.add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public OrgUnit getOrgUnitByCode(String code,
+				IntegrationServer integrationServer) {
+			return (OrgUnit) sessionFactory.getCurrentSession().createCriteria(OrgUnit.class)
+					.add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
 
 		@Override
 		public List<OrgUnit> getAllOrgUnits() {
@@ -193,6 +231,24 @@ public class HibernateDhisDAO implements DhisDAO{
 		public DataElement getDataElementByUuid(String uuid) {
 			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
 			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
+		}
+		
+		@Override
+		public DataElement getDataElementByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
+					.add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public DataElement getDataElementByCode(String code,
+				IntegrationServer integrationServer) {
+			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
+					.add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
 		}
 
 		@Override
@@ -282,6 +338,24 @@ public class HibernateDhisDAO implements DhisDAO{
 		}
 
 		@Override
+		public CategoryCombo getCategoryComboByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (CategoryCombo) sessionFactory.getCurrentSession().createCriteria(CategoryCombo.class)
+					.add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public CategoryCombo getCategoryComboByCode(String code,
+				IntegrationServer integrationServer) {
+			return (CategoryCombo) sessionFactory.getCurrentSession().createCriteria(CategoryCombo.class)
+					.add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+		
+		@Override
 		public List<CategoryCombo> getCategoryComboByServer(
 				IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
@@ -315,6 +389,25 @@ public class HibernateDhisDAO implements DhisDAO{
 			return (CategoryOption) sessionFactory.getCurrentSession().createCriteria(CategoryOption.class)
 			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
 		}
+		
+		@Override
+		public CategoryOption getCategoryOptionByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (CategoryOption) sessionFactory.getCurrentSession().createCriteria(CategoryOption.class)
+					.add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public CategoryOption getCategoryOptionByCode(String code,
+				IntegrationServer integrationServer) {
+			return (CategoryOption) sessionFactory.getCurrentSession().createCriteria(CategoryOption.class)
+					.add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
 
 		@Override
 		public List<CategoryOption> getCategoryOptionByServer(IntegrationServer integrationServer) {
@@ -348,6 +441,26 @@ public class HibernateDhisDAO implements DhisDAO{
 			return (OptionSet) sessionFactory.getCurrentSession().createCriteria(OptionSet.class)
 			        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
 		}
+		
+		@Override
+		public OptionSet getOptionSetByUid(String uid,
+				IntegrationServer integrationServer) {
+			return (OptionSet) sessionFactory.getCurrentSession().createCriteria(OptionSet.class)
+			        .add(Restrictions.eq("uid", uid))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		@Override
+		public OptionSet getOptionSetByCode(String code,
+				IntegrationServer integrationServer) {
+			return (OptionSet) sessionFactory.getCurrentSession().createCriteria(OptionSet.class)
+			        .add(Restrictions.eq("code", code))
+			        .add(Restrictions.eq("integrationServer", integrationServer))
+			        .uniqueResult();
+		}
+
+		
 
 		@Override
 		public List<OptionSet> getOptionSetsByServer(
@@ -383,6 +496,23 @@ public class HibernateDhisDAO implements DhisDAO{
 		return (Option) sessionFactory.getCurrentSession().createCriteria(Option.class)
 		        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
 	}
+	
+	@Override
+	public Option getOptionByUid(String uid, IntegrationServer integrationServer) {
+		return (Option) sessionFactory.getCurrentSession().createCriteria(Option.class)
+		        .add(Restrictions.eq("uid", uid))
+		        .add(Restrictions.eq("integrationServer", integrationServer))
+		        .uniqueResult();
+	}
+
+	@Override
+	public Option getOptionByCode(String code,
+			IntegrationServer integrationServer) {
+		return (Option) sessionFactory.getCurrentSession().createCriteria(Option.class)
+		        .add(Restrictions.eq("code", code))
+		        .add(Restrictions.eq("integrationServer", integrationServer))
+		        .uniqueResult();
+	}
 
 	@Override
 	public List<Option> getOptionsByServer(IntegrationServer integrationServer) {
@@ -402,6 +532,16 @@ public class HibernateDhisDAO implements DhisDAO{
 	public void deleteOption(Option Option) {
 			sessionFactory.getCurrentSession().delete(Option);
 	}
+
+	
+
+	
+
+
+	
+
+	
+
 
 //	@Override
 //	public List<OptionSet> getOptionSetsByReportTemplate(

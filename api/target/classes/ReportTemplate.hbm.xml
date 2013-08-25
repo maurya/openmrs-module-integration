@@ -33,6 +33,13 @@
  			<property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
 				
+		 <set name="dataValueTemplates" table="dhis_datavaluetemplate">
+        	<key>
+            	<column name="reporttemplate_id" not-null="true" />
+        	</key>
+        <one-to-many class="org.openmrs.module.integration.DataValueTemplate" />
+    	</set>
+				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">
 			<column name="server_Id" />

@@ -19,15 +19,19 @@
 			not-null="true" length="50" />		
 			
 
-		<set name="options" table="dhis_categoryoption_option" lazy="false">
+		<set name="options" table="dhis_categoryoption_option">
             <key column="categoryoption_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.Option" column="option_id" />
+             <many-to-many entity-name="org.openmrs.module.integration.Option">
+                <column name="option_id" not-null="true" />
+            </many-to-many>
         </set>	
      
         
-        <set name="categoryCombos" table="dhis_categoryoption_option" >
+        <set name="categoryCombos" table="dhis_catcombo_combooption" lazy="false">
             <key column="catoption_id" not-null="true" />
-            <many-to-many class="org.openmrs.module.integration.CategoryCombo" column="catcombo_id" />
+             <many-to-many entity-name="org.openmrs.module.integration.CategoryCombo">
+                <column name="catcombo_id" not-null="true" />
+            </many-to-many>
         </set>	
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"

@@ -14,6 +14,7 @@ public class Option extends BaseOpenmrsObject {
 	private int optionId;
 	private String name;
 	private String code;
+	private String uid;
 	private String cohortdefUuid;
 	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>(0);
 	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
@@ -51,6 +52,14 @@ public class Option extends BaseOpenmrsObject {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	
 	public String getCohortdefUuid() {

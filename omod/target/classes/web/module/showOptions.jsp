@@ -4,31 +4,35 @@
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		
+		$('#addOrEditPopup').dialog({
+			autoOpen: false,
+			modal: true,
+			title: 'Map Option',
+			width: '90%'
+		});
 		$(".integration-data-table").dataTable( {
-			"bPaginate": true,
+			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
-			"bFilter": true,
+			"bFilter": false,
 			"bSort": true,
 			"bInfo": true,
 			"bAutoWidth": false
 		} );
-		$('.neworedit').hide();
 		$(".cancel").click( function() {
-			$('.neworedit').hide();
+			$('#addOrEditPopup').dialog('close');	
 			
 		});
 	} );
 
-	function editOptionSet(id) {
+	function editOption(id) {
 	
 			$("#id").val(id);
 			$("#optionName").val($.trim($("#name"+id).html()));
 			$("#mappedOption").val($.trim($("#mapped"+id).html()));
-					$('.neworedit').show();
+			$('#addOrEditPopup').dialog('open');
 		}
-		function saveOptionSet() {
+		function saveOption() {
 	
 			var mapped=$("#mappedOption").val();
 		var idmap=$("#id").val();
@@ -44,50 +48,41 @@
 		            });
 		}
 </script>
-<h2>Report Template : ${reportTemplate.reportTemplateName}</h2>
+<h2><spring:message code="integration.header.optionSetsReport"/> : ${reportTemplate.reportTemplateName}</h2>
 	
 		<div >
 		       			<table class="integration-data-table display">
 			<thead>
 				<tr>
-					<th>Option Set</th>
-					<th>Code</th>
-					<th>uid</th>
-					<th>Category Option</th>
-					<th>Category Option Type</th>	
-					<th>Last Updated</th>
-					<th align="center" width="1%">Edit mappings</th>
+					<th><spring:message code="integration.dhis.optionSet"/></th>
+					<th><spring:message code="integration.general.code"/></th>
+					<th><spring:message code="integration.general.mappedTo"/></th>
+					<th><spring:message code="integration.dhis.options"/></th>
+					<th><spring:message code="integration.general.mappedTo"/></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${OptionList}" var="option" >
+				<c:forEach items="${OptionSetList}" var="optionset" >
 					<tr>
 						<td width="10%">
-							${option.setName}
+							${optionset.name}
 						</td>
 						<td width="10%">
-							${option.setCode}
+							${optionset.code}
 						</td>
 						<td width="10%">
-							${option.uuid}
+							${optionset.uid}
 						</td>
 						<td width="20%">
-						<c:forEach items="${option.categoryOptions}" var="categoryOption" >
-							<p>${categoryOption.name}</p>
+						<c:forEach items="${optionset.options}" var="option" >
+							<p><label id="name${option.id}">${option.name}</label><a href="javascript:editOption('${option.id}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapOption"/>'/></a></p>
 							</c:forEach>
 						</td>
-						<td width="20%">
-						<c:forEach items="${option.categoryOptions}" var="categoryOption" >
-							<p>${categoryOption.comboName}</p>
+						<td>
+						<c:forEach items="${optionset.options}" var="option" >
+							<p><label id="mapped${option.id}">${option.cohortdefUuid}</label></p>
 							</c:forEach>
-						</td>
-						<td width="20%">
-							${option.lastUpdated}
-						</td>
-						<td width="1%" align="center" nowrap>
-							&nbsp;
-							<a href=""><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
-						</td>
+						</td>	
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -95,78 +90,21 @@
 			</tfoot>
 		</table>
 		</div>
-		
-		<div >
-		       			<table class="integration-data-table display">
-			<thead>
-				<tr>
-					<th>Option Name</th>
-					<th>Code</th>
-					<th>uid</th>
-					<th>Mapped Object Id</th>
-					<th>Option Set Name</th>
-					<th>Option Sets</th>	
-					<th>Last Updated</th>
-					<th align="center" width="1%">Edit mappings</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${OptionList}" var="option" >
-					<tr id="${option.optionId}">
-						<td width="10%" id="name${option.optionId}">
-							${option.name}
-						</td>
-						<td width="10%" id="$code{option.optionId}">
-							${option.code}
-						</td>
-						<td width="10%" id="uuid${option.optionId}">
-							${option.uuid}
-						</td>
-						<td width="10%" id="mapped${option.optionId}">
-							${option.mappedObjectId}
-						</td>
-						<td width="20%">
-						${option.setName}
-						</td>
-						<td width="20%">
-						${option.setCode}
-						</td>
-						<td width="20%" id="lastUpdated${option.optionId}">
-							${option.lastUpdated}
-						</td>
-						<td width="1%" align="center" nowrap>
-							&nbsp;
-							<a href="javascript:editOptionSet('${option.optionId}');"><img src="<c:url value='/images/edit.gif'/>" border="0"/></a>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-			<tfoot>
-			</tfoot>
-		</table>
-		</div>
-			<div id="neworedit" class="neworedit" >
-		<b class="boxHeader">
-			
-				
-				Option Mapping
-				
-				
-			
-		</b>
-		<div class="box" >
-				<form method="post" id="detailsedit" >
+		<div id="addOrEditPopup">
+					<b class="boxHeader"><spring:message code="integration.dhis.option"/> <spring:message code="integration.Mapping"/></b>
+					<div class="box">
+					<form method="post" id="detailsedit" >
 					<table>
 						<tbody>	
 							<tr>
-								<td>Option</td>
+								<td><spring:message code="integration.dhis.option"/></td>
 								<td>:</td>
 								<td>
 								<input id="id" type="hidden"/>
 								<input id="optionName" type="text" size="40" /></td>
 							</tr>
 							<tr>
-								<td>Mapped Option</td>
+								<td><spring:message code="integration.general.mappedTo"/></td>
 								<td>:</td>
 								<td>
 								<input id="mappedOption" type="text" size="40" /></td>
@@ -181,13 +119,13 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td><a href="javascript:saveOptionSet();"><input type="button" value="Save" /> </a><input
-								type="reset" value="Cancel" class="cancel">
+								<td><a href="javascript:saveOption();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
+								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
+					</div>					
 		</div>
-</div>
 <%@ include file="/WEB-INF/template/footer.jsp"%>

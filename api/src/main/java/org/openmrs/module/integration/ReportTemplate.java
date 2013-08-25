@@ -1,6 +1,8 @@
 package org.openmrs.module.integration;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +19,7 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	private String uid;
 	private Date lastUpdated;
 	private IntegrationServer integrationServer;
+	private Set<DataValueTemplate> dataValueTemplates = new HashSet<DataValueTemplate>(0);
 
 	@Override
 	public Integer getId() {
@@ -88,5 +91,13 @@ public class ReportTemplate extends BaseOpenmrsObject {
     public IntegrationServer getIntegrationServer()
     {
         return this.integrationServer;
+    }
+    
+    public Set<DataValueTemplate> getDataValueTemplates() {
+        return dataValueTemplates;
+    }
+ 
+    public void setDataValueTemplates(Set<DataValueTemplate> dataValueTemplates) {
+        this.dataValueTemplates = dataValueTemplates;
     }
 }
