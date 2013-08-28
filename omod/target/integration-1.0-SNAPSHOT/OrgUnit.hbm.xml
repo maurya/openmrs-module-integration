@@ -28,8 +28,7 @@
 			<column name="server_Id" />
 		</many-to-one>
 		
-		<many-to-one name="parentOrg" class="org.openmrs.module.integration.OrgUnit"
-			not-null="true">
+		<many-to-one name="parentOrg" class="org.openmrs.module.integration.OrgUnit">
 			<column name="parent_uid" />
 		</many-to-one>
 		

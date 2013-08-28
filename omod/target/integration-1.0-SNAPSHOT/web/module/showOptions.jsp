@@ -1,15 +1,18 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="localHeader.jsp" %>
 <%@ include file="localInclude.jsp" %>
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$('#addOrEditPopup').dialog({
+		
+		$('.addOrEditPopup').dialog({
 			autoOpen: false,
 			modal: true,
 			title: 'Map Option',
 			width: '90%'
 		});
+		
 		$(".integration-data-table").dataTable( {
 			"bPaginate": false,
 			"iDisplayLength": 25,
@@ -19,18 +22,21 @@
 			"bInfo": true,
 			"bAutoWidth": false
 		} );
+		
 		$(".cancel").click( function() {
-			$('#addOrEditPopup').dialog('close');	
+			
+			var id=this.id.replace("cancel","");
+			$('#addOrEditPopup'+id).dialog('close');	
 			
 		});
+
 	} );
 
 	function editOption(id) {
 	
 			$("#id").val(id);
 			$("#optionName").val($.trim($("#name"+id).html()));
-			$("#mappedOption").val($.trim($("#mapped"+id).html()));
-			$('#addOrEditPopup').dialog('open');
+			$('#addOrEditPopup'+id).dialog('open');
 		}
 		function saveOption() {
 	
@@ -81,51 +87,17 @@
 						<td>
 						<c:forEach items="${optionset.options}" var="option" >
 							<p><label id="mapped${option.id}">${option.cohortdefUuid}</label></p>
+							<div id="addOrEditPopup${option.id}" class="addOrEditPopup">
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="mappedCohort=xxx|type=Option|portletId=${option.id}" />
+							</div>
 							</c:forEach>
 						</td>	
 					</tr>
+					
 				</c:forEach>
 			</tbody>
 			<tfoot>
 			</tfoot>
 		</table>
-		</div>
-		<div id="addOrEditPopup">
-					<b class="boxHeader"><spring:message code="integration.dhis.option"/> <spring:message code="integration.Mapping"/></b>
-					<div class="box">
-					<form method="post" id="detailsedit" >
-					<table>
-						<tbody>	
-							<tr>
-								<td><spring:message code="integration.dhis.option"/></td>
-								<td>:</td>
-								<td>
-								<input id="id" type="hidden"/>
-								<input id="optionName" type="text" size="40" /></td>
-							</tr>
-							<tr>
-								<td><spring:message code="integration.general.mappedTo"/></td>
-								<td>:</td>
-								<td>
-								<input id="mappedOption" type="text" size="40" /></td>
-							</tr>
-							
-						
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td><a href="javascript:saveOption();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
-								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-					</div>					
 		</div>
 <%@ include file="/WEB-INF/template/footer.jsp"%>
