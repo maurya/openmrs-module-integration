@@ -1,6 +1,9 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>	
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
+		alert(${model.type});
+		alert(${model.mappedCohort});
+		alert(${model.portletId});
 	});
 		</script>
 		<div>

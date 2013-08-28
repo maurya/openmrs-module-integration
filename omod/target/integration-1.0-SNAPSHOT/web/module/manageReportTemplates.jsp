@@ -181,10 +181,9 @@
 							</c:forEach>
 						</td>
 						<td width="10%" id="categoryCombo${element.key.id}">
-							${element.value.name}
+							${element.key.name}
 						</td>
 						<td width="10%" id="optionSets${element.key.id}">
-							${reportTemplate.frequency}
 							<c:forEach items="${element.key.optionSets}" var="optionSet" >
 							<p>${optionSet.name}</p>
 							</c:forEach>

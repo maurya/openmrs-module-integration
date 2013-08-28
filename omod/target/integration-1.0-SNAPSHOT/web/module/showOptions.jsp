@@ -88,7 +88,7 @@
 						<c:forEach items="${optionset.options}" var="option" >
 							<p><label id="mapped${option.id}">${option.cohortdefUuid}</label></p>
 							<div id="addOrEditPopup${option.id}" class="addOrEditPopup">
-						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="type=Option|mappedCohort=77|portletId=99" />
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="mappedCohort=xxx|type=Option|portletId=${option.id}" />
 							</div>
 							</c:forEach>
 						</td>	

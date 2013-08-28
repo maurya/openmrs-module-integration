@@ -28,8 +28,8 @@ public class MappingCohortController extends PortletController {
 		CohortDefinitionService cs=Context.getService(CohortDefinitionService.class);
 		List<CohortDefinition> cohortList=cs.getAllDefinitions(false);
 		String s=request.getParameter("portletId");
-		model.put("portletId", request.getParameter("portletId"));
-		model.put("mappedCohort", request.getParameter("mappedCohort"));
+		//model.put("portletId", request.getParameter("portletId"));
+		//model.put("mappedCohort", request.getParameter("mappedCohort"));
 		model.put("cohorts", cohortList);
 		
 
