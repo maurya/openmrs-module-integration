@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="localHeader.jsp" %>
 <%@ include file="localInclude.jsp" %>
 <!-- <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" /> -->
 <script type="text/javascript" charset="utf-8">

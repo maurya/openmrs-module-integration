@@ -1,19 +1,21 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="localHeader.jsp" %>
 <%@ include file="localInclude.jsp" %>
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
-		$('#addOrEditPopup').dialog({
+		$('.addOrEditPopup').dialog({
 			autoOpen: false,
 			modal: true,
 			title: 'Map Data Element',
 			width: '90%'
 		});
 		
+		
 		$(".integration-data-table").dataTable( {
-			"bPaginate": true,
+			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
 			"bFilter": false,
@@ -23,21 +25,19 @@
 		} );
 
 		$(".cancel").click( function() {
-			$('#addOrEditPopup').dialog('close');	
+			var id=this.id.replace("cancel","");
+			$('#addOrEditPopup'+id.trim()).dialog('close');	
 			
 		});
 	} );
 
 	function editDataElement(id) {
-	
-			$("#id").val(id);
-			$("#dataElementName").val($.trim($("#name"+id).html()));
-			$("#mappedDataElement").val($.trim($("#mappedobjectid"+id).html()));
-			$('#addOrEditPopup').dialog('open');
+			
+			$('#addOrEditPopup'+id).dialog('open');
 		}
-		function saveDataElement() {
+		function saveDataElement(id) {
 	
-			var mapped=$("#mappedDataElement").val();
+			var mapped=$("#mappedDataElement"+id).val();
 		var idmap=$("#id").val();
 				 $.post("${pageContext.request.contextPath}/module/integration/saveDataElementMapping.form",{mappedDataElement: mapped,id: idmap},function() {
 		               //alert('got data');
@@ -89,48 +89,14 @@
 							<a href="javascript:editDataElement('${element.key.dataElementId}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapDataElement"/>'/></a>
 						</td>
 					</tr>
+					<div id="addOrEditPopup${element.key.dataElementId}" class="addOrEditPopup">
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${element.key.dataElementId}" moduleId="integration" parameters="type=DataElement| mappedCohort=${element.key.cohortDefinitionUuid}| id=${element.key.dataElementId}" />
+				</div>
 				</c:forEach>
 			</tbody>
 			<tfoot>
 			</tfoot>
 		</table>
 		</div>
-		<div id="addOrEditPopup">
-					<b class="boxHeader"><spring:message code="integration.dhis.dataElement"/> <spring:message code="integration.Mapping"/></b>
-					<div class="box">
-					<form method="post" id="detailsedit" >
-					<table>
-						<tbody>	
-							<tr>
-								<td><spring:message code="integration.dhis.dataElement"/></td>
-								<td>:</td>
-								<td>
-								<input id="id" type="hidden"/>
-								<input id="dataElementName" type="text" size="40" /></td>
-							</tr>
-							<tr>
-								<td><spring:message code="integration.general.mappedTo"/></td>
-								<td>:</td>
-								<td>
-								<input id="mappedDataElement" type="text" size="40" /></td>
-							</tr>
-							
-						
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td><a href="javascript:saveDataElement();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
-								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-					</div>					
-		</div>
+		
 <%@ include file="/WEB-INF/template/footer.jsp"%>

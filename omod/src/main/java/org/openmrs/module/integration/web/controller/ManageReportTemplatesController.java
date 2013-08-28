@@ -1,9 +1,13 @@
 package org.openmrs.module.integration.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openmrs.api.context.Context;
+import org.openmrs.module.integration.CategoryCombo;
+import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
@@ -26,6 +30,24 @@ public class ManageReportTemplatesController {
 		List<ReportTemplate> reportTemplates = new ArrayList<ReportTemplate>();
 		reportTemplates=dhisService.getReportTemplatesByServer(server);
 		model.addAttribute("reportTemplates",reportTemplates);
+		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary= new HashMap<DataElement, CategoryCombo>();
+		for(ReportTemplate r: reportTemplates){
+			DataElementToCategoryComboDictionary.putAll(dhisService.getDataElementToCategoryComboDictionaryByReportTemplate(r));		
+		}
+		Map<CategoryCombo,List<DataElement>> CategoryComboToDataElementDictionary = new HashMap<CategoryCombo,List<DataElement>>();
+		
+		List<DataElement> temporaryDataElementList=new ArrayList<DataElement>();
+		
+		for(Map.Entry<DataElement,CategoryCombo> entry : DataElementToCategoryComboDictionary.entrySet()){
+			
+			temporaryDataElementList=CategoryComboToDataElementDictionary.get(entry.getValue());
+			if(temporaryDataElementList== null){	
+				temporaryDataElementList=new ArrayList<DataElement>();
+				CategoryComboToDataElementDictionary.put(entry.getValue(), temporaryDataElementList);
+			}
+			temporaryDataElementList.add(entry.getKey());		
+		}
+		model.addAttribute("CategoryComboToDataElementDictionary",CategoryComboToDataElementDictionary);
 	}
 	
 	@RequestMapping(value = "/module/integration/saveReportTemplateMapping", method = RequestMethod.POST)

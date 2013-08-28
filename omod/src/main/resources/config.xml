@@ -22,7 +22,7 @@
 		<require_module version="0.7.8-SNAPSHOT">
 			org.openmrs.module.reporting
 		</require_module>
-			
+		
 	</require_modules>
 	<!-- / Required Modules -->
 	

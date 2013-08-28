@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
+<%@ include file="localHeader.jsp" %>
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
@@ -159,5 +160,41 @@
 				</form>
 					</div>
 					</div>
+			<div >
+			<br/>
+
+		       			<table class="integration-data-table display">
+			<thead>
+				<tr>
+					<th><spring:message code="integration.dhis.dataElement"/></th>
+					<th><spring:message code="integration.dhis.categoryCombo"/></th>
+					<th><spring:message code="integration.dhis.optionSet"/></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${CategoryComboToDataElementDictionary}" var="element" >
+					<tr id="${element.key.id}">
+					
+						<td width="10%" id="dataElementCollection${element.key.id}" >
+							<c:forEach items="${element.value}" var="dataElement" >
+							<p id="dataElement${element.key.id}">${dataElement.dataElementName}</p>
+							</c:forEach>
+						</td>
+						<td width="10%" id="categoryCombo${element.key.id}">
+							${element.value.name}
+						</td>
+						<td width="10%" id="optionSets${element.key.id}">
+							${reportTemplate.frequency}
+							<c:forEach items="${element.key.optionSets}" var="optionSet" >
+							<p>${optionSet.name}</p>
+							</c:forEach>
+						</td>
+					</tr>
+				</c:forEach>	
+			</tbody>
+			<tfoot>
+			</tfoot>
+		</table>
+		</div>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>
