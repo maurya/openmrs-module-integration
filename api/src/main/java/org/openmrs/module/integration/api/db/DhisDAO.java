@@ -1,7 +1,6 @@
 package org.openmrs.module.integration.api.db;
 
 import java.util.List;
-import java.util.Set;
 
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -12,7 +11,6 @@ import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
-import org.openmrs.module.integration.api.DhisService;
 
 public interface DhisDAO {
 	

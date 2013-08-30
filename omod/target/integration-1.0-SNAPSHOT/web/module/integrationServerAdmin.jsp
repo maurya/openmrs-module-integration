@@ -51,6 +51,7 @@
 			$("#password").val($.trim($("#spassword"+id).html()));
 			$("#emailurl").val($.trim($("#semail"+id).html()));
 			$("#masterTemplate").val($.trim($("#smasterTemplate"+id).html()));
+			$("#transportType").val($.trim($("#stransportType"+id).html()));
 
 					$('#addOrEditPopup').dialog('open');
 		}
@@ -99,6 +100,9 @@
 						</td>
 						<td id="smasterTemplate${serverItem.integrationServerId}" STYLE=display:NONE>
 							${serverItem.masterTemplate}
+						</td>
+						<td id="stransportType${serverItem.transportType}" STYLE=display:NONE>
+							${serverItem.transportType}
 						</td>
 						<td width="1%" align="center" nowrap >
 						&nbsp;
@@ -166,10 +170,10 @@
 								<td><spring:message code="integration.general.transport"/></td>
 								<td>:</td>
 								<td>
-									<select>
+									<form:select path="transportType" id="transportType">
 									  <option value="Email"><spring:message code="integration.general.email"/></option>
 									  <option value="Url"><spring:message code="integration.general.url"/></option>
-									</select>
+									</form:select>
 									<form:input path="emailorurl" id="emailurl" size="20"/>
 								</td>
 							</tr>

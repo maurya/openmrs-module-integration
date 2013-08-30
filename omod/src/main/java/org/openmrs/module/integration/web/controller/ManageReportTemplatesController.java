@@ -30,6 +30,17 @@ public class ManageReportTemplatesController {
 		List<ReportTemplate> reportTemplates = new ArrayList<ReportTemplate>();
 		reportTemplates=dhisService.getReportTemplatesByServer(server);
 		model.addAttribute("reportTemplates",reportTemplates);
+		
+		ReportDefinitionService rds=Context.getService(ReportDefinitionService.class);
+
+		List<ReportDefinition> reportList=rds.getAllDefinitions(false);
+		Map<String,ReportDefinition> uuidToReportDefinitionMap=new HashMap<String, ReportDefinition>();
+		for(ReportDefinition r: reportList){
+			
+			uuidToReportDefinitionMap.put(r.getUuid(), r);
+		}
+		model.addAttribute("uuidToReportDefinitionMap",uuidToReportDefinitionMap);
+		
 		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary= new HashMap<DataElement, CategoryCombo>();
 		for(ReportTemplate r: reportTemplates){
 			DataElementToCategoryComboDictionary.putAll(dhisService.getDataElementToCategoryComboDictionaryByReportTemplate(r));		

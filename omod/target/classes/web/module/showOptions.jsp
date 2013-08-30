@@ -34,15 +34,14 @@
 
 	function editOption(id) {
 	
-			$("#id").val(id);
-			$("#optionName").val($.trim($("#name"+id).html()));
+			$("#id"+id).val(id);
+			$("#OptionName"+id).val($.trim($("#name"+id).html()));
 			$('#addOrEditPopup'+id).dialog('open');
 		}
-		function saveOption() {
+		function saveOption(id) {
 	
-			var mapped=$("#mappedOption").val();
-		var idmap=$("#id").val();
-				 $.post("${pageContext.request.contextPath}/module/integration/saveOptionsSetMapping.form",{mappedOption: mapped,id: idmap},function() {
+			var uuid=$("#cohorts"+id).val();
+				 $.post("${pageContext.request.contextPath}/module/integration/saveOptionsSetMapping.form",{uuid: uuid,id: id},function() {
 		               //alert('got data');
 		            }).error(function() {
 		               // alert('Unable load Templates');
@@ -86,9 +85,9 @@
 						</td>
 						<td>
 						<c:forEach items="${optionset.options}" var="option" >
-							<p><label id="mapped${option.id}">${option.cohortdefUuid}</label></p>
+							<p><label id="mapped${option.id}">${uuidToCohortDefinitionMap[option.cohortdefUuid]}</label></p>
 							<div id="addOrEditPopup${option.id}" class="addOrEditPopup">
-						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="mappedCohort=xxx|type=Option|portletId=${option.id}" />
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="mappedCohort=${option.cohortdefUuid}|type=Option|portletId=${option.id}" />
 							</div>
 							</c:forEach>
 						</td>	
