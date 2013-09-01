@@ -48,15 +48,15 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		int n=0;
 		Map<String,ClassMetadata> h=ds.getHibernateClassMetadata();
 		for (String s : h.keySet()) {
-			if (s.equals("IntegrationServer")) n++;
-			else if (s.equals("ReportTemplate")) n++;
-			else if (s.equals("DataValueTemplate")) n++;
-			else if (s.equals("CategoryCombo")) n++;
-			else if (s.equals("CategoryOption")) n++;
-			else if (s.equals("OptionSet")) n++;
-			else if (s.equals("Option")) n++;
-			else if (s.equals("DataElement")) n++;
-			else if (s.equals("OrgUnit")) n++;
+			if (s.contains("IntegrationServer")) n++;
+			else if (s.contains("ReportTemplate")) n++;
+			else if (s.contains("DataValueTemplate")) n++;
+			else if (s.contains("CategoryCombo")) n++;
+			else if (s.contains("CategoryOption")) n++;
+			else if (s.contains("OptionSet")) n++;
+			else if (s.contains("Option")) n++;
+			else if (s.contains("DataElement")) n++;
+			else if (s.contains("OrgUnit")) n++;
 		}
 		h=null;
 		Assert.assertEquals("Dhis objects are missing",n,9);

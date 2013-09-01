@@ -1,5 +1,6 @@
 package org.openmrs.module.integration;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -60,6 +61,9 @@ public class OrgUnit extends BaseOpenmrsObject {
 	
 	
 	public Set<OrgUnit> getChildOrgs() {
+		if (childOrgs==null) {
+			childOrgs=new HashSet<OrgUnit>();
+		}
 		return childOrgs;
 	}
 

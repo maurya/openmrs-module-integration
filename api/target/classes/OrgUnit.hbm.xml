@@ -28,7 +28,7 @@
 		
 		<set name="childOrgs" inverse="true" cascade="all" order-by="name" batch-size="100">
 			<key column="parent_id" />
-			<one-to-many class="OrgUnit" />
+			<one-to-many class="org.openmrs.module.integration.OrgUnit" />
 		</set>
 		
 	</class>
