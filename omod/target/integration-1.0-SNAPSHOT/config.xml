@@ -25,6 +25,9 @@
 		<require_module version="0.2.7">
 			org.openmrs.module.serialization.xstream
 		</require_module>
+		<require_module version="1.0.0">
+			org.openmrs.calculation
+		</require_module>
 	</require_modules>
 	<!-- / Required Modules -->
 	
@@ -48,13 +51,7 @@
 				
 <!-- 		Integration_ns.hbm.xml -->
 		IntegrationServer.hbm.xml
-		<!--
-		
-		
 		OrgUnit.hbm.xml 
-		
-		
-		-->
 		CategoryCombo.hbm.xml
 		CategoryOption.hbm.xml
 		OptionSet.hbm.xml

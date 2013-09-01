@@ -7,10 +7,14 @@
     <session-factory>
         <mapping resource="IntegrationServer.hbm.xml" />
         <mapping resource="CategoryOption.hbm.xml" />
+        <mapping resource="CategoryCombo.hbm.xml" />
         <mapping resource="Option.hbm.xml" />
+        <mapping resource="OptionSet.hbm.xml" />
         <mapping resource="ReportTemplate.hbm.xml" />
         <mapping resource="DataElement.hbm.xml" />
         <mapping resource="DataValueTemplate.hbm.xml" />
-        <mapping resource="CategoryOptionToOption.hbm.xml" />			
+        <mapping resource="OrgUnit.hbm.xml" />
+        <mapping resource="ReportDesign.hbm.xml" />	
+        <mapping resource="ReportRequest.hbm.xml" />	
     </session-factory>
 </hibernate-configuration>

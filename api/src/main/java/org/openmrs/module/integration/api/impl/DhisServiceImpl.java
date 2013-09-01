@@ -1,5 +1,6 @@
 package org.openmrs.module.integration.api.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -101,6 +103,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Option getOptionByUid(String uid, IntegrationServer is) {
+		return dao.getOptionByUid(uid,is);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<Option> getOptionsByServer(IntegrationServer IntegrationServer) {
 		return dao.getOptionsByServer(IntegrationServer);
 	}
@@ -128,6 +136,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public CategoryOption getCategoryOptionByUuid(String uuid) {
 		return dao.getCategoryOptionByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryOption getCategoryOptionByUid(String uid, IntegrationServer is) {
+		return dao.getCategoryOptionByUid(uid,is);
 	}
 
 	@Override
@@ -197,6 +211,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public DataElement getDataElementByUuid(String uuid) {
 		return dao.getDataElementByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public DataElement getDataElementByUid(String uid, IntegrationServer is) {
+		return dao.getDataElementByUid(uid,is);
 	}
 
 	@Override
@@ -331,6 +351,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public OrgUnit getOrgUnitByUid(String uid, IntegrationServer is) {
+		return dao.getOrgUnitByUid(uid, is);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<OrgUnit> getOrgUnitByServer(IntegrationServer integrationServer) {
 		return dao.getOrgUnitByServer(integrationServer);
 	}
@@ -358,6 +384,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public CategoryCombo getCategoryComboByUuid(String uuid) {
 		return dao.getCategoryComboByUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryCombo getCategoryComboByUid(String uid, IntegrationServer is) {
+		return dao.getCategoryComboByUid(uid,is);
 	}
 
 	@Override
@@ -412,6 +444,49 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	}
 
 	@Override
+	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) {
+		DataElement de=new DataElement();
+		CategoryOption co=new CategoryOption();
+		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
+		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
+		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		for(DataValueTemplate d:DataValueTemplateList){
+			de=d.getDataElement();
+			co=d.getCategoryOption();			
+			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
+			if(temporaryCategoryOptionList== null){	
+				temporaryCategoryOptionList=new ArrayList<CategoryOption>();
+				DataElementToCategoryOptionDictionary.put(de, temporaryCategoryOptionList);
+			}
+			temporaryCategoryOptionList.add(co);
+		}
+		return DataElementToCategoryOptionDictionary;
+		
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
+			ReportTemplate ReportTemplate) {
+		Set<Option> OptionsList=new HashSet<Option>();
+		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
+		for(DataValueTemplate d:DataValueTemplateList){
+			categoryOptionList.add(d.getCategoryOption());
+			}
+		for(CategoryOption co: categoryOptionList){
+			OptionsList.addAll(co.getOptions());
+			}
+		return OptionsList;
+	}
+
+	@Override
+	public Map<String,ClassMetadata> getHibernateClassMetadata() {
+		return dao.getHibernateClassMetadata();
+	}
+	
+	@Override
 	public Map<DataElement, CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
 		DataElement de=new DataElement();
@@ -449,6 +524,5 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 			}
 		return OptionSetList;
 	}
-
 
 }

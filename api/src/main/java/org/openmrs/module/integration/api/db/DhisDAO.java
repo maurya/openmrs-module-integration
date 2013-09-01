@@ -1,8 +1,10 @@
 package org.openmrs.module.integration.api.db;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
@@ -167,5 +169,7 @@ public interface DhisDAO {
 	//misc
 //	
 //	 List<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
+	
+	Map<String,ClassMetadata> getHibernateClassMetadata();
 	
 }
