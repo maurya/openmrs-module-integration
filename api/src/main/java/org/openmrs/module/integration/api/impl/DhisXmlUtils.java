@@ -222,7 +222,8 @@ public class DhisXmlUtils {
 				opv.setUid(xco.getId());
 				ds.saveOption(opv);
 				ops.getOptions().add(opv);
-			}		
+			}	
+			ds.saveOptionSet(ops);
 		}
 
 // process categorycombos/categoryoptions
@@ -264,11 +265,23 @@ public class DhisXmlUtils {
 			DataElement de = new DataElement();
 			de.setDataElementName(xde.getName());
 			de.setDataElementCode(xde.getCode());
+			if (de.getDataElementCode()==null) {
+				de.setDataElementCode(xde.getUid());
+			}
 			de.setDataElementUid(xde.getUid());
 			de.setIntegrationServer(is);
 			ds.saveDataElement(de);
 		}
 
+// add codes to disaggregations
+		for (ReportTemplates.Disaggregations.Disaggregation xd : sm.getMaster().getDisaggregations().getDisaggregation()) {
+			CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
+			if (co != null) {
+				co.setCode(xd.getCode());
+				ds.saveCategoryOption(co);
+			}
+		}
+		
 // process report definitions
 		for (ReportTemplates.ReportTemplate xrt : sm.getReportTemplates()) {
 			ReportTemplate rt = new ReportTemplate();
@@ -282,12 +295,15 @@ public class DhisXmlUtils {
 				DataValueTemplate dv = new DataValueTemplate();
 				dv.setReportTemplate(rt);
 				dv.setIntegrationServer(is);
-				dv.setDataElement(ds.getDataElementByUid(xdv.getDataElement(),is));
-				dv.setCategoryOption(ds.getCategoryOptionByUid(xdv.getDisaggregation(),is));
-				ds.saveDataValueTemplate(dv);
-				rt.getDataValueTemplates().add(dv);
-				DataElement de = ds.getDataElementByUid(xdv.getDataElement(),is);
-				if (de != null)
+				DataElement de = ds.getDataElementByCode(xdv.getDataElement(),is);
+				if (de==null) {
+					de = ds.getDataElementByUid(xdv.getDataElement(),is);
+				}
+				if (de!=null) {
+					dv.setDataElement(de);
+					dv.setCategoryOption(ds.getCategoryOptionByUid(xdv.getDisaggregation(),is));
+					ds.saveDataValueTemplate(dv);
+					rt.getDataValueTemplates().add(dv);
 					if (de.getCategoryCombo() == null) {
 						Iterator<CategoryCombo> it = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is).getCategoryCombos().iterator();
 						CategoryCombo cb=it.next();
@@ -297,6 +313,7 @@ public class DhisXmlUtils {
 					}
 				}
 			}
+		}
 		
 //process org units
 		if (sm.getOrgs().size() == 0) {
@@ -323,8 +340,10 @@ public class DhisXmlUtils {
 						ds.saveOrgUnit(org);
 						if (xorg.getParent() != null) {
 							OrgUnit parent=ds.getOrgUnitByUid(xorg.getParent().getId(),is);
-							parent.getChildOrgs().add(org);
-							ds.saveOrgUnit(parent);
+							if (parent!=null) {
+								parent.getChildOrgs().add(org);
+								ds.saveOrgUnit(parent);
+							}
 						}
 						ds.saveOrgUnit(org);
 					}

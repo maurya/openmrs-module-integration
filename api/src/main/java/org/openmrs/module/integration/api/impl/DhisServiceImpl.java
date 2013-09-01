@@ -221,6 +221,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public DataElement getDataElementByCode(String code, IntegrationServer is) {
+		return dao.getDataElementByCode(code,is);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<DataElement> getDataElementsByServer(IntegrationServer IntegrationServer) {
 		return dao.getDataElementsByServer(IntegrationServer);
 	}

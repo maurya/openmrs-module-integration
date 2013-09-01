@@ -27,10 +27,10 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 	private DhisXmlUtils dxu = new DhisXmlUtils();
 	private DhisService ds;
 
-//	@Override
-//	public Boolean useInMemoryDatabase() {
-//		return false;
-//	}
+	@Override
+	public Boolean useInMemoryDatabase() {
+		return false;
+	}
 	
 	@Before
 	public void setup() {
@@ -43,8 +43,9 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		ds=Context.getService(DhisService.class);
 	}
 	
+	@Ignore
 	@Test
-	public void DhisXmlUtils_shouldSeeDhisObjects() {
+	public void dhisXmlUtils_shouldSeeDhisObjects() {
 		int n=0;
 		Map<String,ClassMetadata> h=ds.getHibernateClassMetadata();
 		for (String s : h.keySet()) {
@@ -62,12 +63,19 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		Assert.assertEquals("Dhis objects are missing",n,9);
 	}
 
+	@Ignore
 	@Test
 	public void createNewServer_shouldWorkForResources(){
 		String s = dxu.createNewServer("RESOURCES","MasterTemplate.xml", "CategoryOptionCombo-Detailed.xml", "Categories-Export.xml","OrganisationUnit-Export.xml");
 		
 		Assert.assertEquals("Error is returned:" + s,s,"");
-		Assert.assertNotNull("Orgs is null", ds.getIntegrationServerByName("RESOURCES"));		
+	}
+	
+	@Test
+	public void createNewServer_shouldWorkForAPI(){
+		String s = dxu.createNewServer(is);
+		
+		Assert.assertEquals("Error is returned:" + s,s,"");
 	}
 	
 	@Ignore

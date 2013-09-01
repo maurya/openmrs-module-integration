@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metaData>
+	<categoryOptionCombos>
+		<categoryOptionCombo name="(0-11m)"
+			created="2011-12-24T11:24:25.319+0000" lastUpdated="2011-12-24T11:24:25.319+0000"
+			id="S34ULMcHMca">
+			<categoryCombo name="Morbidity Cases" created="2011-12-24T11:24:25.203+0000"
+				lastUpdated="2011-12-24T11:24:25.203+0000" id="t3aNCvHsoSn" />
+			<categoryOptions>
+				<categoryOption name="0-11m" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="FbLZS3ueWbQ" />
+			</categoryOptions>
+		</categoryOptionCombo>
+		<categoryOptionCombo name="(0-28d, At PHU)"
+			created="2011-12-24T11:24:25.319+0000" lastUpdated="2011-12-24T11:24:25.319+0000"
+			id="PP09MbybbwK">
+			<categoryCombo name="Location and Mortality age group"
+				created="2011-12-24T11:24:25.203+0000" lastUpdated="2011-12-24T11:24:25.203+0000"
+				id="MOWykxm5agr" />
+			<categoryOptions>
+				<categoryOption name="0-28d" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2013-03-19T19:44:14.046+0000" id="BMi0oxm2mYH" />
+				<categoryOption name="At PHU" created="2011-12-24T11:24:24.149+0000"
+					lastUpdated="2011-12-24T11:24:24.149+0000" id="Fp4gVHbRvEV" />
+			</categoryOptions>
+		</categoryOptionCombo>
+	</categoryOptionCombos>
+</metaData>

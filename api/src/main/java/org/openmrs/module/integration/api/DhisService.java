@@ -93,6 +93,9 @@ public interface DhisService extends OpenmrsService {
 		public DataElement getDataElementByUid(String uuid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
+		public DataElement getDataElementByCode(String code, IntegrationServer is);
+			
+		@Transactional(readOnly = true)
 		public List<DataElement> getDataElementsByServer(IntegrationServer integrationServer);
 				
 		@Transactional

@@ -240,7 +240,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public DataElement getDataElementByUid(String uid,
 				IntegrationServer integrationServer) {
 			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
-					.add(Restrictions.eq("uid", uid))
+					.add(Restrictions.eq("dataElementUid", uid))
 			        .add(Restrictions.eq("integrationServer", integrationServer))
 			        .uniqueResult();
 		}
