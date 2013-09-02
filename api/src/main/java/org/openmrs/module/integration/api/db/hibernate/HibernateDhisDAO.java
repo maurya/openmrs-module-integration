@@ -249,7 +249,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public DataElement getDataElementByCode(String code,
 				IntegrationServer integrationServer) {
 			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
-					.add(Restrictions.eq("code", code))
+					.add(Restrictions.eq("dataElementCode", code))
 			        .add(Restrictions.eq("integrationServer", integrationServer))
 			        .uniqueResult();
 		}

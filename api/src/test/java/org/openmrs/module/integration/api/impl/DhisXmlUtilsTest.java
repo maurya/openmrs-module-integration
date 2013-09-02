@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinitio
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.springframework.test.annotation.Rollback;
 
 public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 
@@ -41,6 +42,10 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		is.setUserName("admin");
 		is.setPassword("district");
 		ds=Context.getService(DhisService.class);
+		try {
+			super.authenticate();
+		} catch (Exception e) {
+		}
 	}
 	
 	@Ignore
@@ -68,17 +73,19 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 	public void createNewServer_shouldWorkForResources(){
 		String s = dxu.createNewServer("RESOURCES","MasterTemplate.xml", "CategoryOptionCombo-Detailed.xml", "Categories-Export.xml","OrganisationUnit-Export.xml");
 		
-		Assert.assertEquals("Error is returned:" + s,s,"");
+		Assert.assertEquals("Error is returned:" + s,"",s);
 	}
-	
+
+	@Rollback(false)
 	@Test
 	public void createNewServer_shouldWorkForAPI(){
 		String s = dxu.createNewServer(is);
 		
-		Assert.assertEquals("Error is returned:" + s,s,"");
+		Assert.assertEquals("Error is returned:" + s,"",s);
 	}
 	
 	@Ignore
+	@Rollback(false)
 	@Test
 	public void getAllPatients_shouldAddCohortDefOnlyIfNecessary() {
 		CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
@@ -118,6 +125,7 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Ignore
+	@Rollback(false)
 	@Test
 	public void getUndefined_shouldAddCohortDefOnlyIfNecessary() {
 		CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);

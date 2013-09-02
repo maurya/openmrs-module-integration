@@ -13,17 +13,17 @@
 			length="38" unique="true" />
 			
 				<many-to-one name="dataElement" class="org.openmrs.module.integration.DataElement"
-			not-null="true" lazy="false">
+			not-null="false" lazy="false">
 			<column name="dataelement_id" />
 		</many-to-one>
 
 				<many-to-one name="categoryOption" class="org.openmrs.module.integration.CategoryOption"
-			not-null="true" lazy="false">
+			not-null="false" lazy="false">
 			<column name="categoryoption_id" />
 		</many-to-one>
 		
 				<many-to-one name="reportTemplate" class="org.openmrs.module.integration.ReportTemplate"
-			not-null="true">
+			not-null="false">
 			<column name="reporttemplate_id" />
 		</many-to-one>
 			

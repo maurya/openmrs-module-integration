@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +36,8 @@ import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinitio
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.util.OpenmrsUtil;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 public class DhisXmlUtils {
 	// Logger
@@ -43,7 +46,7 @@ public class DhisXmlUtils {
 	// Constants
 	private static String MODULE_NAME = "Integration";
 	private static String[] XML_SETS = {"master","cats","opts","orgs"};
-//	private MessageSourceService mss; 
+	private MessageSourceService mss; 
 	
 	// Private variables
 	private DhisService ds;
@@ -51,7 +54,6 @@ public class DhisXmlUtils {
 	private CohortDefinition allPatients;
 	
 	public DhisXmlUtils() {
-//		mss = Context.getMessageSourceService();
 	}
 	
     /**
@@ -70,6 +72,11 @@ public class DhisXmlUtils {
     		}
     		if (undefined==null) {
     			this.undefined = new UndefinedCohortDefinition();
+    			undefined.setCreator(Context.getUserContext().getAuthenticatedUser());
+    			if (undefined.getCreator()==null) {
+    				undefined.setCreator(Context.getUserService().getUserByUsername("daemon"));
+    			}
+    			undefined.setDateCreated(new Date());
     			cds.saveDefinition(this.undefined);
     		}
     	}
@@ -92,7 +99,13 @@ public class DhisXmlUtils {
     		}
     		if (allPatients==null) {
     			this.allPatients = new AllPatientsCohortDefinition();
-    			this.allPatients.setName("All Patients");
+    			allPatients.setName("All Patients");
+    			allPatients.setCreator(Context.getUserContext().getAuthenticatedUser());
+    			if (allPatients.getCreator()==null) {
+    				allPatients.setCreator(Context.getUserService().getUserByUsername("daemon"));
+    			}
+    			allPatients.setDateCreated(new Date());
+    			allPatients.setRetired(false);
     			cds.saveDefinition(this.allPatients);
     		}
     	}
@@ -210,6 +223,7 @@ public class DhisXmlUtils {
 		
 		String result = "";
 		IntegrationServer is = sm.getServer();
+		mss = Context.getMessageSourceService();
 
 // process options/option sets
 		for (MetaData.Categories.Category xcat : sm.getOpts()) {
@@ -305,10 +319,13 @@ public class DhisXmlUtils {
 					ds.saveDataValueTemplate(dv);
 					rt.getDataValueTemplates().add(dv);
 					if (de.getCategoryCombo() == null) {
-						Iterator<CategoryCombo> it = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is).getCategoryCombos().iterator();
-						CategoryCombo cb=it.next();
-						if (cb != null) {
-							de.setCategoryCombo(cb);
+						CategoryOption co = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is);
+						if (co!=null) {
+							Iterator<CategoryCombo> it = co.getCategoryCombos().iterator();
+							CategoryCombo cb=it.next();
+							if (cb != null) {
+								de.setCategoryCombo(cb);
+							}
 						}
 					}
 				}
@@ -316,8 +333,13 @@ public class DhisXmlUtils {
 		}
 		
 //process org units
+		try {
+			sm.getOrgUnits();
+		} catch (IntegrationException e) {
+			// TODO Auto-generated catch block
+		}
 		if (sm.getOrgs().size() == 0) {
-//			result = mss.getMessage("DhisXml.CreateNewServer.NoOrgs");
+			result = mss.getMessage("DhisXml.CreateNewServer.NoOrgs");
 			return result;
 		}
 //make sure there is at least one org unit for this process
