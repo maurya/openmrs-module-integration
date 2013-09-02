@@ -18,13 +18,13 @@
 			not-null="true" length="230" />
 			
 			<property name="dataElementCode" type="java.lang.String" column="code"
-			not-null="true" length="50" />
+			not-null="false" length="50" />
 			
 			<property name="dataElementUid" type="java.lang.String" column="uid"
 			not-null="true" length="11" />
 			
 			<property name="dataElementType" type="java.lang.String" column="type"
-			not-null="true" length="50" />
+			not-null="false" length="50" />
 
 			<property name="cohortDefinitionUuid" type="java.lang.String" column="cohortdef_uuid"
 			length="38"  />
