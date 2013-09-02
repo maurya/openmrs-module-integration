@@ -13,10 +13,10 @@ public class CategoryOption extends BaseOpenmrsObject {
 	private int categoryOptionId;
 	private String name;
 	private String code;
+	private String uid;
 
 	private Set<Option> options=  new HashSet<Option>(0);
 	private Set<CategoryCombo> categoryCombos= new HashSet<CategoryCombo>(0);
-	//private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -53,6 +53,13 @@ public class CategoryOption extends BaseOpenmrsObject {
 		this.code = code;
 	}
 	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 	
 	 public Set<Option> getOptions() {
 	        return options;

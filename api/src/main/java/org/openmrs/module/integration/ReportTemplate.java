@@ -11,7 +11,7 @@ import org.openmrs.BaseOpenmrsObject;
 public class ReportTemplate extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(ReportTemplate.class);
 
-	private int reportTemplateId;
+	private int id;
 	private String reportTemplateName;
 	private String reportTemplateCode;
 	private String frequency;
@@ -23,22 +23,14 @@ public class ReportTemplate extends BaseOpenmrsObject {
 
 	@Override
 	public Integer getId() {
-		return getReportTemplateId();
+		return id;
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setReportTemplateId(id);		
+		this.id=id;		
 	}
 
-	public int getReportTemplateId() {
-		return reportTemplateId;
-	}
-
-	public void setReportTemplateId(int reportTemplateId) {
-		this.reportTemplateId = reportTemplateId;
-	}
-	
 	public String getReportTemplateName() {
 		return reportTemplateName;
 	}

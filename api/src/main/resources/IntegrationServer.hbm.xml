@@ -18,22 +18,22 @@
 			not-null="false" length="1000" />			
 					
 		<property name="userName" type="java.lang.String" column="username"
-			not-null="true" length="255" />
+			not-null="false" length="255" />
 			
 		<property name="password" type="java.lang.String" column="password"
-			not-null="true" length="255" />
+			not-null="false" length="255" />
 
 		<property name="url" type="java.lang.String" column="url"
-			not-null="true" length="255" />
+			not-null="false" length="255" />
 			
 			<property name="masterTemplate" type="java.lang.String" column="mastertemplate"
 		 length="255" />
 			
 		<property name="emailorurl" type="java.lang.String" column="emailorurl"
-			not-null="true" length="255" />
+			not-null="false" length="255" />
 			
 			<property name="transportType" type="java.lang.String" column="transport_type"
-			not-null="true" length="45" />
+			not-null="false" length="45" />
 		 
 		 <property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />

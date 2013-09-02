@@ -11,7 +11,7 @@ public class OrgUnit extends BaseOpenmrsObject {
 	private String name;
 	private String code;
 	private String uid;
-	private OrgUnit parentOrg;
+	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
 
 	@Override
@@ -57,12 +57,15 @@ public class OrgUnit extends BaseOpenmrsObject {
 	}
 	
 	
-	public OrgUnit getParentOrg() {
-		return parentOrg;
+	public Set<OrgUnit> getChildOrgs() {
+		if (childOrgs==null) {
+			childOrgs=new HashSet<OrgUnit>();
+		}
+		return childOrgs;
 	}
 
-	public void setParentOrg(OrgUnit parentOrg) {
-		this.parentOrg = parentOrg;
+	public void setChildOrgs(Set<OrgUnit> childOrgs) {
+		this.childOrgs = childOrgs;
 	}
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)

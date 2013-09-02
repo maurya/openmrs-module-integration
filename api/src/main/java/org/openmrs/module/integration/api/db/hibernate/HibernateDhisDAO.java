@@ -1,12 +1,15 @@
 package org.openmrs.module.integration.api.db.hibernate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
@@ -234,7 +237,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public DataElement getDataElementByUid(String uid,
 				IntegrationServer integrationServer) {
 			return (DataElement) sessionFactory.getCurrentSession().createCriteria(DataElement.class)
-					.add(Restrictions.eq("uid", uid))
+					.add(Restrictions.eq("dataElementUid", uid))
 			        .add(Restrictions.eq("integrationServer", integrationServer))
 			        .uniqueResult();
 		}
@@ -467,7 +470,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("optionSetId")).list();
 			return list;
 		}
-
+		
 		@Override
 		public OptionSet saveOptionSet(OptionSet OptionSet) {
 			sessionFactory.getCurrentSession().saveOrUpdate(OptionSet);
@@ -530,11 +533,10 @@ public class HibernateDhisDAO implements DhisDAO{
 			sessionFactory.getCurrentSession().delete(Option);
 	}
 
+
+
 	
-
-	
-
-
+// misc
 	
 
 	
@@ -562,7 +564,10 @@ public class HibernateDhisDAO implements DhisDAO{
 //	}
 
 	
-	
+@Override
+public Map<String,ClassMetadata> getHibernateClassMetadata() {
+	return sessionFactory.getAllClassMetadata();
+}
 	
 
 }
