@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module configVersion="1.2">
+
+	<!-- Module Properties -->
+	<id>integration</id>
+	<name>Integration Module</name>
+	<version>1.0-SNAPSHOT</version>
+	<package>org.openmrs.module.integration</package>
+	<author>Maurya</author>
+	<description>
+		Integration module for DHIS2 and OpenMRS
+	</description>
+	<updateURL>https://modules.openmrs.org/modules/download/integration/update.rdf</updateURL>
+	<require_version>1.9.0</require_version>
+	<!-- / Module Properties -->
+
+	
+	<!-- Required Modules -->
+	<require_modules>
+																											
+		<require_module version="0.8-SNAPSHOT">
+			org.openmrs.module.reporting
+		</require_module>
+			
+	</require_modules>
+	<!-- / Required Modules -->
+	
+	<!-- Module Activator -->
+	<activator>org.openmrs.module.integration.IntegrationActivator</activator>
+	
+	
+	<!-- Adds link to admin page -->
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>org.openmrs.module.integration.extension.html.AdminList</class>
+	</extension>
+	
+	<privilege>
+		<name>Manage Integration Servers</name>
+		<description>Allows the user to manage Integration module Servers</description>
+	</privilege>
+	
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+				
+<!-- 		Integration_ns.hbm.xml -->
+		<!--
+		
+		
+		
+		
+		-->
+		IntegrationServer.hbm.xml
+		CategoryCombo.hbm.xml
+		CategoryOption.hbm.xml
+		OptionSet.hbm.xml
+		Option.hbm.xml
+		ReportTemplate.hbm.xml
+		DataElement.hbm.xml
+		DataValueTemplate.hbm.xml
+		OrgUnit.hbm.xml
+				
+	</mappingFiles>
+
+	<!-- Internationalization -->
+	<!-- All message codes should start with integration. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>es</lang>
+		<file>messages_es.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
+</module>
+
