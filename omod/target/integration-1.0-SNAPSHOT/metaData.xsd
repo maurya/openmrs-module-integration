@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" 
+ elementFormDefault="qualified">
+ <!-- 
+ 	targetNamespace="http://www.dhis.org/schemas/DXF/2.0/" 
+	xmlns:tns="http://www.dhis.org/schemas/DXF/2.0/"
+ -->
+
+	<xsd:complexType name="metaData">
+		<xsd:choice>
+			<xsd:element name="categories" >
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="category" maxOccurs="unbounded" minOccurs="1">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="concept">
+										<xsd:complexType>
+											<xsd:attribute type="xsd:string" name="name" use="required" />
+											<xsd:attribute type="xsd:dateTime" name="created" use="required" />
+											<xsd:attribute type="xsd:dateTime" name="lastUpdated" use="required" />
+											<xsd:attribute type="xsd:string" name="id" use="required" />
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element type="xsd:string" name="dataDimension" />
+									<xsd:element name="categoryOptions">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="categoryOption" maxOccurs="unbounded" minOccurs="1">
+													<xsd:complexType>
+														<xsd:attribute type="xsd:string" name="name" use="required" />
+														<xsd:attribute type="xsd:string" name="created"	use="required" />
+														<xsd:attribute type="xsd:string" name="lastUpdated"	use="required" />
+														<xsd:attribute type="xsd:string" name="id" use="required" />
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute type="xsd:string" name="name" use="required" />
+								<xsd:attribute type="xsd:dateTime" name="created" use="required" />
+								<xsd:attribute type="xsd:dateTime" name="lastUpdated" use="required" />
+								<xsd:attribute type="xsd:string" name="id" use="required" />
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="categoryOptionCombos">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="categoryOptionCombo" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="categoryCombo">
+										<xsd:complexType>
+											<xsd:attribute type="xsd:string" name="name" use="required" />
+											<xsd:attribute type="xsd:dateTime" name="created"	use="required" />
+											<xsd:attribute type="xsd:dateTime" name="lastUpdated"	use="required" />
+											<xsd:attribute type="xsd:string" name="id" use="required" />
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="categoryOptions">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="categoryOption" maxOccurs="unbounded" minOccurs="0">
+													<xsd:complexType>
+														<xsd:attribute type="xsd:string" name="name" use="required" />
+														<xsd:attribute type="xsd:dateTime" name="created"	use="required" />
+														<xsd:attribute type="xsd:dateTime" name="lastUpdated"	use="required" />
+														<xsd:attribute type="xsd:string" name="id" use="required" />
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute type="xsd:string" name="name" use="required" />
+								<xsd:attribute type="xsd:dateTime" name="created" use="required" />
+								<xsd:attribute type="xsd:dateTime" name="lastUpdated" use="required" />
+								<xsd:attribute type="xsd:string" name="id" use="required" />
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="organisationUnits">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="organisationUnit" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:complexContent>
+									<xsd:extension base="OrgUnitType">
+										<xsd:sequence>
+											<xsd:element type="OrgUnitType" name="parent" minOccurs="0" />
+											<xsd:element type="xsd:date" name="openingDate" minOccurs="0" />
+											<xsd:element type="xsd:boolean" name="active" minOccurs="0" />
+										</xsd:sequence>
+									</xsd:extension>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="OrgUnitType" >
+		<xsd:attribute type="xsd:string" name="code" use="required" />
+		<xsd:attribute type="xsd:string" name="name" use="required" />
+		<xsd:attribute type="xsd:dateTime" name="created" use="optional" />
+		<xsd:attribute type="xsd:dateTime" name="lastUpdated" use="optional" />
+		<xsd:attribute type="xsd:string" name="shortName" use="optional" />
+		<xsd:attribute type="xsd:byte" name="level" use="optional" />
+		<xsd:attribute type="xsd:anyURI" name="href" use="optional" />
+		<xsd:attribute type="xsd:string" name="id" use="required" />
+	</xsd:complexType>
+
+</xsd:schema>

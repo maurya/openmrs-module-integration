@@ -43,7 +43,6 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		ds=Context.getService(DhisService.class);
 	}
 	
-	@Ignore
 	@Test
 	public void dhisXmlUtils_shouldSeeDhisObjects() {
 		int n=0;

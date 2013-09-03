@@ -76,6 +76,20 @@
 				<version>0.2.7</version>
 				<scope>provided</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-api</artifactId>
+				<version>1.6.4</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-omod</artifactId>
+				<version>1.6.4</version>
+				<scope>provided</scope>
+			</dependency>
 						
 			<!-- End OpenMRS modules -->
 			
