@@ -1,14 +1,6 @@
 package org.openmrs.module.integration;
 
-import java.util.Date;
-import java.util.List;
-
-import org.openmrs.BaseOpenmrsMetadata;
-import org.openmrs.BaseOpenmrsObject;
-import org.openmrs.OpenmrsObject;
-import org.openmrs.User;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
-import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
 public class UndefinedCohortDefinition extends BaseCohortDefinition {
