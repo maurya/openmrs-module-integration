@@ -59,10 +59,8 @@
 			<thead>
 				<tr>
 					<th><spring:message code="integration.dhis.dataElement"/></th>
-					<th><spring:message code="integration.general.code"/></th>
 					<th><spring:message code="integration.general.mappedTo"/></th>
 					<th><spring:message code="integration.dhis.categoryCombo"/></th>
-					<th><spring:message code="integration.general.lastUpdated"/></th>
 					<th align="center" width="1%"><spring:message code="integration.general.lastUpdated"/><spring:message code="integration.general.editMapping"/></th>
 				</tr>
 			</thead>
@@ -72,17 +70,11 @@
 						<td width="10%" id="name${element.key.dataElementId}" >
 							${element.key.dataElementName}
 						</td>
-						<td width="10%" id="code${element.key.dataElementId}">
-							${element.key.dataElementCode}
-						</td>
 						<td width="10%" id="mappedobjectid${element.key.dataElementId}">
 							 ${uuidToCohortDefinitionMap[element.key.cohortDefinitionUuid]}
 						</td>
 						<td width="20%">
 						${element.value.name}
-						</td>
-						<td width="20%">
-							${key.key.lastUpdated}
 						</td>
 						<td width="1%" align="center" nowrap>
 							&nbsp;

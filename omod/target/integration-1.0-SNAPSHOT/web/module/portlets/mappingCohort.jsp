@@ -4,8 +4,7 @@
 	});
 		</script>
 		<div>
-					<b class="boxHeader"><spring:message code="integration.Mapping"/> ${model.type} </b>
-					<div class="box">
+					<div >
 					<form method="post" id="detailsedit" >
 					<table>
 						<tbody>	
