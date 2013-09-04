@@ -32,16 +32,16 @@
 	} );
 
 	function editDataElement(id) {
-			
+		
+			$("#id"+id).val(id);
+			$("#DataElementName"+id).val($.trim($("#name"+id).html()));
 			$('#addOrEditPopup'+id).dialog('open');
 		}
 		function saveDataElement(id) {
-	
-			var mapped=$("#mappedDataElement"+id).val();
-		var idmap=$("#id").val();
-				 $.post("${pageContext.request.contextPath}/module/integration/saveDataElementMapping.form",{mappedDataElement: mapped,id: idmap},function() {
-		               //alert('got data');
-		            }).error(function() {
+			var uuid=$("#cohorts"+id).val();
+			 $.post("${pageContext.request.contextPath}/module/integration/saveDataElementMapping.form",{uuid: uuid,id: id},function() {
+	               //alert('got data');
+	           }).error(function() {
 		               // alert('Unable load Templates');
 		            }).success(function() {
 		                // alert('success');
@@ -76,7 +76,7 @@
 							${element.key.dataElementCode}
 						</td>
 						<td width="10%" id="mappedobjectid${element.key.dataElementId}">
-							${element.key.cohortDefinitionUuid}
+							 ${uuidToCohortDefinitionMap[element.key.cohortDefinitionUuid]}
 						</td>
 						<td width="20%">
 						${element.value.name}
@@ -87,11 +87,11 @@
 						<td width="1%" align="center" nowrap>
 							&nbsp;
 							<a href="javascript:editDataElement('${element.key.dataElementId}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapDataElement"/>'/></a>
+						<div id="addOrEditPopup${element.key.dataElementId}" class="addOrEditPopup">
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${element.key.dataElementId}" moduleId="integration" parameters="type=DataElement|mappedCohort=${element.key.cohortDefinitionUuid}|portletId=${element.key.dataElementId}" />
+						</div>
 						</td>
 					</tr>
-					<div id="addOrEditPopup${element.key.dataElementId}" class="addOrEditPopup">
-						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${element.key.dataElementId}" moduleId="integration" parameters="type=DataElement| mappedCohort=${element.key.cohortDefinitionUuid}| id=${element.key.dataElementId}" />
-				</div>
 				</c:forEach>
 			</tbody>
 			<tfoot>

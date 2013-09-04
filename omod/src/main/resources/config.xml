@@ -19,8 +19,12 @@
 	<!-- Required Modules -->
 	<require_modules>
 																											
-		<require_module version="0.7.8-SNAPSHOT">
+		<require_module version="0.7.8">
 			org.openmrs.module.reporting
+		</require_module>
+		
+		<require_module version="0.2.7">
+			org.openmrs.module.serialization.xstream
 		</require_module>
 		
 	</require_modules>
