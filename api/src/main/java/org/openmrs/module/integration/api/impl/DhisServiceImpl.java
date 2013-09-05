@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -98,6 +99,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public Option getOptionByUuid(String uuid) {
 		return dao.getOptionByUuid(uuid);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Option getOptionByUid(String uid, IntegrationServer is) {
+		return dao.getOptionByUid(uid,is);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -129,6 +136,13 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public CategoryOption getCategoryOptionByUuid(String uuid) {
 		return dao.getCategoryOptionByUuid(uuid);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryOption getCategoryOptionByUid(String uid, IntegrationServer is) {
+		return dao.getCategoryOptionByUid(uid,is);
+	}
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -197,6 +211,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public DataElement getDataElementByUuid(String uuid) {
 		return dao.getDataElementByUuid(uuid);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public DataElement getDataElementByUid(String uid, IntegrationServer is) {
+		return dao.getDataElementByUid(uid,is);
 	}
 
 	@Override
@@ -328,6 +348,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public OrgUnit getOrgUnitByUuid(String uuid) {
 		return dao.getOrgUnitByUuid(uuid);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public OrgUnit getOrgUnitByUid(String uid, IntegrationServer is) {
+		return dao.getOrgUnitByUid(uid, is);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -358,6 +384,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public CategoryCombo getCategoryComboByUuid(String uuid) {
 		return dao.getCategoryComboByUuid(uuid);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public CategoryCombo getCategoryComboByUid(String uid, IntegrationServer is) {
+		return dao.getCategoryComboByUid(uid,is);
 	}
 
 	@Override
@@ -448,6 +480,13 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 			OptionSetList.addAll(cc.getOptionSets());
 			}
 		return OptionSetList;
+	}
+
+
+
+	@Override
+	public Map<String, ClassMetadata> getHibernateClassMetadata() {
+		return dao.getHibernateClassMetadata();
 	}
 
 

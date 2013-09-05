@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -46,6 +47,9 @@ public interface DhisService extends OpenmrsService {
 			
 		@Transactional(readOnly = true)
 		public ReportTemplate getReportTemplateByUuid(String uuid);
+		
+		@Transactional(readOnly = true)
+		public OrgUnit getOrgUnitByUid(String uuid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer);
@@ -84,6 +88,9 @@ public interface DhisService extends OpenmrsService {
 			
 		@Transactional(readOnly = true)
 		public DataElement getDataElementByUuid(String uuid);
+		
+		@Transactional(readOnly = true)
+		public DataElement getDataElementByUid(String uuid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<DataElement> getDataElementsByServer(IntegrationServer integrationServer);
@@ -123,6 +130,9 @@ public interface DhisService extends OpenmrsService {
 					
 		@Transactional(readOnly = true)
 		public CategoryCombo getCategoryComboByUuid(String uuid);
+		
+		@Transactional(readOnly = true)
+		public CategoryCombo getCategoryComboByUid(String uid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<CategoryCombo> getCategoryComboByServer(IntegrationServer integrationServer);
@@ -141,6 +151,9 @@ public interface DhisService extends OpenmrsService {
 			
 		@Transactional(readOnly = true)
 		public CategoryOption getCategoryOptionByUuid(String uuid);
+		
+		@Transactional(readOnly = true)
+		public CategoryOption getCategoryOptionByUid(String uid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<CategoryOption> getCategoryOptionByServer(IntegrationServer integrationServer);
@@ -174,6 +187,9 @@ public interface DhisService extends OpenmrsService {
 		
 	@Transactional(readOnly = true)
 	public Option getOptionByUuid(String uuid);
+	
+	@Transactional(readOnly = true)
+	public Option getOptionByUid(String uid, IntegrationServer is);
 		
 	@Transactional(readOnly = true)
 	public List<Option> getOptionsByServer(IntegrationServer integrationServer);
@@ -187,6 +203,8 @@ public interface DhisService extends OpenmrsService {
 	
 	
 	//misc methods
+
+	public Map<String,ClassMetadata> getHibernateClassMetadata();
 	
 	public Map<DataElement,CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(ReportTemplate ReportTemplate);
 	

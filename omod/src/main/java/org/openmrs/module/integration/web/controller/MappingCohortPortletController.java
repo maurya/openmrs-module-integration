@@ -14,8 +14,11 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 import org.openmrs.util.OpenmrsClassLoader;
 import org.openmrs.web.controller.PortletController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Controller
+@RequestMapping("**/mappingCohort.portlet")
 public class MappingCohortPortletController extends PortletController {
 	
 	private static final Log log = LogFactory.getLog(MappingCohortPortletController.class);
