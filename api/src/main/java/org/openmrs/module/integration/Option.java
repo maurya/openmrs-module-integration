@@ -8,13 +8,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class Option extends BaseOpenmrsObject {
+public class Option extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(Option.class);
 
 	private int optionId;
-	private String name;
-	private String code;
-	private String uid;
 	private String cohortdefUuid;
 	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>(0);
 	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
@@ -36,30 +33,6 @@ public class Option extends BaseOpenmrsObject {
 
 	public void setOptionId(int optionId) {
 		this.optionId = optionId;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
 	}
 	
 	public String getCohortdefUuid() {

@@ -68,7 +68,7 @@
 				<c:forEach items="${DataElementToCategoryComboDictionary}" var="element" >
 					<tr id="${element.key.dataElementId}">
 						<td width="10%" id="name${element.key.dataElementId}" >
-							${element.key.dataElementName}
+							${element.key.name}
 						</td>
 						<td width="10%" id="mappedobjectid${element.key.dataElementId}">
 							 ${uuidToCohortDefinitionMap[element.key.cohortDefinitionUuid]}

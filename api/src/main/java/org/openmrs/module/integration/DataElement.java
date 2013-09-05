@@ -6,13 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class DataElement extends BaseOpenmrsObject {
+public class DataElement extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(DataElement.class);
 
 	private int dataElementId;
-	private String dataElementName;
-	private String dataElementCode;
-	private String dataElementUid;
 	private String dataElementType;
 	private String cohortDefinitionUuid;
 	private Date lastUpdated;
@@ -37,29 +34,7 @@ public class DataElement extends BaseOpenmrsObject {
 		this.dataElementId = dataElementId;
 	}
 	
-	public String getDataElementName() {
-		return dataElementName;
-	}
 
-	public void setDataElementName(String dataElementName) {
-		this.dataElementName = dataElementName;
-	}
-	
-	public String getDataElementCode() {
-		return dataElementCode;
-	}
-
-	public void setDataElementCode(String dataElementCode) {
-		this.dataElementCode = dataElementCode;
-	}
-	
-	public String getDataElementUid() {
-		return dataElementUid;
-	}
-
-	public void setDataElementUid(String dataElementUid) {
-		this.dataElementUid = dataElementUid;
-	}
 	public String getDataElementType() {
 		return dataElementType;
 	}
