@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class DataElement extends BaseOpenmrsObject {
+public class DataElement extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(DataElement.class);
 
 	private int dataElementId;
@@ -27,6 +27,36 @@ public class DataElement extends BaseOpenmrsObject {
 	@Override
 	public void setId(Integer id) {
 		setDataElementId(id);		
+	}
+
+	@Override
+	public String getName() {
+		return getDataElementName();
+	}
+
+	@Override
+	public void setName(String name) {
+		setDataElementName(name);		
+	}
+
+	@Override
+	public String getCode() {
+		return getDataElementCode();
+	}
+
+	@Override
+	public void setCode(String code) {
+		setDataElementName(code);		
+	}
+
+	@Override
+	public String getUid() {
+		return getDataElementUid();
+	}
+
+	@Override
+	public void setUid(String uid) {
+		setDataElementUid(uid);		
 	}
 
 	public int getDataElementId() {

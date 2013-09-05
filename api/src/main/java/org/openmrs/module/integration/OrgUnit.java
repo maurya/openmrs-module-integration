@@ -7,13 +7,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class OrgUnit extends BaseOpenmrsObject {
+public class OrgUnit extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(OrgUnit.class);
 
 	private int orgUnitId;
-	private String name;
-	private String code;
-	private String uid;
 	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
 
@@ -33,30 +30,6 @@ public class OrgUnit extends BaseOpenmrsObject {
 
 	public void setOrgUnitId(int orgUnitId) {
 		this.orgUnitId = orgUnitId;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
 	}
 	
 	
