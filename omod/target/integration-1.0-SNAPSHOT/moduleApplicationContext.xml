@@ -18,7 +18,7 @@
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<!-- Add here beans related to the API context -->
-	<bean id="mappingCohortController" class="org.openmrs.module.integration.web.controller.portlet.MappingCohortController">
+<!-- 	<bean id="mappingCohortController" class="org.openmrs.module.integration.web.controller.portlet.MappingCohortController">
     </bean>
     <bean id="basicmoduleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
     	<property name="order"><value>50</value></property>
@@ -27,7 +27,7 @@
 	           <prop key="**/mappingCohort.portlet">mappingCohortController</prop>
 	    	</props>
 		</property>
-    </bean>
+    </bean> -->
 	
 	<!-- Services accessible via Context.getService() -->
 	<bean parent="serviceContext">

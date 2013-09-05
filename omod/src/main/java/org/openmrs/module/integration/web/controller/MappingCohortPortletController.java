@@ -1,4 +1,4 @@
-package org.openmrs.module.integration.web.controller.portlet;
+package org.openmrs.module.integration.web.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,9 +16,9 @@ import org.openmrs.util.OpenmrsClassLoader;
 import org.openmrs.web.controller.PortletController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-public class MappingCohortController extends PortletController {
+public class MappingCohortPortletController extends PortletController {
 	
-	private static final Log log = LogFactory.getLog(MappingCohortController.class);
+	private static final Log log = LogFactory.getLog(MappingCohortPortletController.class);
 	@Override
 	protected void populateModel(HttpServletRequest request, Map<String, Object> model
 			) {
