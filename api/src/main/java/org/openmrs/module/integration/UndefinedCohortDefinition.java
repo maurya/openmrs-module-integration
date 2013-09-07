@@ -3,54 +3,28 @@ package org.openmrs.module.integration;
 import java.util.Date;
 import java.util.List;
 
-import org.openmrs.BaseOpenmrsMetadata;
-import org.openmrs.BaseOpenmrsObject;
-import org.openmrs.OpenmrsObject;
 import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
-import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.cohort.definition.StaticCohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 
+/**
+ * The undefined cohort definition is a singleton cohort definition with an empty cohort
+ * The cohort definition is called INSTANCE_NAME
+ */
 public class UndefinedCohortDefinition extends BaseCohortDefinition {
 
-    public static final long serialVersionUID = 1L;
+	private static String MODULE_NAME = "Integration";
+	private static String INSTANCE_NAME = "instance";
+	private static String INSTANCE_DESC = "For use by " + MODULE_NAME;
 	
-	//***** CONSTRUCTORS *****
 
-	/**
-	 * Default Constructor
-	 */
 	public UndefinedCohortDefinition() {
 		super();
-		super.setName("Undefined");
-		super.setDescription("Undefined cohort definition for DHIS2 integration");
-		super.setRetired(true);
-	}
-	
-	//***** INSTANCE METHODS *****
-	
-
-	@Override
-	public void setDescription(String arg0) {
-	}
-
-	@Override
-	public void setName(String arg0) {
-	}
-
-	@Override
-	public void setRetired(Boolean arg0) {
-	}
-
-	@Override
-	public void addParameter(Parameter parameter) {
-	}
-
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "Undefined";
+		super.setName(INSTANCE_NAME);
+		super.setDescription(INSTANCE_DESC);
 	}
 
 }

@@ -15,6 +15,7 @@ import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface DhisService extends OpenmrsService {
@@ -219,5 +220,7 @@ public interface DhisService extends OpenmrsService {
 	
 	public Set<OptionSet> getOptionSetsByReportTemplate(
 			ReportTemplate ReportTemplate);
+	
+	public CohortDefinition getUndefinedCohortDefinition();
 		
 }
