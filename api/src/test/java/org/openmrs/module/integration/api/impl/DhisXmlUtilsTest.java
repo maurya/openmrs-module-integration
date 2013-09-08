@@ -28,10 +28,10 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 	private DhisXmlUtils dxu = new DhisXmlUtils();
 	private DhisService ds;
 
-	@Override
-	public Boolean useInMemoryDatabase() {
-		return false;
-	}
+//	@Override
+//	public Boolean useInMemoryDatabase() {
+//		return false;
+//	}
 	
 	@Before
 	public void setup() {
@@ -48,7 +48,6 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		}
 	}
 	
-	@Ignore
 	@Test
 	public void dhisXmlUtils_shouldSeeDhisObjects() {
 		int n=0;
@@ -68,10 +67,9 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		Assert.assertEquals("Dhis objects are missing",n,9);
 	}
 
-	@Ignore
 	@Test
 	public void createNewServer_shouldWorkForResources(){
-		String s = dxu.createNewServer("RESOURCES","MasterTemplate.xml", "CategoryOptionCombo-Detailed.xml", "Categories-Export.xml","OrganisationUnit-Export.xml");
+		String s = dxu.createNewServer("RESOURCES","MasterTemplate.xml", "cats.xml", "opts.xml","orgs.xml");
 		
 		Assert.assertEquals("Error is returned:" + s,"",s);
 	}
@@ -124,44 +122,5 @@ public class DhisXmlUtilsTest extends BaseModuleContextSensitiveTest {
 		Assert.assertNotNull("AllPatients returned null",allPat);
 	}
 
-	@Ignore
-	@Rollback(false)
-	@Test
-	public void getUndefined_shouldAddCohortDefOnlyIfNecessary() {
-		CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
-		List<CohortDefinition> defs = cds.getAllDefinitions(true);
-		int nBefore=0;
-		for (CohortDefinition cd : defs) {
-			if (cd.getClass().equals(UndefinedCohortDefinition.class)) {
-				nBefore++;
-			}
-		}
-		CohortDefinition undefined = dxu.getUndefinedCohort();
-		defs = cds.getAllDefinitions(true);
-		int nAfter=0;
-		for (CohortDefinition cd : defs) {
-			if (cd.getClass().equals(UndefinedCohortDefinition.class)) {
-				nAfter++;
-			}
-		}
-		
-		if (nBefore==0 && nAfter==0) {
-			Assert.assertEquals("Undefined cohort def was not created", nAfter,1);
-		} else if (nBefore==0) {
-			Assert.assertEquals("More than one undefined cohort def was created", nAfter, 1);
-			undefined = dxu.getUndefinedCohort();
-			defs = cds.getAllDefinitions(true);
-			nAfter=0;
-			for (CohortDefinition cd : defs) {
-				if (cd.getClass().equals(UndefinedCohortDefinition.class)) {
-					nAfter++;
-				}
-			}
-			Assert.assertEquals("More than one undefined cohort def was created", nAfter, 1);
-		} else {
-			Assert.assertEquals("No undefined cohort def should be created", nAfter, nBefore);
-		}
-		Assert.assertNotNull("AllPatients returned null",undefined);
-	}
 	
 }

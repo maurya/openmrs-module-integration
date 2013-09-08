@@ -3,6 +3,7 @@ package org.openmrs.module.integration.api;
 import java.util.List;
 
 import org.openmrs.api.context.Context;
+import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.UndefinedCohortDefinitionEvaluator;
 import org.openmrs.module.integration.api.impl.DhisXmlUtils;
@@ -79,4 +80,13 @@ public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 		
 		Assert.assertEquals("Should evaluate to an empty cohort",c.getMemberIds().size(),0);
 	}
+	
+	@Test
+	public void Uid_shouldBe11CharsEvenIfNull() {
+		OrgUnit o = new OrgUnit("",null,"");
+		Assert.assertEquals("Uid should be 11 chars", 11, o.getUid().length());
+		Assert.assertEquals("Code should equal uid",o.getUid(), o.getCode());
+		Assert.assertEquals("Name should be set to code", o.getCode(), o.getName());
+	}
+
 }

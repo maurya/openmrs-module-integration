@@ -16,6 +16,14 @@ public class Option extends OpenmrsDhisObject {
 	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
 	private IntegrationServer integrationServer;
 
+	public Option() {
+		super();
+	}
+	
+	public Option(String name,String code,String uid) {
+		super(name,code,uid);
+	}
+
 	@Override
 	public Integer getId() {
 		return getOptionId();

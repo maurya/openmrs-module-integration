@@ -5,48 +5,46 @@ import java.nio.ByteOrder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 import org.openmrs.BaseOpenmrsObject;
+import org.openmrs.module.integration.api.impl.CodeGenerator;
 
 public abstract class OpenmrsDhisObject extends BaseOpenmrsObject {
 	
 	private String name;
 	private String code;
 	private String uid;
-    private SimpleDateFormat LONG_DATE_FORMAT;
+    private SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
 	
 	public OpenmrsDhisObject() {
 		super();
-		LONG_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
 	}
 	
 	public OpenmrsDhisObject(String dhisName, String dhisCode, String dhisUid) {
 		super();
-		LONG_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
 
-		if (isNullOrEmpty(dhisCode) && isNullOrEmpty(dhisUid)) {
-			this.setUid(uuidToBase64(UUID.fromString(this.getUuid())));
-			this.setCode(this.getUid());
-		} else if (isNullOrEmpty(dhisCode)) {
-			this.setUid(dhisUid);
-			this.setCode(dhisUid);
-		} else if (isNullOrEmpty(dhisUid)) {
-			this.setUid(uuidToBase64(UUID.fromString(this.getUuid())));
-			this.setCode(dhisCode);
+		if (isNullOrEmpty(dhisUid)) {
+			this.setUid(CodeGenerator.generateCode());
 		} else {
 			this.setUid(dhisUid);
+		}
+		
+		if (isNullOrEmpty(dhisCode)) {
+			this.setCode(this.getUid());
+		} else {
 			this.setCode(dhisCode);
 		}
-
+		
 		if (isNullOrEmpty(dhisName)) {
 			this.setName(this.getCode());
 		} else {
 			this.setName(dhisName);
-		}
+		}		
 	}
-	
+
 	private Boolean isNullOrEmpty(String s) {
 		if (s==null)
 			return true;
@@ -55,17 +53,6 @@ public abstract class OpenmrsDhisObject extends BaseOpenmrsObject {
 		return false;
 	}
 	
-	private String uuidToBase64(UUID uuid) {
- 		 byte[] bytes = new byte[16];
-		 ByteBuffer bb = ByteBuffer.wrap(bytes);
-		 bb.order(ByteOrder.BIG_ENDIAN);
-		 bb.putLong(uuid.getMostSignificantBits());
-		 bb.putLong(uuid.getLeastSignificantBits());
-		 
-		 Base64 b64=new Base64();
-		 return b64.encodeToString(bytes);
-	}
-
 	public Date dateFromDhis(String s) throws ParseException {
 		return LONG_DATE_FORMAT.parse(s);
 	}

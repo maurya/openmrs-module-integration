@@ -10,14 +10,19 @@ public class DataElement extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(DataElement.class);
 
 	private int dataElementId;
-	private String dataElementName;
-	private String dataElementCode;
-	private String dataElementUid;
 	private String dataElementType;
 	private String cohortDefinitionUuid;
 	private Date lastUpdated;
 	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
+
+	public DataElement() {
+		super();
+	}
+	
+	public DataElement(String name,String code,String uid) {
+		super(name,code,uid);
+	}
 
 	@Override
 	public Integer getId() {
@@ -29,36 +34,6 @@ public class DataElement extends OpenmrsDhisObject {
 		setDataElementId(id);		
 	}
 
-	@Override
-	public String getName() {
-		return getDataElementName();
-	}
-
-	@Override
-	public void setName(String name) {
-		setDataElementName(name);		
-	}
-
-	@Override
-	public String getCode() {
-		return getDataElementCode();
-	}
-
-	@Override
-	public void setCode(String code) {
-		setDataElementName(code);		
-	}
-
-	@Override
-	public String getUid() {
-		return getDataElementUid();
-	}
-
-	@Override
-	public void setUid(String uid) {
-		setDataElementUid(uid);		
-	}
-
 	public int getDataElementId() {
 		return dataElementId;
 	}
@@ -67,29 +42,6 @@ public class DataElement extends OpenmrsDhisObject {
 		this.dataElementId = dataElementId;
 	}
 	
-	public String getDataElementName() {
-		return dataElementName;
-	}
-
-	public void setDataElementName(String dataElementName) {
-		this.dataElementName = dataElementName;
-	}
-	
-	public String getDataElementCode() {
-		return dataElementCode;
-	}
-
-	public void setDataElementCode(String dataElementCode) {
-		this.dataElementCode = dataElementCode;
-	}
-	
-	public String getDataElementUid() {
-		return dataElementUid;
-	}
-
-	public void setDataElementUid(String dataElementUid) {
-		this.dataElementUid = dataElementUid;
-	}
 	public String getDataElementType() {
 		return dataElementType;
 	}

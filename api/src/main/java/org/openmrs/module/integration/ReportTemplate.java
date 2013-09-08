@@ -8,18 +8,23 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class ReportTemplate extends BaseOpenmrsObject {
+public class ReportTemplate extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(ReportTemplate.class);
 
 	private int id;
-	private String reportTemplateName;
-	private String reportTemplateCode;
 	private String frequency;
 	private String mappedReportUuid;
-	private String uid;
 	private Date lastUpdated;
 	private IntegrationServer integrationServer;
 	private Set<DataValueTemplate> dataValueTemplates = new HashSet<DataValueTemplate>(0);
+
+	public ReportTemplate() {
+		super();
+	}
+	
+	public ReportTemplate(String name,String code,String uid) {
+		super(name,code,uid);
+	}
 
 	@Override
 	public Integer getId() {
@@ -31,22 +36,6 @@ public class ReportTemplate extends BaseOpenmrsObject {
 		this.id=id;		
 	}
 
-	public String getReportTemplateName() {
-		return reportTemplateName;
-	}
-
-	public void setReportTemplateName(String reportTemplateName) {
-		this.reportTemplateName = reportTemplateName;
-	}
-	
-	public String getReportTemplateCode() {
-		return reportTemplateCode;
-	}
-
-	public void setReportTemplateCode(String reportTemplateCode) {
-		this.reportTemplateCode = reportTemplateCode;
-	}
-	
 	public String getFrequency() {
 		return frequency;
 	}
@@ -61,13 +50,7 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public void setMappedReportUuid(String mappedReportUuid) {
 		this.mappedReportUuid = mappedReportUuid;
 	}
-	public String getUid() {
-		return uid;
-	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}

@@ -14,6 +14,14 @@ public class OrgUnit extends OpenmrsDhisObject {
 	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
 
+	public OrgUnit() {
+		super();
+	}
+	
+	public OrgUnit(String name,String code,String uid) {
+		super(name,code,uid);
+	}
+
 	@Override
 	public Integer getId() {
 		return getOrgUnitId();
