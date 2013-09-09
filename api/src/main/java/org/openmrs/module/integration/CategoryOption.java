@@ -17,6 +17,14 @@ public class CategoryOption extends OpenmrsDhisObject {
 	private Set<CategoryCombo> categoryCombos= new HashSet<CategoryCombo>(0);
 	//private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
+	
+	public CategoryOption() {
+		super();
+	}
+
+	public CategoryOption(String name,String code,String uid) {
+		super(name,code,uid);
+	}
 
 	@Override
 	public Integer getId() {

@@ -47,6 +47,7 @@ public class AdminList extends AdministrationSectionExt {
 		map.put("/module/integration/manage.form", "integration.manage");
 		map.put("/module/integration/integrationServerAdmin.form", "integration.serverAdmin");
 		map.put("/module/integration/runReports.form", "integration.runReports");
+		map.put("/module/integration/manageResults.form", "integration.manageResults");
 		return map;
 	}
 	

@@ -18,6 +18,9 @@
 		<property name="code" type="java.lang.String" column="code"
 			not-null="true" length="50" />		
 			
+			<property name="uid" type="java.lang.String" column="uid"
+			length="11" not-null="true" />
+
 
 		<set name="options" table="dhis_categoryoption_option">
             <key column="categoryoption_id" not-null="true" />

@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.metadata.ClassMetadata;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -19,9 +20,12 @@ import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.transaction.annotation.Transactional;
 import org.openmrs.module.integration.api.db.DhisDAO;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
+import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 
 public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	
@@ -30,7 +34,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 		// Private variables
 		private DhisDAO dao;
-		
+		private CohortDefinition undef;
 		/**
 		* @param dao the dao to set
 		*/
@@ -219,6 +223,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		return dao.getDataElementByUid(uid,is);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public DataElement getDataElementByCode(String code, IntegrationServer is) {
+		return dao.getDataElementByCode(code,is);
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<DataElement> getDataElementsByServer(IntegrationServer IntegrationServer) {
@@ -487,6 +497,29 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	public Map<String, ClassMetadata> getHibernateClassMetadata() {
 		return dao.getHibernateClassMetadata();
+	}
+
+	@Override
+	public CohortDefinition getUndefinedCohortDefinition() {
+		if (undef==null) {
+			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+			List<CohortDefinition> cd = cds.getAllDefinitions(true);
+			Boolean found = false;
+			for (CohortDefinition d : cd) {
+				if (d instanceof UndefinedCohortDefinition) {
+					undef = d;
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				undef = new UndefinedCohortDefinition();
+				cds.saveDefinition(undef);
+			}
+		}
+
+		return undef;
 	}
 
 

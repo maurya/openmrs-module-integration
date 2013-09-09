@@ -15,6 +15,7 @@ import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface DhisService extends OpenmrsService {
@@ -92,6 +93,9 @@ public interface DhisService extends OpenmrsService {
 		@Transactional(readOnly = true)
 		public DataElement getDataElementByUid(String uuid, IntegrationServer is);
 			
+		@Transactional(readOnly = true)
+		public DataElement getDataElementByCode(String code, IntegrationServer is);
+		
 		@Transactional(readOnly = true)
 		public List<DataElement> getDataElementsByServer(IntegrationServer integrationServer);
 				
@@ -210,5 +214,5 @@ public interface DhisService extends OpenmrsService {
 	
 	public Set<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
 	
-		
+	public CohortDefinition getUndefinedCohortDefinition();
 }

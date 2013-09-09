@@ -33,17 +33,17 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${reports}" var="report" >
-					<tr id="${report.reportTemplateId}">
-						<td width="10%" id="name${report.reportTemplateId}">
-							${report.reportTemplateName}
+					<tr id="${report.id}">
+						<td width="10%" id="name${report.id}">
+							${report.name}
 						</td>
-						<td width="10%" id="code${report.reportTemplateId}">
-							${report.reportTemplateCode}
+						<td width="10%" id="code${report.id}">
+							${report.code}
 						</td>
-						<td width="10%" id="frequency${report.reportTemplateId}">
+						<td width="10%" id="frequency${report.id}">
 							${report.frequency}
 						</td>
-						<td width="10%" id="mappedReport${report.reportTemplateId}">
+						<td width="10%" id="mappedReport${report.id}">
 							${report.mappedReportUuid}
 						</td>
 						<td align="center" nowrap>

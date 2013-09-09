@@ -123,7 +123,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<ReportTemplate> list = sessionFactory.getCurrentSession()
 											.createCriteria(ReportTemplate.class)
 											.add(Restrictions.eq("integrationServer", integrationServer))
-											.addOrder(Order.asc("reportTemplateId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 		}
 

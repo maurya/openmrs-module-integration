@@ -33,22 +33,34 @@
 		
 				
 		<dependency>
-
-			<groupId>org.openmrs.module</groupId>
-						
+			<groupId>org.openmrs.module</groupId>		
 			<artifactId>reporting-api</artifactId>
-				<scope>provided</scope>								
+			<scope>provided</scope>								
 		</dependency>
 		
 		 <dependency>
-		<groupId>org.openmrs.module</groupId>
-   <artifactId>calculation-api</artifactId>
-  </dependency>
+			<groupId>org.openmrs.module</groupId>
+  			 <artifactId>calculation-api</artifactId>
+  			 <scope>provided</scope>
+ 		 </dependency>
    
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>serialization.xstream-api</artifactId>
+            <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlwidgets-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlwidgets-omod</artifactId>
+			<scope>provided</scope>
+		</dependency>
 						
 		<!-- End OpenMRS modules -->
 		

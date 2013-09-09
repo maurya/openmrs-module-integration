@@ -52,7 +52,7 @@
 		}
 
 </script>
-<h2><spring:message code="integration.dhis.reportTemplate"/> : ${reportTemplate.reportTemplateName}</h2>
+<h2><spring:message code="integration.dhis.reportTemplate"/> : ${reportTemplate.name}</h2>
 	
 		<div >
 		       			<table class="integration-data-table display">

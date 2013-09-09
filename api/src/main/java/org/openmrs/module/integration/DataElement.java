@@ -16,6 +16,14 @@ public class DataElement extends OpenmrsDhisObject {
 	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
 
+	public DataElement() {
+		super();
+	}
+
+	public DataElement(String name,String code,String uid) {
+		super(name,code,uid);
+	}
+	
 	@Override
 	public Integer getId() {
 		return getDataElementId();

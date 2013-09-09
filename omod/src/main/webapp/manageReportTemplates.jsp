@@ -129,39 +129,39 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${reportTemplates}" var="reportTemplate" >
-					<tr id="${reportTemplate.reportTemplateId}">
-						<td width="10%" id="name${reportTemplate.reportTemplateId}">
-							${reportTemplate.reportTemplateName}
+					<tr id="${reportTemplate.id}">
+						<td width="10%" id="name${reportTemplate.id}">
+							${reportTemplate.name}
 						</td>
-						<td width="10%" id="code${reportTemplate.reportTemplateId}">
-							${reportTemplate.reportTemplateCode}
+						<td width="10%" id="code${reportTemplate.id}">
+							${reportTemplate.code}
 						</td>
-						<td width="10%" id="frequency${reportTemplate.reportTemplateId}">
+						<td width="10%" id="frequency${reportTemplate.id}">
 							${reportTemplate.frequency}
 						</td>
-						<td width="10%" id="baseCohort${reportTemplate.reportTemplateId}">
+						<td width="10%" id="baseCohort${reportTemplate.id}">
 						${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid].baseCohortDefinition}
 						</td>
-						<td width="10%" id="mappedReport${reportTemplate.reportTemplateId}">
+						<td width="10%" id="mappedReport${reportTemplate.id}">
 							${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid]}
 						</td>
-						<td width="10%" id="check${reportTemplate.reportTemplateId}">
+						<td width="10%" id="check${reportTemplate.id}">
 							<input type="checkbox" checked="checked">
 						</td>
 						<td align="center" nowrap>
-							<a href="javascript:editReportTemplate('${reportTemplate.reportTemplateId}');"> <button >
+							<a href="javascript:editReportTemplate('${reportTemplate.id}');"> <button >
                   <spring:message code="integration.button.editReports"/>
                     </button>
                     </a>
 							
 						
 						
-						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.reportTemplateId}">
+						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.id}">
 						  <button >
                    <spring:message code="integration.button.mapDataElement"/>
                     </button>
                     </a>
-                     <a href="showOptions.form?reportTemplateId=${reportTemplate.reportTemplateId}">
+                     <a href="showOptions.form?reportTemplateId=${reportTemplate.id}">
                       <button >
                    <spring:message code="integration.button.mapOptionSets"/>
                     </button>

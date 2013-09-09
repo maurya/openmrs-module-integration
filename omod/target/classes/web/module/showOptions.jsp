@@ -53,7 +53,7 @@
 		            });
 		}
 </script>
-<h2><spring:message code="integration.header.optionSetsReport"/> : ${reportTemplate.reportTemplateName}</h2>
+<h2><spring:message code="integration.header.optionSetsReport"/> : ${reportTemplate.name}</h2>
 	
 		<div >
 		       			<table class="integration-data-table display">
