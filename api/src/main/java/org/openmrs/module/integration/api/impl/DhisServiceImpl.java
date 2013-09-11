@@ -361,8 +361,8 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public OrgUnit getOrgUnitByUid(String uid, IntegrationServer is) {
-		return dao.getOrgUnitByUid(uid, is);
+	public OrgUnit getOrgUnitByUid(String uid,IntegrationServer integrationServer) {
+		return dao.getOrgUnitByUid(uid,integrationServer);
 	}
 
 	@Override
@@ -520,6 +520,12 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		}
 
 		return undef;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ReportTemplate getReportTemplateByUid(String uid, IntegrationServer is) {
+		return dao.getReportTemplateByUid(uid, is);
 	}
 
 

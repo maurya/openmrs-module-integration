@@ -21,7 +21,10 @@
 			url: '${pageContext.request.contextPath}/module/reporting/reports/viewErrorDetails.form?uuid='+uuid
 		});
 	}
-
+	function showResult(uid,location,startdate) {
+			 $.post("${pageContext.request.contextPath}/module/integration/viewResult.form",{uid: uid,location: location,startDate: startdate});
+	}
+	
 </script>
 <div>
 	<table id="integration-data-table" class="integration-data-table" width="99%" style="padding:3px;">
@@ -72,9 +75,14 @@
 									</a>
 								</c:when>
 								<c:otherwise>
-									<a href="viewReport.form?uuid=${r.uuid}">
-										<img src='<c:url value="/moduleResources/reporting/images/report_icon.gif"/>' border="0" width="16" height="16"/><br/>
-										<small><spring:message code="reporting.viewReport"/></small>
+									<a href="javascript:showResult('kk','location','startdate');">
+										<button><spring:message code="integration.button.viewReport"/></button>
+									</a>
+										<a href="viewReport.form?uuid=${r.uuid}">
+										<button><spring:message code="integration.button.sendReport"/></button>
+									</a>
+										<a href="viewReport.form?uuid=${r.uuid}">
+										<button><spring:message code="integration.button.deleteReport"/></button>
 									</a>
 								</c:otherwise>
 							</c:choose>

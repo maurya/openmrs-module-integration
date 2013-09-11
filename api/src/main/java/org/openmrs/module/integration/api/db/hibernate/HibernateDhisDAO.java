@@ -163,11 +163,10 @@ public class HibernateDhisDAO implements DhisDAO{
 		}
 		
 		@Override
-		public OrgUnit getOrgUnitByUid(String uid,
-				IntegrationServer integrationServer) {
+		public OrgUnit getOrgUnitByUid(String uid,IntegrationServer integrationServer) {
 			return (OrgUnit) sessionFactory.getCurrentSession().createCriteria(OrgUnit.class)
 					.add(Restrictions.eq("uid", uid))
-			        .add(Restrictions.eq("integrationServer", integrationServer))
+					.add(Restrictions.eq("integrationServer", integrationServer))
 			        .uniqueResult();
 		}
 

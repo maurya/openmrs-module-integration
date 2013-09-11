@@ -50,7 +50,7 @@ public interface DhisService extends OpenmrsService {
 		public ReportTemplate getReportTemplateByUuid(String uuid);
 		
 		@Transactional(readOnly = true)
-		public OrgUnit getOrgUnitByUid(String uuid, IntegrationServer is);
+		public ReportTemplate getReportTemplateByUid(String uid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer);
@@ -71,6 +71,9 @@ public interface DhisService extends OpenmrsService {
 			
 		@Transactional(readOnly = true)
 		public OrgUnit getOrgUnitByUuid(String uuid);
+		
+		@Transactional(readOnly = true)
+		public OrgUnit getOrgUnitByUid(String uid, IntegrationServer is);
 			
 		@Transactional(readOnly = true)
 		public List<OrgUnit> getOrgUnitByServer(IntegrationServer integrationServer);

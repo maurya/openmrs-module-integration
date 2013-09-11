@@ -1,5 +1,8 @@
 package org.openmrs.module.integration.web.controller;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +14,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.api.DhisService;
 import org.openmrs.module.reporting.report.ReportRequest;
 import org.openmrs.module.reporting.report.ReportRequest.PriorityComparator;
 import org.openmrs.module.reporting.report.ReportRequest.Status;
@@ -56,8 +62,19 @@ public class ManageResultsController {
 				}
 			}
 		}
+		//List<ReportRequest> sdmxhistory = new ArrayList<ReportRequest>(0);
+		//List<String> labels=new ArrayList<String>(0);
+		//for(ReportRequest rr:history){
+			//if(rr.getRenderingMode().getLabel().equals("SDMXHDCrossSectionalReportRenderer")){
+			//	labels.add(rr.getRenderingMode().getLabel());
+				
+			//sdmxhistory.add(rr);
+			//}
+			
+		//}
 		Collections.sort(history, new PriorityComparator());
 		Collections.reverse(history);
+		
 		model.addAttribute("history", history);
 		
 		model.addAttribute("cached", rs.getCachedReports().keySet());
@@ -71,5 +88,14 @@ public class ManageResultsController {
 			}
         }
 		model.addAttribute("renderingModes", renderingModes);
+	}
+	
+	@RequestMapping("/module/integration/viewResult")
+	public void viewResult(ModelMap model,
+			@RequestParam(value="uid", required=true) String uid,
+			@RequestParam(value="location", required=true) String location,
+			@RequestParam(value="startDate", required=true) String startDate) throws IOException {
+		File file=new File("C:\\Users\\Maurya\\Desktop\\TrialFiles\\"+uid+location+startDate+".txt");
+		Desktop.getDesktop().open(file);
 	}
 }
