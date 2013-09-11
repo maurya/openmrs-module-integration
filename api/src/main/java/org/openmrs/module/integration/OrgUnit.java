@@ -10,7 +10,6 @@ import org.openmrs.BaseOpenmrsObject;
 public class OrgUnit extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(OrgUnit.class);
 
-	private int orgUnitId;
 	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
 
@@ -22,22 +21,12 @@ public class OrgUnit extends OpenmrsDhisObject {
 		super(name,code,uid);
 	}
 
-	@Override
-	public Integer getId() {
-		return getOrgUnitId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setOrgUnitId(id);		
-	}
-
 	public int getOrgUnitId() {
-		return orgUnitId;
+		return this.getId();
 	}
 
 	public void setOrgUnitId(int orgUnitId) {
-		this.orgUnitId = orgUnitId;
+		this.setId(orgUnitId);
 	}
 	
 	

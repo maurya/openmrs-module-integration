@@ -3,8 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.OptionSet" table="dhis_optionset">
-		<id name="optionSetId" type="int" column="id"
-			unsaved-value="0">
+		<id name="id" type="int" unsaved-value="0" column="id">
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />

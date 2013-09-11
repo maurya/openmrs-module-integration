@@ -9,7 +9,7 @@ import org.openmrs.BaseOpenmrsObject;
 public class DataValueTemplate extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(DataValueTemplate.class);
 
-	private int dataValueTemplateId;
+	private Integer id;
 	private DataElement dataElement;
 	private CategoryOption categoryOption;
 	private ReportTemplate reportTemplate;
@@ -18,20 +18,20 @@ public class DataValueTemplate extends BaseOpenmrsObject {
 
 	@Override
 	public Integer getId() {
-		return getDataValueTemplateId();
+		return id;
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setDataValueTemplateId(id);		
+		this.id=id;
 	}
-
+	
 	public int getDataValueTemplateId() {
-		return dataValueTemplateId;
+		return this.getId();
 	}
 
 	public void setDataValueTemplateId(int dataValueTemplateId) {
-		this.dataValueTemplateId = dataValueTemplateId;
+		this.setId(dataValueTemplateId);
 	}
 
 	public DataElement getDataElement() {
@@ -71,4 +71,5 @@ public class DataValueTemplate extends BaseOpenmrsObject {
     {
         return this.integrationServer;
     }
+
 }

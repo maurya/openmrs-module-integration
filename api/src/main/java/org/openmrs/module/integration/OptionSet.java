@@ -10,7 +10,6 @@ import org.openmrs.BaseOpenmrsObject;
 public class OptionSet extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(OptionSet.class);
 
-	private int optionSetId;
 	private String dimensionUuid;
 	private Set<Option> options=  new HashSet<Option>(0);
 	private Set<CategoryCombo> categoryCombos=  new HashSet<CategoryCombo>(0);
@@ -25,22 +24,12 @@ public class OptionSet extends OpenmrsDhisObject {
 		super(name,code,uid);
 	}
 
-	@Override
-	public Integer getId() {
-		return getOptionSetId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setOptionSetId(id);		
-	}
-
 	public int getOptionSetId() {
-		return optionSetId;
+		return this.getId();
 	}
 
 	public void setOptionSetId(int optionSetId) {
-		this.optionSetId = optionSetId;
+		this.setId(optionSetId);
 	}
 	
 	public String getDimensionUuid() {

@@ -12,12 +12,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.module.integration.api.impl.CodeGenerator;
 
-public abstract class OpenmrsDhisObject extends BaseOpenmrsObject {
+public class OpenmrsDhisObject extends BaseOpenmrsObject {
 	
+	private Integer id;
 	private String name;
 	private String code;
 	private String uid;
-    private SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
+    private static final SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
 	
 	public OpenmrsDhisObject() {
 		super();
@@ -45,7 +46,7 @@ public abstract class OpenmrsDhisObject extends BaseOpenmrsObject {
 		}		
 	}
 
-	private Boolean isNullOrEmpty(String s) {
+	private static Boolean isNullOrEmpty(String s) {
 		if (s==null)
 			return true;
 		else if (s.length()==0)
@@ -79,6 +80,16 @@ public abstract class OpenmrsDhisObject extends BaseOpenmrsObject {
 	
 	public void setUid(String uid) {
 		this.uid=uid;
+	}
+
+	@Override
+	public Integer getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Integer id) {
+		this.id=id;
 	}
 	
 }

@@ -27,6 +27,7 @@ import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.transaction.annotation.Transactional;
 import org.openmrs.module.integration.api.db.DhisDAO;
+import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 
@@ -34,11 +35,15 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	
 		// Logger
 		private transient Log log = LogFactory.getLog(DhisServiceImpl.class);
-
+		private static final String MODULE_NAME = "Integration";
+		private static final String UNDEFINED_DESC = "For use by " + MODULE_NAME;
+		private static final String ALL_PATIENTS = "All Patients";
+		
 		// Private variables
 		private DhisDAO dao;
 		private CohortDefinition undef;
-		
+		private CohortDefinition allPatients;
+
 		/**
 		* @param dao the dao to set
 		*/
@@ -547,7 +552,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 			Boolean found = false;
 			for (CohortDefinition d : cd) {
 				if (d instanceof UndefinedCohortDefinition) {
-					undef = d;
+					undef =  d;
 					found = true;
 					break;
 				}
@@ -561,5 +566,44 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 		return undef;
 	}
+	
+	@Override
+	public void commit() {
+		dao.commit();
+	}
+
+     /**
+     * The allPatients cohort will be created if needed
+     * @return the AllPatients cohort
+     */
+	@Override
+	@Transactional(readOnly=true)
+    public CohortDefinition getAllPatients() {
+    	if (allPatients==null) {
+			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+			List<CohortDefinition> cd = cds.getAllDefinitions(true);
+			Boolean found = false;
+			for (CohortDefinition d : cd) {
+				if (d instanceof AllPatientsCohortDefinition) {
+					if (d.getName().equals(ALL_PATIENTS) && 
+							d.getDescription().equals(UNDEFINED_DESC)) {
+						allPatients = d;
+						found = true;
+						break;
+					}
+				}
+			}
+
+			if (!found) {
+    			allPatients = new AllPatientsCohortDefinition();
+    			allPatients.setName(ALL_PATIENTS);
+    			allPatients.setDescription(UNDEFINED_DESC);
+    			allPatients.setRetired(true);
+    			allPatients.setDateRetired(new Date());
+    			allPatients=cds.saveDefinition(allPatients);
+			}
+    	}
+    	return allPatients;
+    }
 
 }

@@ -9,7 +9,6 @@ import org.openmrs.BaseOpenmrsObject;
 public class DataElement extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(DataElement.class);
 
-	private int dataElementId;
 	private String dataElementType;
 	private String cohortDefinitionUuid;
 	private Date lastUpdated;
@@ -24,22 +23,12 @@ public class DataElement extends OpenmrsDhisObject {
 		super(name,code,uid);
 	}
 
-	@Override
-	public Integer getId() {
-		return getDataElementId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setDataElementId(id);		
-	}
-
 	public int getDataElementId() {
-		return dataElementId;
+		return this.getId();
 	}
 
 	public void setDataElementId(int dataElementId) {
-		this.dataElementId = dataElementId;
+		this.setId(dataElementId);
 	}
 	
 	public String getDataElementType() {

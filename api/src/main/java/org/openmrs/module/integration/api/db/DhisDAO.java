@@ -171,5 +171,6 @@ public interface DhisDAO {
 //	 List<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
 	
 	Map<String,ClassMetadata> getHibernateClassMetadata();
-	
+
+	void commit();
 }

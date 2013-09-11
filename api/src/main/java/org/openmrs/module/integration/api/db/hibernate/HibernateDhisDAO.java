@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
@@ -29,7 +30,7 @@ public class HibernateDhisDAO implements DhisDAO{
 	private static Log log = LogFactory.getLog(HibernateDhisDAO.class);
 
     private SessionFactory sessionFactory;
-    
+	private Transaction trans = null;
     
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -470,19 +471,19 @@ public class HibernateDhisDAO implements DhisDAO{
 				IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<OptionSet> list = sessionFactory.getCurrentSession().createCriteria(OptionSet.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("optionSetId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 		
 		@Override
-		public OptionSet saveOptionSet(OptionSet OptionSet) {
-			sessionFactory.getCurrentSession().saveOrUpdate(OptionSet);
-			return OptionSet;
+		public OptionSet saveOptionSet(OptionSet optionSet) {
+			sessionFactory.getCurrentSession().saveOrUpdate(optionSet);
+			return optionSet;
 		}
 
 		@Override
-		public void deleteOptionSet(OptionSet OptionSet) {
-			sessionFactory.getCurrentSession().delete(OptionSet);
+		public void deleteOptionSet(OptionSet optionSet) {
+			sessionFactory.getCurrentSession().delete(optionSet);
 			
 		}	
 		
@@ -521,7 +522,7 @@ public class HibernateDhisDAO implements DhisDAO{
 	public List<Option> getOptionsByServer(IntegrationServer integrationServer) {
 		@SuppressWarnings("unchecked")
 		List<Option> list = sessionFactory.getCurrentSession().createCriteria(Option.class)
-		        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("optionId")).list();
+		        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 		return list;
 	}
 
@@ -567,10 +568,19 @@ public class HibernateDhisDAO implements DhisDAO{
 //	}
 
 	
-@Override
-public Map<String,ClassMetadata> getHibernateClassMetadata() {
-	return sessionFactory.getAllClassMetadata();
-}
-	
+	@Override
+	public Map<String,ClassMetadata> getHibernateClassMetadata() {
+		return sessionFactory.getAllClassMetadata();
+	}
+		
+	@Override
+	public void commit() {
+		if (trans==null) {
+			trans=sessionFactory.getCurrentSession().beginTransaction();
+		} else {
+			trans.commit();
+			trans=null;
+		}
+	}
 
 }
