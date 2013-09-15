@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
-<%@ include file="localHeader.jsp" %>
 <%@ include file="localInclude.jsp" %>
 
 <script type="text/javascript" charset="utf-8">
@@ -26,6 +25,9 @@
 	}
 	
 </script>
+<div id="breadCrumbs">
+<a href="integrationServerAdmin.form"><spring:message code="integration.return.serverAdministration"/></a>|
+</div>
 <div>
 	<table id="integration-data-table" class="integration-data-table" width="99%" style="padding:3px;">
 			<thead>

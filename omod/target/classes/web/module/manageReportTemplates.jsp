@@ -1,7 +1,6 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
-<%@ include file="localHeader.jsp" %>
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
@@ -110,7 +109,10 @@
 		            });
 		}
 </script>
-<h2><spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
+<div id="breadCrumbs">
+<a href="integrationServerAdmin.form"><spring:message code="integration.return.serverAdministration"/></a>|
+</div>
+<h2><spring:message code="integration.general.locationsFor"/> <spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
 
 <div >
 			<br/>
@@ -156,12 +158,12 @@
 							
 						
 						
-						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.id}">
+						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.id}&server=${server.serverName}">
 						  <button >
                    <spring:message code="integration.button.mapDataElement"/>
                     </button>
                     </a>
-                     <a href="showOptions.form?reportTemplateId=${reportTemplate.id}">
+                     <a href="showOptions.form?reportTemplateId=${reportTemplate.id}&server=${server.serverName}">
                       <button >
                    <spring:message code="integration.button.mapOptionSets"/>
                     </button>

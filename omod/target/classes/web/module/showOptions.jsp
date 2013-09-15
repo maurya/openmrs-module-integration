@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
-<%@ include file="localHeader.jsp" %>
 <%@ include file="localInclude.jsp" %>
 <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
 <script type="text/javascript" charset="utf-8">
@@ -53,6 +52,9 @@
 		            });
 		}
 </script>
+<div id="breadCrumbs">
+<a href="integrationServerAdmin.form"><spring:message code="integration.return.serverAdministration"/></a>|<a href="manageReportTemplates.form?name=${server}"><spring:message code="integration.return.reportTemplates"/></a>|
+</div>
 <h2><spring:message code="integration.header.optionSetsReport"/> : ${reportTemplate.name}</h2>
 	
 		<div >

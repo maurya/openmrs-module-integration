@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ShowOptionsController {
 	@RequestMapping(value = "/module/integration/showOptions", method = RequestMethod.GET)
 	public void showDataElementsAndOptions(@RequestParam(required=false, value="reportTemplateId") int reportTemplateId,
+			@RequestParam(required=true, value="server") String server,
 			ModelMap model) {
 		DhisService dhisService = Context.getService(DhisService.class);
 		ReportTemplate reportTemplate=dhisService.getReportTemplateById(reportTemplateId);
 		model.addAttribute("reportTemplate",reportTemplate);
+		model.addAttribute("server",server);
 		Set<OptionSet> OptionSetList = dhisService.getOptionSetsByReportTemplate(reportTemplate);
 		model.addAttribute("OptionSetList",OptionSetList);
 		

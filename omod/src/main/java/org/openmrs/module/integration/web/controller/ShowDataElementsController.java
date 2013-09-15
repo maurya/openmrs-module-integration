@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ShowDataElementsController {
 	@RequestMapping(value = "/module/integration/showDataElements", method = RequestMethod.GET)
-	public void showDataElementsAndOptions(@RequestParam(required=false, value="reportTemplateId") int reportTemplateId,
+	public void showDataElementsAndOptions(@RequestParam(required=true, value="reportTemplateId") int reportTemplateId,
+			@RequestParam(required=true, value="server") String server,
 			ModelMap model) {
 		DhisService dhisService = Context.getService(DhisService.class);
 		ReportTemplate reportTemplate=dhisService.getReportTemplateById(reportTemplateId);
 		model.addAttribute("reportTemplate",reportTemplate);
+		model.addAttribute("server",server);
 		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary= dhisService.getDataElementToCategoryComboDictionaryByReportTemplate(reportTemplate);
 		model.addAttribute("DataElementToCategoryComboDictionary",DataElementToCategoryComboDictionary);
 		
