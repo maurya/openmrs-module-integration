@@ -11,7 +11,6 @@ import org.openmrs.BaseOpenmrsObject;
 public class ReportTemplate extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(ReportTemplate.class);
 
-	private int id;
 	private String frequency;
 	private String mappedReportUuid;
 	private Date lastUpdated;
@@ -26,16 +25,6 @@ public class ReportTemplate extends OpenmrsDhisObject {
 		super(name,code,uid);
 	}
 
-	@Override
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Integer id) {
-		this.id=id;		
-	}
-	
 	public String getFrequency() {
 		return frequency;
 	}

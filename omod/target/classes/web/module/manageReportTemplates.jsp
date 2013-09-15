@@ -231,9 +231,9 @@
 					
 						<td width="10%" id="dataElementCollection${element.key.id}" >
 							<c:forEach items="${element.value}" var="dataElement" >
-							<a href="javascript:editDataElement('${dataElement.dataElementId}');"><p id="dataElement${dataElement.dataElementId}">${dataElement.name}</p></a>
-								<div id="addOrEditPopupde${dataElement.dataElementId}" class="addOrEditPopup">
-								<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${dataElement.dataElementId}" moduleId="integration" parameters="type=DataElement|mappedCohort=${dataElement.cohortDefinitionUuid}|portletId=${dataElement.dataElementId}|extraClass=de" />
+							<a href="javascript:editDataElement('${dataElement.id}');"><p id="dataElement${dataElement.id}">${dataElement.name}</p></a>
+								<div id="addOrEditPopupde${dataElement.id}" class="addOrEditPopup">
+								<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${dataElement.id}" moduleId="integration" parameters="type=DataElement|mappedCohort=${dataElement.cohortDefinitionUuid}|portletId=${dataElement.id}|extraClass=de" />
 								</div>
 							</c:forEach>
 						</td>

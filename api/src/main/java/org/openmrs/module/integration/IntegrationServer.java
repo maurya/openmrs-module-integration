@@ -9,7 +9,7 @@ import org.openmrs.BaseOpenmrsObject;
 public class IntegrationServer extends BaseOpenmrsObject {
 	public static Log log = LogFactory.getLog(IntegrationServer.class);
 
-	private int integrationServerId;
+	private int id;
 	private String serverName;
 	private String serverDescription;
 	private String userName;
@@ -23,22 +23,14 @@ public class IntegrationServer extends BaseOpenmrsObject {
 
 	@Override
 	public Integer getId() {
-		return getIntegrationServerId();
+		return id;
 	}
 
 	@Override
 	public void setId(Integer id) {
-		setIntegrationServerId(id);		
+		this.id=id;		
 	}
 
-	public int getIntegrationServerId() {
-		return integrationServerId;
-	}
-
-	public void setIntegrationServerId(int integrationServerId) {
-		this.integrationServerId = integrationServerId;
-	}
-	
 	public String getServerName() {
 		return serverName;
 	}

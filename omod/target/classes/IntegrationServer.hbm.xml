@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.IntegrationServer" table="dhis_integrationserver">
-		<id name="integrationServerId" type="int" column="id"
+		<id name="id" type="int" column="id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>

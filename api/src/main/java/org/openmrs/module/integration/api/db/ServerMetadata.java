@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -34,120 +36,173 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
+import org.openmrs.module.integration.CategoryCombo;
+import org.openmrs.module.integration.CategoryOption;
+import org.openmrs.module.integration.DataElement;
+import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.Option;
+import org.openmrs.module.integration.OptionSet;
+import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.OrgUnitDisplay;
+import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.api.DhisService;
+import org.openmrs.module.integration.api.db.DhisMetadataUtils.ContentType;
+import org.openmrs.module.integration.api.jaxb.CategoriesType;
+import org.openmrs.module.integration.api.jaxb.CategoryCombosType;
+import org.openmrs.module.integration.api.jaxb.OrgUnitType;
 import org.openmrs.module.integration.api.jaxb.ReportTemplates;
 import org.openmrs.module.integration.api.jaxb.MetaData;
-import org.openmrs.module.integration.api.jaxb.OrgUnitType;
+//import org.openmrs.module.integration.api.jaxb.OrgUnitType;
 import org.openmrs.module.integration.api.jaxb.ObjectFactory;
 import org.openmrs.util.OpenmrsUtil;
 
 /**
- * This object holds a complete set of DHIS metadata. It can be filled from
- * the DHIS API, a set of resources, or files kept in the user application
- * directory. It also performs the connection test.
+ * This object holds methods that require unmarshalled DHIS xml.
+ * It should be created when this functionality is needed and then destroyed.
+ * 
  */
 public class ServerMetadata {
 
 	private static Log log = LogFactory.getLog(ServerMetadata.class);
-	private static String MODULE_NAME = "Integration";
-	private static String NAMESPACE = "http://www.dhis.org/schemas/DXF/2.0/";
-
-	private static String catsCall = "/api/categoryOptionCombos?viewClass=detailed&paging=false";
-	private static String optsCall = "/api/categories?viewClass=export&paging=false";
-	private static String orgsCall = "/api/organisationUnits?viewClass=export&paging=false";
-	private static String rptsCall = "/api/dataSets";
-
-	public enum ContentType {
-		MASTER, CATS, OPTS, ORGS
-	}
-
-	private final MessageSourceService mss = Context.getMessageSourceService();
 	private final Double hash = Math.random();
-
+	
 	private String name;
-	private IntegrationServer server;
+	private IntegrationServer is;
 	private ReportTemplates master;
-	private List<MetaData.CategoryOptionCombos.CategoryOptionCombo> cats;
-	private List<MetaData.Categories.Category> opts;
-	private List<MetaData.OrganisationUnits.OrganisationUnit> orgs;
+	private MetaData opts;
+	private MetaData cats;
+	private MetaData orgs;
+	private DhisService ds = Context.getService(DhisService.class);
 
-	private JAXBContext jc;
-	private Unmarshaller um;
-
-	public ServerMetadata() {
-		super();
-		try {
-			jc = JAXBContext.newInstance(ReportTemplates.class,MetaData.class,OrgUnitType.class);
-			um = jc.createUnmarshaller();
-		} catch (JAXBException e) {
-			jc= null;
-			um = null;
-		}
-	}
-
+	
 	/**
-	 * This method initializes the object via the DHIS API. This method stores
-	 * the XML received in <application dir>/Integration/<server name>/New. The
-	 * files are called master.xml, cats.xml, opts.xml.
-	 * 
-	 * @param server the server object which is to be accessed.
+	 * Creates the initial DB objects for a new server by
+	 * parsing xml and traversing metadata
+	 *  
+	 * @param name the name of the server to be built
 	 */
-	public void getServerMetadata(IntegrationServer server)
-			throws IntegrationException {
-		this.server = server;
-		this.name = server.getServerName();
-		final URL url;
+	public void buildDBObjects(String name) throws IntegrationException {
+		this.name=name;
+		is=ds.getIntegrationServerByName(name);
+		if (is==null) {
+			is=new IntegrationServer();
+			is.setServerName(name);
+			ds.saveIntegrationServer(is);
+		}
 		try {
-			url = new URL(server.getUrl());
+			master = DhisMetadataUtils.UnmarshalMaster("New", name);
+			cats = DhisMetadataUtils.UnmarshalMetaData(ContentType.CATS,"New", name);
+			opts = DhisMetadataUtils.UnmarshalMetaData(ContentType.OPTS,"New", name);
+		} catch (IntegrationException ie) {
+			throw ie;
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(), e);
+			throw new IntegrationException(e.getLocalizedMessage(),null);
 		}
-		Credentials creds = new UsernamePasswordCredentials(
-				server.getUserName(), server.getPassword());
+		
+		String result = "";
+	
+// process options/option sets
+		
+		for (CategoriesType.Category xcat : getOpts()) {
+			OptionSet ops = new OptionSet(xcat.getName(),"",xcat.getId());
+			ops.setIntegrationServer(is);
+			ops=ds.saveOptionSet(ops);
+			for (CategoriesType.Category.CategoryOptions.CategoryOption xco : xcat.getCategoryOptions().getCategoryOption()) {
+				Option opv = new Option(xco.getName(),"",xco.getId());
+				opv.setIntegrationServer(is);
+				opv=ds.saveOption(opv);
+				ops.getOptions().add(opv);
+			}	
+			ds.saveOptionSet(ops);
+		}
+		int nop=ds.getOptionSetsByServer(is).size();
+		int nov=ds.getOptionsByServer(is).size();
+// process categorycombos/categoryoptions
+		
+		for (CategoryCombosType.CategoryOptionCombo xcco : getCats()) {
+			
+// find or create the category combo
+		
+			CategoryCombo ccb = ds.getCategoryComboByUid(xcco.getCategoryCombo().getId(),is);
+			if (ccb==null) {
+				ccb = new CategoryCombo(xcco.getCategoryCombo().getName(),"",xcco.getCategoryCombo().getId());
+				ccb.setIntegrationServer(is);
+				ccb=ds.saveCategoryCombo(ccb);
+			}
 
-		this.master = getMasterFromStream(getStreamFromAPI(url, rptsCall, creds,
-				"application/dsd+xml", ContentType.MASTER));
-		this.cats = getMetaDataFromStream(getStreamFromAPI(url, catsCall, creds,
-				"application/xml", ContentType.CATS)).getCategoryOptionCombos().getCategoryOptionCombo();
-		this.opts = getMetaDataFromStream(getStreamFromAPI(url, optsCall, creds,
-				"application/xml", ContentType.OPTS)).getCategories().getCategory();
-	}
+// create the category option and add it to the category combo's collection
+		
+			CategoryOption cco = new CategoryOption(xcco.getName(),"",xcco.getId());
+			cco.setIntegrationServer(is);
+			cco=ds.saveCategoryOption(cco);
+			ccb.getCategoryOptions().add(cco);
 
-	/**
-	 * This method initializes the object via resources in the project, it is
-	 * intended primarily for testing.
-	 * 
-	 * @param master the resource to be used as the master xml
-	 * @param cats the resource to be used as the cats xml
-	 * @param opts the resource to be used as the opts xml
-	 */
-	public void getServerMetadata(String master, String cats, String opts) throws IntegrationException {
-		this.server=new IntegrationServer();
-		this.name = master.endsWith(".xml") ? master.substring(0,master.length()-4) : master;
-		this.server.setServerName(name);
-		this.master = getMasterFromStream(getResourceStream(master));
-		this.cats=getMetaDataFromStream(getResourceStream(cats)).getCategoryOptionCombos().getCategoryOptionCombo();
-		this.opts=getMetaDataFromStream(getResourceStream(opts)).getCategories().getCategory();
+// for each optionSet/option, add the option to the catOption collection and the option set to the cat combo collection if needed
+		
+			for (CategoryCombosType.CategoryOptionCombo.CategoryOptions.CategoryOption xopv : xcco.getCategoryOptions().getCategoryOption()) {
+				Option opv = ds.getOptionByUid(xopv.getId(),is);
+				if (opv != null) {
+					cco.getOptions().add(opv);
+					if (ccb.getOptionSets().size() < (cco.getOptions().size())){
+						Iterator<OptionSet> it = opv.getOptionSets().iterator();
+						OptionSet ops = it.next();
+						if (ops != null) {
+							ccb.getOptionSets().add(ops);
+						}
+					}
+				}
+			}
+		}
+		
+// process data elements
+		for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
+			DataElement de = new DataElement(xde.getName(),xde.getCode(),xde.getUid());
+			de.setIntegrationServer(is);
+			de=ds.saveDataElement(de);
+		}
 
-	}
-
-	/**
-	 * This method initializes the object via files in the application
-	 * directory.
-	 * 
-	 * @param path the directory in which the files are located
-	 * @param master the file to be used as the master xml
-	 * @param cats the file to be used as the cats xml
-	 * @param opts the file to be used as the opts xml
-	 */
-	public void getServerMetadata(String path, String master, String cats,
-			String opts) throws IntegrationException {
-		this.server=new IntegrationServer();
-		this.name = name;
-		this.server.setServerName(name);
-		this.master = getMasterFromStream(getFileStream(path,master));
-		this.cats=getMetaDataFromStream(getFileStream(path,cats)).getCategoryOptionCombos().getCategoryOptionCombo();
-		this.opts=getMetaDataFromStream(getFileStream(path,opts)).getCategories().getCategory();
+// add codes to disaggregations
+		for (ReportTemplates.Disaggregations.Disaggregation xd : getMaster().getDisaggregations().getDisaggregation()) {
+			CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
+			if (co != null) {
+				co.setCode(xd.getCode());
+				ds.saveCategoryOption(co);
+			}
+		}
+		
+// process report definitions
+		for (ReportTemplates.ReportTemplate xrt : getReportTemplates()) {
+			ReportTemplate rt = new ReportTemplate(xrt.getName(),xrt.getCode(),xrt.getUid());
+			rt.setFrequency(xrt.getPeriodType());
+			rt.setIntegrationServer(is);
+			rt=ds.saveReportTemplate(rt);
+			for (ReportTemplates.ReportTemplate.DataValueTemplates.DataValueTemplate xdv : xrt.getDataValueTemplates().getDataValueTemplate()) {
+				DataValueTemplate dv = new DataValueTemplate();
+				dv.setReportTemplate(rt);
+				dv.setIntegrationServer(is);
+				DataElement de = ds.getDataElementByCode(xdv.getDataElement(),is);
+				if (de==null) {
+					de = ds.getDataElementByUid(xdv.getDataElement(),is);
+				}
+				if (de!=null) {
+					dv.setDataElement(de);
+					dv.setCategoryOption(ds.getCategoryOptionByUid(xdv.getDisaggregation(),is));
+					dv=ds.saveDataValueTemplate(dv);
+					rt.getDataValueTemplates().add(dv);
+					if (de.getCategoryCombo() == null) {
+						CategoryOption co = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is);
+						if (co!=null) {
+							Iterator<CategoryCombo> it = co.getCategoryCombos().iterator();
+							CategoryCombo cb=it.next();
+							if (cb != null) {
+								de.setCategoryCombo(cb);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// basic object methods
@@ -166,294 +221,101 @@ public class ServerMetadata {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ServerMetadata other = (ServerMetadata) obj;
-		if (master.equals(other.getMaster()))
-			if (cats.equals(other.getCats()))
-				if (opts.equals(other.getOpts()))
-					return true;
 		return false;
 	}
 
 	// getters for the underlying components -- no setters
-
+	
 	public IntegrationServer getServer() {
-		return server;
+		return is;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
 	public ReportTemplates getMaster() {
 		return master;
 	}
 
 	public List<ReportTemplates.DataElements.DataElement> getDataElements() {
+		if (master==null) {
+			return null;
+		}
+		if (master.getDataElements()==null) {
+			return null;
+		}
 		return master.getDataElements().getDataElement();
 	}
 
 	public List<ReportTemplates.Disaggregations.Disaggregation> getDisaggregations() {
+		if (master==null) {
+			return null;
+		}
+		if (master.getDisaggregations()==null) {
+			return null;
+		}
 		return master.getDisaggregations().getDisaggregation();
 	}
 
 	public List<ReportTemplates.ReportTemplate> getReportTemplates() {
+		if (master==null) {
+			return null;
+		}
 		return master.getReportTemplate();
 	}
 
-	public List<MetaData.Categories.Category> getOpts() {
-		return opts;
-	}
-
-	public List<MetaData.CategoryOptionCombos.CategoryOptionCombo> getCats() {
-		return cats;
-	}
-
-	public List<MetaData.OrganisationUnits.OrganisationUnit> getOrgs() {
-		return orgs;
-	}
-
-
-	/**
-	 * This method unmarshals a ReportTemplates object from a stream.
-	 * The passage through JAXBElement comes from 
-	 * http://stackoverflow.com/questions/819720/no-xmlrootelement-generated-by-jaxb
-	 * and is used for consistency even though a root element is generated for ReportTemplates
-	 * 
-	 * @param stream the InputStream containing the xml
-	 * @return the unmarshalled object representing the xml
-	 */
-	private ReportTemplates getMasterFromStream(InputStream stream) throws IntegrationException {
-		ReportTemplates user = null;
-		try {
-			StreamSource ss = new StreamSource(stream);
-			JAXBElement<ReportTemplates> userElement = (JAXBElement<ReportTemplates>) um.unmarshal(ss,ReportTemplates.class);
-			user = userElement.getValue();
-		} catch (JAXBException e) {
-			throw new IntegrationException(e.getLocalizedMessage());
+	public List<CategoriesType.Category> getOpts() {
+		if (opts==null) {
+			return null;
 		}
-		return user;
-	}
-
-	/**
-	 * This method unmarshals a MetaData object from a stream.
-	 * The passage through JAXBElement comes from 
-	 * http://stackoverflow.com/questions/819720/no-xmlrootelement-generated-by-jaxb
-	 * and is used because no root element is generated for MetaData
-	 * 
-	 * @param stream the InputStream containing the xml
-	 * @return the unmarshalled object representing the xml
-	 */
-	private MetaData getMetaDataFromStream(InputStream stream) throws IntegrationException {
-		MetaData user = null;
-		try {
-			StreamSource ss = new StreamSource(stream);
-			JAXBElement<MetaData> userElement = (JAXBElement<MetaData>) um.unmarshal(ss,MetaData.class);
-			user = userElement.getValue();
-		} catch (JAXBException e) {
-			throw new IntegrationException(e.getLocalizedMessage());
+		if (opts.getCategories()==null) {
+			return null;
 		}
-		return user;
+		return opts.getCategories().getCategory();
 	}
 
+	public List<CategoryCombosType.CategoryOptionCombo> getCats() {
+		if (cats==null) {
+			return null;
+		}
+		if (cats.getCategoryOptionCombos()==null) {
+			return null;
+		}
+		return cats.getCategoryOptionCombos().getCategoryOptionCombo();
+	}
+	
+	public List<OrgUnitType.OrganisationUnit> getOrgs() {
+		if (orgs==null) {
+			return null;
+		}
+		if (orgs.getOrganisationUnits()==null) {
+			return null;
+		}
+		return orgs.getOrganisationUnits().getOrganisationUnit();
+	}
+
+	
 	/**
-	 * This method gets XML from the API, stores it in the user application
-	 * directory, and provides a stream for unmarshalling.
-	 * 
-	 * @param url the url of the host to be accessed
-	 * @param selector the low-order part of the url for getting a particular set
-	 * @param creds a credentials object containing the username and password
-	 * @param accept the contents of the accept header
-	 * @param saveAs the content type to be saved (MASTER, CATS, OPTS)
-	 * @return the unmarshalled object representing the xml
+	 * 	This method prepares the org unit display.
+	 *  The whole process to do so:
+	 *      ServerMetadata sm = new ServerMetadata(...) // or use existing
+	 *      sm.getOrgUnits(); // if not already done
+	 *      sm.prepareOrgUnitDisplay(); 
+	 *      SortedSet ss = OrgUnitDisplay.getAllHierarchical();
 	 */
-	private InputStream getStreamFromAPI(URL url, String selector, Credentials creds,
-			String accept, ContentType saveAs) throws IntegrationException {
-		InputStream result = null;
-
-//	Setup the GET
-		HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(),
-				url.getProtocol());
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		BasicHttpContext localcontext = new BasicHttpContext();
-
-		try {
-			HttpGet httpGet = new HttpGet(server.getUrl() + selector);
-			Header bs = new BasicScheme().authenticate(creds, httpGet,
-					localcontext);
-			httpGet.setHeader("Authorization", bs.getValue());
-			httpGet.setHeader("Content-Type", "application/xml");
-			httpGet.setHeader("Accept", accept);
-
-//	GET the response			
-			HttpResponse response = httpclient.execute(targetHost, httpGet,
-					localcontext);
-			HttpEntity entity = response.getEntity();
-
-			if (response.getStatusLine().getStatusCode() != 200) {
-				throw new IntegrationException(response.getStatusLine()
-						.getReasonPhrase(), null);
+	public void prepareOrgUnitDisplay() {
+		OrgUnitDisplay.Reset();
+		if (orgs==null) return;
+		if (orgs.getOrganisationUnits()==null) return;
+		for (OrgUnitType.OrganisationUnit org : orgs.getOrganisationUnits().getOrganisationUnit()) {
+			OrgUnitDisplay d = new OrgUnitDisplay(org.getName(),org.getCode(),org.getId());
+			d.setLevel(org.getLevel().intValue());
+			d.setServer(this.getName());
+			if (org.getParent()!=null) {
+				d.setParent(org.getParent().getName(), org.getParent().getCode(), org.getParent().getId(), d.getUid());
 			}
-
-//	Copy the XML from the response to the application directory			
-			if (entity != null) {
-					final StringBuilder sb = new StringBuilder();
-					sb.append(MODULE_NAME);
-					sb.append(File.separatorChar);
-					sb.append(server.getServerName());
-					sb.append(File.separatorChar);
-					sb.append("New");
-					File folder = OpenmrsUtil
-							.getDirectoryInApplicationDataDirectory(sb.toString());
-					File of = new File(folder, saveAs.toString().toLowerCase()
-							+ ".xml");
-					OutputStream os = new FileOutputStream(of);
-					IOUtils.copy(entity.getContent(), os);
-
-//	Use the stream from the application directory
-					result = getFileStream(sb.toString(), saveAs.toString()
-							.toLowerCase() + ".xml");
-			}
-
-//	Catch all the exceptions
-		} catch (APIException ex) {
-			throw new IntegrationException(ex.getLocalizedMessage());
-		} catch (IntegrationException ex) {
-			throw ex;		
-		} catch (AuthenticationException ex) {
-			throw new IntegrationException(ex.getLocalizedMessage());
-		} catch (IOException ex) {
-			throw new IntegrationException(ex.getLocalizedMessage());
-
-// Close the connection			
-		} finally {
-			httpclient.getConnectionManager().shutdown();
 		}
-
-		return result;
-	}
-
-
-	/**
-	 * This method gets the stream representing a resource
-	 * 
-	 * @param resource the name of the file
-	 * @return input stream containing test
-	 */
-	private InputStream getResourceStream(String resource) {
-		return Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(resource);
-	}
-
-	/**
-	 * This method gets the input stream for a file in the user application
-	 * directory
-	 * 
-	 * @param folder the directory within the user application directory
-	 * @param file the name of the file
-	 * @return input stream for the file
-	 */
-	private InputStream getFileStream(String folder, String file)
-			throws IntegrationException {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(OpenmrsUtil.getDirectoryInApplicationDataDirectory(folder));
-		if (sb.charAt(sb.length() - 1) != File.separatorChar)
-			sb.append(File.separatorChar);
-		sb.append(file);
-		try {
-			File f = new File(sb.toString());
-			return new FileInputStream(f);
-		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(), e);
-		}
-	}
-
-	/**
-	 * This method performs the connection test function
-	 * 
-	 * @param server the server to be tested
-	 * @return null if connection tests ok, else a localized error message
-	 */
-	public String testConnection(IntegrationServer server) {
-		String result = null;
-		Credentials creds = new UsernamePasswordCredentials(
-				server.getUserName(), server.getPassword());
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		BasicHttpContext localcontext = new BasicHttpContext();
-
-		final URL url;
-		try {
-			url = new URL(server.getUrl());
-			HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(),
-					url.getProtocol());
-			HttpGet httpGet = new HttpGet(server.getUrl() + "/api");
-
-			Header bs = new BasicScheme().authenticate(creds, httpGet,
-					localcontext);
-			httpGet.setHeader("Authorization", bs.getValue());
-			httpGet.setHeader("Content-Type", "text/html");
-			httpGet.setHeader("Accept", "text/html");
-
-			HttpResponse response = httpclient.execute(targetHost, httpGet,
-					localcontext);
-			if (response.getStatusLine().getStatusCode() != 200) {
-				result = response.getStatusLine().getReasonPhrase();
-			}
-		} catch (MalformedURLException e) {
-			result = mss.getMessage("Integration.General.Errors.MalformedUrl");
-		} catch (AuthenticationException e) {
-			result = mss
-					.getMessage("Integration.General.Errors.Authentication");
-		} catch (ClientProtocolException e) {
-			result = mss
-					.getMessage("Integration.General.Errors.ClientProtocol");
-		} catch (IOException e) {
-			result = mss.getMessage("Integration.General.Errors.IOFailure");
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
-
-		return result;
-	}
-
-	/**
-	 * This method gets org units from the server.
-	 * 
-	 */
-	public void getOrgUnits()
-			throws IntegrationException {
-		final URL url;
-		try {
-			url = new URL(server.getUrl());
-		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(), e);
-		}
-		Credentials creds = new UsernamePasswordCredentials(
-				server.getUserName(), server.getPassword());
-
-		this.orgs = getMetaDataFromStream(getStreamFromAPI(url, orgsCall, creds,
-				"application/xml", ContentType.ORGS)).getOrganisationUnits().getOrganisationUnit();
-	}
-
-	/**
-	 * This method gets org units via a resource in the project, it is
-	 * intended primarily for testing.
-	 * 
-	 * @param orgs the resource to be used as the orgs xml
-	 */
-	public void getOrgUnits(String orgs) throws IntegrationException {
-		this.orgs=getMetaDataFromStream(getResourceStream(orgs)).getOrganisationUnits().getOrganisationUnit();
-
-	}
-
-	/**
-	 * This method gets org units via files in the application
-	 * directory.
-	 * 
-	 * @param path the directory in which the file is located
-	 * @param orgs the file to be used as the opts xml
-	 */
-	public void getOrgUnits(String path, String orgs) throws IntegrationException {
-		this.orgs=getMetaDataFromStream(getFileStream(path,orgs)).getOrganisationUnits().getOrganisationUnit();
 	}
 
 }

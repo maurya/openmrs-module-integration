@@ -4,6 +4,7 @@
 	 elementFormDefault="qualified">
 <!-- 
 targetNamespace="http://www.dhis.org/schemas/DXF/2.0/" 
+	
 	xmlns:tns="http://www.dhis.org/schemas/DXF/2.0/"
  -->
 	<xsd:element name="reportTemplates">

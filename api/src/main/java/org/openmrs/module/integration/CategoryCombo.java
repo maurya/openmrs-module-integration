@@ -1,6 +1,5 @@
 package org.openmrs.module.integration;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +10,6 @@ import org.openmrs.BaseOpenmrsObject;
 public class CategoryCombo extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(CategoryCombo.class);
 
-	private int categoryComboId;
 	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>(0);
 	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
 	private IntegrationServer integrationServer;
@@ -22,24 +20,6 @@ public class CategoryCombo extends OpenmrsDhisObject {
 
 	public CategoryCombo(String name,String code,String uid) {
 		super(name,code,uid);
-	}
-
-	@Override
-	public Integer getId() {
-		return getCategoryComboId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setCategoryComboId(id);		
-	}
-
-	public int getCategoryComboId() {
-		return categoryComboId;
-	}
-
-	public void setCategoryComboId(int categoryComboId) {
-		this.categoryComboId = categoryComboId;
 	}
 	
 	 public Set<CategoryOption> getCategoryOptions() {

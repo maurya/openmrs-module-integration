@@ -6,7 +6,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.UndefinedCohortDefinitionEvaluator;
-import org.openmrs.module.integration.api.impl.DhisXmlUtils;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
