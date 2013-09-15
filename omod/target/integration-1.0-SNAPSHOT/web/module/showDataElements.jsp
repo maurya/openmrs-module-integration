@@ -68,11 +68,11 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${DataElementToCategoryComboDictionary}" var="element" >
-					<tr id="${element.key.dataElementId}">
-						<td width="10%" id="name${element.key.dataElementId}" >
+					<tr id="${element.key.id}">
+						<td width="10%" id="name${element.key.id}" >
 							${element.key.name}
 						</td>
-						<td width="10%" id="mappedobjectid${element.key.dataElementId}">
+						<td width="10%" id="mappedobjectid${element.key.id}">
 							 ${uuidToCohortDefinitionMap[element.key.cohortDefinitionUuid]}
 						</td>
 						<td width="20%">
@@ -80,9 +80,9 @@
 						</td>
 						<td width="1%" align="center" nowrap>
 							&nbsp;
-							<a href="javascript:editDataElement('${element.key.dataElementId}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapDataElement"/>'/></a>
-						<div id="addOrEditPopup${element.key.dataElementId}" class="addOrEditPopup">
-						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${element.key.dataElementId}" moduleId="integration" parameters="type=DataElement|mappedCohort=${element.key.cohortDefinitionUuid}|portletId=${element.key.dataElementId}" />
+							<a href="javascript:editDataElement('${element.key.id}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.mapDataElement"/>'/></a>
+						<div id="addOrEditPopup${element.key.id}" class="addOrEditPopup">
+						<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${element.key.id}" moduleId="integration" parameters="type=DataElement|mappedCohort=${element.key.cohortDefinitionUuid}|portletId=${element.key.id}" />
 						</div>
 						</td>
 					</tr>

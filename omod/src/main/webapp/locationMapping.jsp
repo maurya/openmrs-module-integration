@@ -82,11 +82,11 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${serverItems}" var="serverItem" >
-					<tr id="${serverItem.integrationServerId}" >
-					<td id="sid${serverItem.integrationServerId}" >
-							${serverItem.integrationServerId}
+					<tr id="${serverItem.id}" >
+					<td id="sid${serverItem.id}" >
+							${serverItem.id}
 						</td>
-						<td width="20%" nowrap id="sname${serverItem.integrationServerId}">
+						<td width="20%" nowrap id="sname${serverItem.id}">
 							${serverItem.serverName}
 						</td>
 					</tr>

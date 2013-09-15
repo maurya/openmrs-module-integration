@@ -5,6 +5,7 @@
     targetNamespace="http://dhis2.org/schema/dxf/2.0" 
 	xmlns:tns="http://dhis2.org/schema/dxf/2.0">
 
+
 <xs:element name="metaData" >
 	<xs:complexType>
 		<xs:choice>

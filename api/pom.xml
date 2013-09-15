@@ -19,6 +19,7 @@
 		<!-- 
 		Add other dependencies from parent's pom:
 		<dependency>
+		
 			<groupId>org.other.library</groupId> 
 			<artifactId>library-name</artifactId>
 		</dependency> 

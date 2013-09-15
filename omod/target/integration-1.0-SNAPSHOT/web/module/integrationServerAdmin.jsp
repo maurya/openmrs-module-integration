@@ -75,32 +75,32 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${serverItems}" var="serverItem" >
-					<tr id="${serverItem.integrationServerId}" >
-					<td id="sid${serverItem.integrationServerId}" STYLE=display:NONE >
-							${serverItem.integrationServerId}
+					<tr id="${serverItem.id}" >
+					<td id="sid${serverItem.id}" STYLE=display:NONE >
+							${serverItem.id}
 						</td>
-						<td width="20%" nowrap id="sname${serverItem.integrationServerId}">
+						<td width="20%" nowrap id="sname${serverItem.id}">
 							${serverItem.serverName}
 						</td>
-						<td width="20%" id="sdescription${serverItem.integrationServerId}">
+						<td width="20%" id="sdescription${serverItem.id}">
 							${serverItem.serverDescription}
 						</td>
-						<td width="20%" id="surl${serverItem.integrationServerId}">
+						<td width="20%" id="surl${serverItem.id}">
 							${serverItem.url}
 						</td>
-						<td width="10%" id="lastUpdated${serverItem.integrationServerId}">
+						<td width="10%" id="lastUpdated${serverItem.id}">
 							${serverItem.lastUpdated}
 						</td>
-						<td id="suserName${serverItem.integrationServerId}" STYLE=display:NONE>
+						<td id="suserName${serverItem.id}" STYLE=display:NONE>
 							${serverItem.userName}
 						</td>
-						<td id="spassword${serverItem.integrationServerId}" STYLE=display:NONE>
+						<td id="spassword${serverItem.id}" STYLE=display:NONE>
 							${serverItem.password}
 						</td>
-						<td id="semail${serverItem.integrationServerId}" STYLE=display:NONE>
+						<td id="semail${serverItem.id}" STYLE=display:NONE>
 							${serverItem.emailorurl}
 						</td>
-						<td id="smasterTemplate${serverItem.integrationServerId}" STYLE=display:NONE>
+						<td id="smasterTemplate${serverItem.id}" STYLE=display:NONE>
 							${serverItem.masterTemplate}
 						</td>
 						<td id="stransportType${serverItem.transportType}" STYLE=display:NONE>
@@ -116,7 +116,7 @@
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0" title='<spring:message code="integration.tooltips.viewReportTemplates"/>'/>	
 									</a>
 							&nbsp;
-							<a href="javascript:editServer('${serverItem.integrationServerId}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.editServer"/>'/></a>
+							<a href="javascript:editServer('${serverItem.id}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.editServer"/>'/></a>
 							&nbsp;
 							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0" title='<spring:message code="integration.tooltips.deleteServer"/>'/></a>
 							&nbsp;
@@ -143,7 +143,7 @@
 								<td><spring:message code="integration.general.name"/></td>
 								<td>:</td>
 								<td>
-								<form:hidden path="integrationServerId" id="id"/>
+								<form:hidden path="id" id="id"/>
 								<form:input path="serverName" id="servername" size="40" /></td>
 							</tr>
 							<tr>
