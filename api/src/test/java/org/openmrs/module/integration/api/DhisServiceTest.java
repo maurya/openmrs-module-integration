@@ -18,6 +18,7 @@ import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionSe
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.annotation.Rollback;
 
 import junit.framework.Assert;
@@ -184,7 +185,8 @@ public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 		Assert.assertTrue("OptionSet should have id assigned",op.getId()>0);
 		Assert.assertNotNull("Integration server should be findable",ds.getOptionById(op.getId()));
 	}
-	
+
+	@NotTransactional
 	@Rollback(false)
 	@Test
 	public void SaveOptionSet_shouldSaveAddedOption() {
@@ -216,7 +218,6 @@ public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 		is.setTransportType("none");
 		is=ds.saveIntegrationServer(is);
 
-		ds.commit();	// start transaction
 		Option op = new Option(null,null,null);
 		op.setIntegrationServer(is);
 		op=ds.saveOption(op);
@@ -228,7 +229,6 @@ public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 		
 		op.getOptionSets().add(os);
 		op=ds.saveOption(op);
-		ds.commit();	// end transaction
 		Assert.assertTrue("OptionSet.Options is empty",os.getOptions().size()>0);
 		Assert.assertTrue("Option.OptionSets is empty",op.getOptionSets().size()>0);
 	}

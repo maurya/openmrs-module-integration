@@ -23,6 +23,7 @@ import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.ServiceLocationCohortDefinition;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.api.DhisService;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +42,9 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		
 		// Private variables
 		private DhisDAO dao;
-		private CohortDefinition undef;
+		private CohortDefinition undefined;
 		private CohortDefinition allPatients;
+		private CohortDefinition serviceLocation;
 
 		/**
 		* @param dao the dao to set
@@ -546,25 +548,25 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	@Transactional(readOnly=true)
 	public CohortDefinition getUndefinedCohortDefinition() {
-		if (undef==null) {
+		if (undefined==null) {
 			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
 			List<CohortDefinition> cd = cds.getAllDefinitions(true);
 			Boolean found = false;
 			for (CohortDefinition d : cd) {
 				if (d instanceof UndefinedCohortDefinition) {
-					undef =  d;
+					undefined =  d;
 					found = true;
 					break;
 				}
 			}
 
 			if (!found) {
-				undef = new UndefinedCohortDefinition();
-				cds.saveDefinition(undef);
+				undefined = new UndefinedCohortDefinition();
+				cds.saveDefinition(undefined);
 			}
 		}
 
-		return undef;
+		return undefined;
 	}
 	
 	@Override
@@ -606,4 +608,28 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
     	return allPatients;
     }
 
+	@Override
+	@Transactional(readOnly=true)
+	public CohortDefinition getServiceLocationCohortDefinition() {
+		if (serviceLocation==null) {
+			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+			List<CohortDefinition> cd = cds.getAllDefinitions(true);
+			Boolean found = false;
+			for (CohortDefinition d : cd) {
+				if (d instanceof ServiceLocationCohortDefinition) {
+					serviceLocation =  d;
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				serviceLocation = new ServiceLocationCohortDefinition();
+				cds.saveDefinition(serviceLocation);
+			}
+		}
+
+		return serviceLocation;
+	}
+	
 }

@@ -158,15 +158,17 @@ public interface DhisService extends OpenmrsService {
 	
 	public Map<String,ClassMetadata> getHibernateClassMetadata();
 	
-	public CohortDefinition getAllPatients();
-	
 	public Map<DataElement, CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate);
 	
 	public Set<OptionSet> getOptionSetsByReportTemplate(
 			ReportTemplate ReportTemplate);
 	
+	public CohortDefinition getAllPatients();
+	
 	public CohortDefinition getUndefinedCohortDefinition();
+	
+	public CohortDefinition getServiceLocationCohortDefinition();
 	
 	public void commit();
 		

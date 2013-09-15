@@ -3,8 +3,8 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.ReportTemplate" table="dhis_reporttemplate">
-		<id name="reportTemplateId" type="int" column="id"
-			unsaved-value="0">
+		<id name="id" type="int" unsaved-value="0">
+			<column name="id" />
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
@@ -14,14 +14,14 @@
 			
 			
 
-		<property name="reportTemplateName" type="java.lang.String" column="name"
+		<property name="name" type="java.lang.String" column="name"
 			not-null="true" length="230" />
 			
 			<property name="uid" type="java.lang.String" column="uid"
 			length="11" />
 			
-			<property name="reportTemplateCode" type="java.lang.String" column="code"
-			not-null="true" length="50" />
+			<property name="code" type="java.lang.String" column="code"
+			not-null="false" length="50" />
 			
 			<property name="frequency" type="java.lang.String" column="frequency"
 			not-null="true" length="230" />
@@ -33,11 +33,9 @@
  			<property name="lastUpdated" type="java.util.Date" column="last_updated"
 			length="19" />
 				
-		 <set name="dataValueTemplates" table="dhis_datavaluetemplate">
-        	<key>
-            	<column name="reporttemplate_id" not-null="true" />
-        	</key>
-        <one-to-many class="org.openmrs.module.integration.DataValueTemplate" />
+		 <set name="dataValueTemplates" inverse="true">
+            	<key column="reporttemplate_id" not-null="true" />
+        		<one-to-many class="org.openmrs.module.integration.DataValueTemplate" />
     	</set>
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"

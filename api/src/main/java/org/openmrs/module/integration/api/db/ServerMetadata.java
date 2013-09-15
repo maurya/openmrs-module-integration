@@ -313,7 +313,7 @@ public class ServerMetadata {
 			d.setLevel(org.getLevel().intValue());
 			d.setServer(this.getName());
 			if (org.getParent()!=null) {
-				d.setParent(org.getParent().getName(), org.getParent().getCode(), org.getParent().getId());
+				d.setParent(org.getParent().getName(), org.getParent().getCode(), org.getParent().getId(), d.getUid());
 			}
 		}
 	}

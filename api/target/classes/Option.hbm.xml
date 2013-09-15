@@ -3,8 +3,8 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.Option" table="dhis_option">
-		<id name="optionId" type="int" column="id"
-			unsaved-value="0">
+		<id name="id" type="int" unsaved-value="0">
+			<column name="id" />
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
@@ -18,7 +18,7 @@
 			not-null="true" length="230" />
 			
 			<property name="code" type="java.lang.String" column="code"
-			not-null="true" length="50" />
+			not-null="false" length="50" />
 			
 			<property name="uid" type="java.lang.String" column="uid"
 			not-null="true" length="50" />
@@ -35,7 +35,7 @@
         </set> 
         
 			
-		<set name="optionSets" table="dhis_optionset_option">
+		<set name="optionSets" table="dhis_optionset_option" inverse="true" >
             <key column="option_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.module.integration.OptionSet">
                 <column name="optionset_id" not-null="true" />

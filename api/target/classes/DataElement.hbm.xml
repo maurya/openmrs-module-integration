@@ -3,8 +3,8 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.DataElement" table="dhis_dataelement">
-		<id name="dataElementId" type="int" column="id"
-			unsaved-value="0">
+		<id name="id" type="int" unsaved-value="0">
+			<column name="id" />
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
@@ -14,17 +14,17 @@
 			
 			
 
-		<property name="dataElementName" type="java.lang.String" column="name"
+		<property name="name" type="java.lang.String" column="name"
 			not-null="true" length="230" />
 			
-			<property name="dataElementCode" type="java.lang.String" column="code"
-			not-null="true" length="50" />
+			<property name="code" type="java.lang.String" column="code"
+			not-null="false" length="50" />
 			
-			<property name="dataElementUid" type="java.lang.String" column="uid"
+			<property name="uid" type="java.lang.String" column="uid"
 			not-null="true" length="11" />
 			
 			<property name="dataElementType" type="java.lang.String" column="type"
-			not-null="true" length="50" />
+			not-null="false" length="50" />
 
 			<property name="cohortDefinitionUuid" type="java.lang.String" column="cohortdef_uuid"
 			length="38"  />
