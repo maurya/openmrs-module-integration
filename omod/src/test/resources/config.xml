@@ -15,6 +15,7 @@
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
+<<<<<<< HEAD
 
 	<!-- Required Modules -->
 	<require_modules>
@@ -30,20 +31,48 @@
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.IntegrationActivator</activator>
 
 
+=======
+	
+	<!-- Required Modules -->
+	<require_modules>
+																											
+		<require_module version="0.8-SNAPSHOT">
+			org.openmrs.module.reporting
+		</require_module>
+			
+	</require_modules>
+	<!-- / Required Modules -->
+	
+	<!-- Module Activator -->
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.IntegrationActivator</activator>
+	
+	
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	<!-- Adds link to admin page -->
 	<extension>
 		<point>org.openmrs.admin.list</point>
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	<privilege>
 		<name>Manage Integration Servers</name>
 		<description>Allows the user to manage Integration module Servers</description>
 	</privilege>
+<<<<<<< HEAD
 
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 
+=======
+	
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+				
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 <!-- 		Integration_ns.hbm.xml -->
 		<!--
 		
@@ -60,7 +89,11 @@
 		DataElement.hbm.xml
 		DataValueTemplate.hbm.xml
 		OrgUnit.hbm.xml
+<<<<<<< HEAD
 
+=======
+				
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -79,4 +112,9 @@
 	</messages>
 	<!-- /Internationalization -->
 
+<<<<<<< HEAD
 </module>
+=======
+</module>
+
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9

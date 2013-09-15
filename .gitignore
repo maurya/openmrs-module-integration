@@ -75,4 +75,9 @@ nb-configuration.xml
 
 ### JAXB-generated Files ####
 api/source/main/java/org/openmrs/module/integration/api/jaxb/*
+<<<<<<< HEAD
 #############
+=======
+#############
+
+>>>>>>> 221134414df7e61f851743122b308b4840d90106

@@ -13,10 +13,17 @@
 	<description>
 		Integration module for DHIS2 and OpenMRS
 	</description>
+<<<<<<< HEAD
 
 	<!-- Module Activator -->
 	<activator>org.openmrs.module.integration.IntegrationActivator</activator>
 
+=======
+	
+	<!-- Module Activator -->
+	<activator>org.openmrs.module.integration.IntegrationActivator</activator>
+	
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	<updateURL>https://modules.openmrs.org/modules/download/integration/update.rdf</updateURL>
 	<require_version>1.9.0</require_version>
 	<!-- / Module Properties -->
@@ -24,7 +31,11 @@
 
 	<!-- Required Modules -->
 	<require_modules>
+<<<<<<< HEAD
 
+=======
+																											
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 		<require_module version="0.7.8">
 			org.openmrs.module.reporting
 		</require_module>
@@ -36,7 +47,11 @@
 		</require_module>
 	</require_modules>
 	<!-- / Required Modules -->
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	<!-- Adds link to admin page -->
 	<extension>
 		<point>org.openmrs.admin.list</point>
@@ -63,6 +78,22 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
+	
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
+				
+<!-- 		Integration_ns.hbm.xml -->
+		IntegrationServer.hbm.xml
+		OrgUnit.hbm.xml 
+		CategoryCombo.hbm.xml
+		CategoryOption.hbm.xml
+		OptionSet.hbm.xml
+		Option.hbm.xml
+		ReportTemplate.hbm.xml
+		DataElement.hbm.xml
+		DataValueTemplate.hbm.xml
+				
+	</mappingFiles>
 
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>

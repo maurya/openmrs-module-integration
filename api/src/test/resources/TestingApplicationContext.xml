@@ -25,4 +25,8 @@ Needed to override and add hibernate mappings to the classpath since omod is not
     <!--<bean id="conversionService" class="org.openmrs.module.uiframework.UiFrameworkConversionServiceFactoryBean"/>-->
     <!--<bean id="uiUtils" class="org.openmrs.ui.framework.BasicUiUtils" init-method="init"/>-->
 
+<<<<<<< HEAD
 </beans>
+=======
+</beans>
+>>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
