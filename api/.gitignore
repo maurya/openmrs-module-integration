@@ -1,4 +1,6 @@
-/target
+MANIFEST.MF
+pom.properties
+
 ### IntelliJ Idea ###
 *.iml
 *.ipr
@@ -69,4 +71,8 @@ nb-configuration.xml
 /webapp/src/main/webapp/WEB-INF/tags/module
 /webapp/src/main/webapp/WEB-INF/dwr-modules.xml
 /webapp/src/main/webapp/WEB-INF/module_messages*
+#############
+
+### JAXB-generated Files ####
+api/source/main/java/org/openmrs/module/integration/api/jaxb/*
 #############

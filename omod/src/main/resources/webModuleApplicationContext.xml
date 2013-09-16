@@ -22,11 +22,8 @@
 
 	<!-- Add here beans related to the web context -->
 
-<<<<<<< HEAD
 	<!-- <bean id="IntegrationUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-=======
-	<bean id="IntegrationUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
->>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
+
     	<property name="order"><value>89</value></property>
      	<property name="mappings">
             <props>
@@ -35,30 +32,17 @@
 		</property>
 	</bean>
     
-<<<<<<< HEAD
     <bean id="MappingCohortPortletController" class="org.openmrs.module.integration.web.controller.MappingCohortPortletController"/> -->
    <!--  <bean id="IntegrationManageController" class="org.openmrs.module.integration.web.controller.IntegrationManageController"/>
-=======
-    <bean id="MappingCohortPortletController" class="org.openmrs.module.integration.web.controller.MappingCohortPortletController"/>
-    <bean id="IntegrationManageController" class="org.openmrs.module.integration.web.controller.IntegrationManageController"/>
->>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
+
     <bean id="IntegrationServerAdminController" class="org.openmrs.module.integration.web.controller.IntegrationServerAdminController"/>
     <bean id="LocationMappingController" class="org.openmrs.module.integration.web.controller.LocationMappingController"/>
     <bean id="ManageReportTemplates" class="org.openmrs.module.integration.web.controller.ManageReportTemplatesController"/>
     <bean id="RunReportsController" class="org.openmrs.module.integration.web.controller.RunReportsController"/>
-<<<<<<< HEAD
     <bean id="ShowDatgaElementsController" class="org.openmrs.module.integration.web.controller.ShowDataElementsController"/>
     <bean id="ShowOptionsController" class="org.openmrs.module.integration.web.controller.ShowOptionsController"/> -->
-    
+  
 
-
-=======
-    <bean id="ShowDatgaElementsController" class="org.openmrs.module.integration.web.controller.ShowDatgaElementsController"/>
-    <bean id="ShowOptionsController" class="org.openmrs.module.integration.web.controller.ShowOptionsController"/>
-    
-	
-	 
->>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 	<!-- Annotation based controllers -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 

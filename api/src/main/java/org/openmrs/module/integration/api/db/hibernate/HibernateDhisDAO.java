@@ -125,7 +125,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<ReportTemplate> list = sessionFactory.getCurrentSession()
 											.createCriteria(ReportTemplate.class)
 											.add(Restrictions.eq("integrationServer", integrationServer))
-											.addOrder(Order.asc("reportTemplateId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -197,7 +197,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<OrgUnit> list = sessionFactory.getCurrentSession()
 											.createCriteria(OrgUnit.class)
 											.add(Restrictions.eq("integrationServer", integrationServer))
-											.addOrder(Order.asc("orgUnitId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 
 		}
@@ -208,7 +208,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<OrgUnit> list = sessionFactory.getCurrentSession()
 											.createCriteria(OrgUnit.class)
 											.add(Restrictions.eq("parentOrg", OrgUnit))
-											.addOrder(Order.asc("orgUnitId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 
 		}
@@ -259,7 +259,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public List<DataElement> getDataElementsByServer(IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<DataElement> list = sessionFactory.getCurrentSession().createCriteria(DataElement.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("dataElementId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -294,7 +294,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				ReportTemplate reportTemplate) {	
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("reportTemplate", reportTemplate)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("reportTemplate", reportTemplate)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -303,7 +303,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				DataElement dataElement) {
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("dataElement", dataElement)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("dataElement", dataElement)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -312,7 +312,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				CategoryOption categoryOption) {
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("categoryOption", categoryOption)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("categoryOption", categoryOption)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -364,7 +364,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<CategoryCombo> list = sessionFactory.getCurrentSession().createCriteria(CategoryCombo.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("categoryComboId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -417,7 +417,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public List<CategoryOption> getCategoryOptionByServer(IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<CategoryOption> list = sessionFactory.getCurrentSession().createCriteria(CategoryOption.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("categoryOptionId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
