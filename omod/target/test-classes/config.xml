@@ -15,21 +15,20 @@
 	<require_version>1.9.0</require_version>
 	<!-- / Module Properties -->
 
-
+	
 	<!-- Required Modules -->
 	<require_modules>
-
+																											
 		<require_module version="0.8-SNAPSHOT">
 			org.openmrs.module.reporting
 		</require_module>
-
+			
 	</require_modules>
 	<!-- / Required Modules -->
-
+	
 	<!-- Module Activator -->
 	<activator>org.openmrs.module.integration.IntegrationActivator</activator>
-
-
+	
 	<!-- Adds link to admin page -->
 	<extension>
 		<point>org.openmrs.admin.list</point>
@@ -40,10 +39,10 @@
 		<name>Manage Integration Servers</name>
 		<description>Allows the user to manage Integration module Servers</description>
 	</privilege>
-
+	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-
+				
 <!-- 		Integration_ns.hbm.xml -->
 		<!--
 		
@@ -60,7 +59,6 @@
 		DataElement.hbm.xml
 		DataValueTemplate.hbm.xml
 		OrgUnit.hbm.xml
-
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -80,3 +78,4 @@
 	<!-- /Internationalization -->
 
 </module>
+

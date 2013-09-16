@@ -34,37 +34,7 @@
 		</dependency>
 		
 				
-<<<<<<< HEAD
-		<dependency>
-			<groupId>org.openmrs.module</groupId>		
-			<artifactId>reporting-api</artifactId>
-			<scope>provided</scope>								
-		</dependency>
-		
-		 <dependency>
-			<groupId>org.openmrs.module</groupId>
-  			 <artifactId>calculation-api</artifactId>
-  			 <scope>provided</scope>
- 		 </dependency>
-   
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>serialization.xstream-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>htmlwidgets-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>org.openmrs.module</groupId>
-			<artifactId>htmlwidgets-omod</artifactId>
-			<scope>provided</scope>
-		</dependency>
-=======
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>reporting-api</artifactId>
@@ -79,7 +49,6 @@
 				<groupId>org.openmrs.module</groupId>						
 				<artifactId>serialization.xstream-api</artifactId>											
 			</dependency>
->>>>>>> 21cc5848fb0d6b6d7a642effdfa7ff481958e9e9
 						
 		<!-- End OpenMRS modules -->
 		

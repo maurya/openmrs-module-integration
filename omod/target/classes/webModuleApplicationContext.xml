@@ -23,6 +23,7 @@
 	<!-- Add here beans related to the web context -->
 
 	<!-- <bean id="IntegrationUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+
     	<property name="order"><value>89</value></property>
      	<property name="mappings">
             <props>
@@ -33,14 +34,14 @@
     
     <bean id="MappingCohortPortletController" class="org.openmrs.module.integration.web.controller.MappingCohortPortletController"/> -->
    <!--  <bean id="IntegrationManageController" class="org.openmrs.module.integration.web.controller.IntegrationManageController"/>
+
     <bean id="IntegrationServerAdminController" class="org.openmrs.module.integration.web.controller.IntegrationServerAdminController"/>
     <bean id="LocationMappingController" class="org.openmrs.module.integration.web.controller.LocationMappingController"/>
     <bean id="ManageReportTemplates" class="org.openmrs.module.integration.web.controller.ManageReportTemplatesController"/>
     <bean id="RunReportsController" class="org.openmrs.module.integration.web.controller.RunReportsController"/>
     <bean id="ShowDatgaElementsController" class="org.openmrs.module.integration.web.controller.ShowDataElementsController"/>
     <bean id="ShowOptionsController" class="org.openmrs.module.integration.web.controller.ShowOptionsController"/> -->
-    
-
+  
 
 	<!-- Annotation based controllers -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
