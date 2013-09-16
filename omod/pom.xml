@@ -49,6 +49,16 @@
 				<groupId>org.openmrs.module</groupId>						
 				<artifactId>serialization.xstream-api</artifactId>											
 			</dependency>
+			
+			 <dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-api</artifactId>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-omod</artifactId>
+			</dependency>
 						
 		<!-- End OpenMRS modules -->
 		
