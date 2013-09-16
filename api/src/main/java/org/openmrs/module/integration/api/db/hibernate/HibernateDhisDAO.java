@@ -367,7 +367,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
-
+		
 		@Override
 		public CategoryCombo saveCategoryCombo(CategoryCombo CategoryCombo) {
 			sessionFactory.getCurrentSession().saveOrUpdate(CategoryCombo);
@@ -380,7 +380,6 @@ public class HibernateDhisDAO implements DhisDAO{
 			
 		}
 
-		
 		//category option
 		@Override
 		public CategoryOption getCategoryOptionById(Integer id) {

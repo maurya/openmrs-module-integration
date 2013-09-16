@@ -128,8 +128,13 @@ public interface DhisService extends OpenmrsService {
 			
 		public OptionSet getOptionSetByUuid(String uuid);
 			
+		public OptionSet getOptionSetByUid(String uid, IntegrationServer is);
+		
 		public List<OptionSet> getOptionSetsByServer(IntegrationServer integrationServer);
 			
+		public Set<OptionSet> getOptionSetsByReportTemplate(
+				ReportTemplate ReportTemplate);		
+				
 		public OptionSet saveOptionSet(OptionSet OptionSet);
 			
 		public void deleteOptionSet(OptionSet OptionSet);
@@ -161,9 +166,6 @@ public interface DhisService extends OpenmrsService {
 	public Map<DataElement, CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate);
 	
-	public Set<OptionSet> getOptionSetsByReportTemplate(
-			ReportTemplate ReportTemplate);
-	
 	public CohortDefinition getAllPatients();
 	
 	public CohortDefinition getUndefinedCohortDefinition();
@@ -171,5 +173,5 @@ public interface DhisService extends OpenmrsService {
 	public CohortDefinition getServiceLocationCohortDefinition();
 	
 	public void commit();
-		
+
 }

@@ -1,5 +1,6 @@
 package org.openmrs.module.integration.api;
 
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -9,7 +10,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.db.IntegrationException;
 import org.openmrs.module.integration.api.db.ServerMetadata;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -49,6 +52,18 @@ public class ServerMetadataTest extends BaseModuleContextSensitiveTest {
 		Assert.assertEquals("Dhis objects are missing",n,9);
 	}
 
-	
-	
+	@Test
+	public void BuildObjects_shouldWorkForExistingServer() {
+		final String server = "MasterTemplatePlus";
+		String s = null;
+		ServerMetadata sm = new ServerMetadata();
+		try {
+			sm.buildDBObjects(server);
+		} catch (IntegrationException e) {
+			s = e.getMessage();
+		}
+		
+		
+		Assert.assertNotNull("Exception has been thrown",s);
+	}
 }

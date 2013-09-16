@@ -60,8 +60,8 @@ public class DhisMetadataUtilsTest extends BaseModuleContextSensitiveTest {
 		String s="";
 		ServerMetadata sm = new ServerMetadata();
 		try {
-			DhisMetadataUtils.getServerMetadata("MasterTemplate.xml", "cats.xml", "opts.xml");
-			sm.buildDBObjects("MasterTemplate");
+			DhisMetadataUtils.getServerMetadata("MasterTemplatePlus.xml", "cats.xml", "opts.xml");
+			sm.buildDBObjects("MasterTemplatePlus");
 		} catch (Exception e) {
 			s=e.getMessage();
 		}

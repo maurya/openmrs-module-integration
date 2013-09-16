@@ -107,11 +107,21 @@ public class ServerMetadata {
 		for (CategoriesType.Category xcat : getOpts()) {
 			OptionSet ops = new OptionSet(xcat.getName(),"",xcat.getId());
 			ops.setIntegrationServer(is);
-			ops=ds.saveOptionSet(ops);
+			OptionSet ops2 = ds.getOptionSetByUid(ops.getUid(),is);
+			if (ops2==null) {
+				ops=ds.saveOptionSet(ops);
+			} else {
+				ops=ops2;
+			}
 			for (CategoriesType.Category.CategoryOptions.CategoryOption xco : xcat.getCategoryOptions().getCategoryOption()) {
 				Option opv = new Option(xco.getName(),"",xco.getId());
 				opv.setIntegrationServer(is);
-				opv=ds.saveOption(opv);
+				Option opv2 = ds.getOptionByUid(ops.getUid(),is);
+				if (opv2==null) {
+					opv=ds.saveOption(opv);
+				} else {
+					opv=opv2;
+				}
 				ops.getOptions().add(opv);
 			}	
 			ds.saveOptionSet(ops);
@@ -135,7 +145,12 @@ public class ServerMetadata {
 		
 			CategoryOption cco = new CategoryOption(xcco.getName(),"",xcco.getId());
 			cco.setIntegrationServer(is);
-			cco=ds.saveCategoryOption(cco);
+			CategoryOption cco2 = ds.getCategoryOptionByUid(cco.getUid(),is);
+			if (cco2==null) {
+				cco=ds.saveCategoryOption(cco);
+			} else {
+				cco=cco2;
+			}
 			ccb.getCategoryOptions().add(cco);
 
 // for each optionSet/option, add the option to the catOption collection and the option set to the cat combo collection if needed
@@ -146,8 +161,8 @@ public class ServerMetadata {
 					cco.getOptions().add(opv);
 					if (ccb.getOptionSets().size() < (cco.getOptions().size())){
 						Iterator<OptionSet> it = opv.getOptionSets().iterator();
-						OptionSet ops = it.next();
-						if (ops != null) {
+						if (it.hasNext()) {
+							OptionSet ops = it.next();
 							ccb.getOptionSets().add(ops);
 						}
 					}
@@ -159,7 +174,12 @@ public class ServerMetadata {
 		for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
 			DataElement de = new DataElement(xde.getName(),xde.getCode(),xde.getUid());
 			de.setIntegrationServer(is);
-			de=ds.saveDataElement(de);
+			DataElement de2 = ds.getDataElementByUid(de.getUid(),is);
+			if (de2==null) {
+				de=ds.saveDataElement(de);
+			} else {
+				de=de2;
+			}
 		}
 
 // add codes to disaggregations

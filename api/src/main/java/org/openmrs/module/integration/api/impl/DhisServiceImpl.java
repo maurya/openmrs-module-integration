@@ -439,6 +439,11 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	}
 
 	@Override
+	public OptionSet getOptionSetByUid(String uid, IntegrationServer is) {
+		return dao.getOptionSetByUid(uid, is);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public OptionSet getOptionSetByUuid(String uuid) {
 		return dao.getOptionSetByUuid(uuid);
@@ -631,5 +636,5 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 		return serviceLocation;
 	}
-	
+
 }

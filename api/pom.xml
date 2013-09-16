@@ -182,6 +182,7 @@
 							<schemaIncludes>
 								<include>metaData.xsd</include>
 								<include>MasterTemplate.xsd</include>
+								<include>DataValueSet.xsd</include>
 							</schemaIncludes>
 							<episode>false</episode>
 							<generatePackage>org.openmrs.module.integration.api.jaxb</generatePackage>
