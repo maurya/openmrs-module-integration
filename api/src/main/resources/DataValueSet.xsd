@@ -6,7 +6,7 @@
 <!-- Rename the value element to avoid conflict with datatypes.xsd --> 
 	<xs:annotation>
    		<xs:appinfo>
-            <jaxb:bindings node="//xs:element[@name='dataValueSet']">
+            <jaxb:bindings node="//xs:element[@name='dataValue']">
             	<jaxb:bindings node=".//xs:attribute[@name='value']">
                 	<jaxb:property name="valueAttribute"/>
             	</jaxb:bindings>
@@ -23,9 +23,12 @@
 						<xs:simpleContent>
 							<xs:extension base="xs:string">
 								<xs:attribute type="xs:string" name="dataElement" use="optional" />
+								<xs:attribute type="xs:string" name="dataElementName" use="optional" />
 								<xs:attribute type="xs:string" name="period" use="optional" />
 								<xs:attribute type="xs:string" name="orgUnit" use="optional" />
+								<xs:attribute type="xs:string" name="orgUnitName" use="optional" />
 								<xs:attribute type="xs:string" name="categoryOptionCombo" use="optional" />
+								<xs:attribute type="xs:string" name="categoryOptionComboName" use="optional" />
 								<xs:attribute type="xs:string" name="value" use="optional" /> 
 								<xs:attribute type="xs:string" name="storedBy" use="optional" />
 								<xs:attribute type="xs:string" name="timestamp"	use="optional" />
@@ -37,9 +40,11 @@
 				</xs:element>
 			</xs:sequence>
 					<xs:attribute type="xs:string" name="dataSet" use="optional" />
+					<xs:attribute type="xs:string" name="dataSetName" use="optional" />
 					<xs:attribute type="xs:string" name="completeDate" use="optional" />
 					<xs:attribute type="xs:string" name="period" use="optional" />
 					<xs:attribute type="xs:string" name="orgUnit" use="optional" />
+					<xs:attribute type="xs:string" name="orgUnitName" use="optional" />
 		</xs:complexType>
 	</xs:element>
 

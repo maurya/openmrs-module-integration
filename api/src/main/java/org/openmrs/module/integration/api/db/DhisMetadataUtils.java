@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.SortedSet;
 
 import javax.xml.bind.JAXBContext;
@@ -23,11 +26,14 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
@@ -36,10 +42,13 @@ import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.OrgUnitDisplay;
+import org.openmrs.module.integration.api.DhisService;
 import org.openmrs.module.integration.api.JaxbObjects;
+import org.openmrs.module.integration.api.jaxb.DataValueSet;
 import org.openmrs.module.integration.api.jaxb.MetaData;
 import org.openmrs.module.integration.api.jaxb.OrgUnitType;
 import org.openmrs.module.integration.api.jaxb.ReportTemplates;
+import org.openmrs.module.integration.api.jaxb.ImportSummary;
 import org.openmrs.util.OpenmrsUtil;
 
 public class DhisMetadataUtils {
@@ -202,6 +211,63 @@ public class DhisMetadataUtils {
 	}
 	
 	/**
+	 * This method builds a file object corresponding to a report xml file 
+	 * 
+	 * @param server	name of server to be downloaded to
+	 * @param fileName	Name of report to be saved
+	 * @param asOf	startDate of reporting period
+	 * @param sent	sent date of report or null if not sent
+	 * @return File object representing absolute location of file
+	 */
+	public static File getServerReportFile(String server, String report, Date asOf, Date sent) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(MODULE_NAME);
+		sb.append(File.separatorChar);
+		sb.append(server);
+		sb.append(File.separatorChar);
+		sb.append("Reports");
+		
+		File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+
+		sb.delete(0, sb.length()-1);
+		sb.append(report);
+		sb.append(".");
+		sb.append(df.format(asOf));
+		if (sent!=null) {
+			sb.append(".");
+			sb.append(df.format(sent));
+		}
+		sb.append(".xml");
+
+		return new File(folder, sb.toString());
+	}
+	
+	/**
+	 * This method builds a file object corresponding to a report xml file 
+	 * 
+	 * @param server	name of server to be downloaded to
+	 * @param filname	Name of report to be saved
+	 * @return File object representing absolute location of file
+	 */
+	public static File getServerReportFile(String server, String filename) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(MODULE_NAME);
+		sb.append(File.separatorChar);
+		sb.append(server);
+		sb.append(File.separatorChar);
+		sb.append("Reports");
+		
+		File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
+		if (filename.endsWith(".xml")) {
+			return new File(folder, filename);
+		} else {
+			return new File(folder, filename + ".xml");
+		}
+	}
+	
+	
+	/**
 	 * This method builds a file object corresponding to an xml file 
 	 * 
 	 * @param meta	content type to be downloaded
@@ -349,4 +415,95 @@ public class DhisMetadataUtils {
 			}
 		}
 	}
+	
+	public static void saveReportToFile(DataValueSet dvs, String server, String report, Date asOf, Date sent) throws IntegrationException {
+		OutputStream os;
+		try {
+			os = new FileOutputStream(getServerReportFile(server, report, asOf, sent));
+			JaxbObjects.getMM().marshal((Object) dvs, os);
+		} catch (Exception e) {
+			throw new IntegrationException( e.getLocalizedMessage(),null);
+		}
+	}
+	
+	public static DataValueSet getReportFromFile(String server, String report, Date asOf, Date sent) throws IntegrationException {
+		DataValueSet user=null;
+		File inf = getServerReportFile(server, report, asOf, sent);
+		if (inf.canRead()) {
+			try {
+				InputStream ins = new FileInputStream(inf);
+				StreamSource ss = new StreamSource(ins);
+				JAXBElement<DataValueSet> userElement = (JAXBElement<DataValueSet>) JaxbObjects.getUM().unmarshal(ss,DataValueSet.class);
+				user = userElement.getValue();
+			} catch (Exception e) {
+				throw new IntegrationException(e.getLocalizedMessage(),null);
+			}
+		}
+		return user;
+	}
+
+	/**
+	 * This method uploads a dataValueSet xml file from the server's Reports subdirectory in application space
+	 * 
+	 * @param meta	content type to be downloaded
+	 * @param is	server to be downloaded from
+	 */
+	public static ImportSummary sendReportViaAPI(String server, String report, Date asOf, Date sent) throws IntegrationException {
+
+		ImportSummary summary;
+		URL url;
+		final String selector="/api/dataValueSets?dataElementIdScheme=uid&orgUnitIdScheme=uid";
+		final String accept="application/xml";
+		
+		File f = getServerReportFile(server, report, asOf, sent);
+		DhisService ds=Context.getService(DhisService.class);
+		IntegrationServer is=ds.getIntegrationServerByName(server);
+		
+		Credentials creds = new UsernamePasswordCredentials(
+				is.getUserName(), is.getPassword());
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		BasicHttpContext localcontext = new BasicHttpContext();
+
+//		Setup the POST
+		try {
+			url = new URL(is.getUrl());
+			HttpHost targetHost = new HttpHost(url.getHost(), url.getPort(),
+					url.getProtocol());
+			
+			HttpPost httpPost = new HttpPost(is.getUrl() + selector);
+			Header bs = new BasicScheme().authenticate(creds, httpPost,
+					localcontext);
+			httpPost.setHeader("Authorization", bs.getValue());
+			httpPost.setHeader("Content-Type", "application/xml");
+			httpPost.setHeader("Accept", accept);
+            httpPost.setEntity(new FileEntity(f) );
+
+//		POST and GET the response			
+			HttpResponse response = httpclient.execute(targetHost, httpPost,
+					localcontext);
+			HttpEntity entity = response.getEntity();
+
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new IntegrationException(response.getStatusLine()
+						.getReasonPhrase(), null);
+			} 
+			
+//		Unmarshal the XML and return the top level structure			
+			if (entity != null) {
+                summary = (ImportSummary) JaxbObjects.getUM().unmarshal( entity.getContent() );
+	        } else  {
+                summary = new ImportSummary();
+                summary.setStatus( "ERROR" );
+	        }
+
+// 		Handle exceptions and close the connection			
+
+		} catch (Exception e) {
+			throw new IntegrationException(e.getLocalizedMessage(),null);
+		} finally {
+			httpclient.getConnectionManager().shutdown();
+		}
+		return summary;
+	}
+
 }
