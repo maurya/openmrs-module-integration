@@ -6,12 +6,14 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
+import org.openmrs.Location;
 
 public class OrgUnit extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(OrgUnit.class);
 
 	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
+	private Set<Location> locations;
 
 	public OrgUnit() {
 		super();
@@ -50,4 +52,15 @@ public class OrgUnit extends OpenmrsDhisObject {
     {
         return this.integrationServer;
     }
+    
+    public Set<Location> getLocations() {
+		if (locations==null) {
+			locations=new HashSet<Location>();
+		}
+		return locations;
+	}
+
+	public void setLocations(Set<Location> locations) {
+		this.locations = locations;
+	}
 }
