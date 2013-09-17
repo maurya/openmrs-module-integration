@@ -28,7 +28,6 @@ public class MappingCohortPortletController extends PortletController {
 		if (log.isDebugEnabled())
 			log.debug("In MappingCohort...");
 
-		model.put("mapping", "mapping cohort");
 		Thread.currentThread().setContextClassLoader(OpenmrsClassLoader.getInstance());
 		CohortDefinitionService cs=Context.getService(CohortDefinitionService.class);
 		List<CohortDefinition> cohortList=cs.getAllDefinitions(false);
