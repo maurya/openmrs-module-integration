@@ -8,6 +8,7 @@ import javax.xml.bind.Unmarshaller;
 import org.openmrs.module.integration.api.jaxb.CategoriesType;
 import org.openmrs.module.integration.api.jaxb.CategoryCombosType;
 import org.openmrs.module.integration.api.jaxb.DataValueSet;
+import org.openmrs.module.integration.api.jaxb.ImportSummary;
 import org.openmrs.module.integration.api.jaxb.MetaData;
 import org.openmrs.module.integration.api.jaxb.OrgUnitType;
 import org.openmrs.module.integration.api.jaxb.ReportTemplates;
@@ -23,9 +24,10 @@ public class JaxbObjects {
 		try {
 			jc = JAXBContext.newInstance(ReportTemplates.class,MetaData.class,
 					CategoriesType.class,CategoryCombosType.class,OrgUnitType.class,
-					DataValueSet.class);
+					DataValueSet.class,ImportSummary.class);
 			um = jc.createUnmarshaller();
 			mm = jc.createMarshaller();
+			mm.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
 		} catch (JAXBException e) {
 			jc= null;
 			um = null;
