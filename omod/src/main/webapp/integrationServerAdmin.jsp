@@ -1,7 +1,6 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
-<!-- <openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" /> -->
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
@@ -29,7 +28,7 @@
 		
 		$(".cancel").click( function() {
 			$('#addOrEditPopup').dialog('close');		
-		});
+			});
 		});
 
 	function confirmDelete(name) {
@@ -37,7 +36,7 @@
 		 {
 			 $.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",{serverName: name});	
 			 location.reload();
-	}
+		}
 	}
 	
 	function editServer(id) {
@@ -54,6 +53,27 @@
 					$('#addOrEditPopup').dialog('open');
 		}
 
+	function testConnection(name) {
+		
+			 $.post("${pageContext.request.contextPath}/module/integration/testServerConnection.form",{serverName: name}, function(data) {
+				 var result = data;
+            }).fail(function(data) {
+                alert('Unable to test connection');
+            }).done(function(data) {
+               if(data=="success")
+            	   alert("connection successful");
+               else 
+            	   alert("please check the server details and enter them correctly, could not establish a successful connection");
+
+			});
+	}
+			 function updateServerData(name) {
+					
+				 $.post("${pageContext.request.contextPath}/module/integration/getServerMetadata.form",{serverName: name}, function() {
+					 alert('server data updated');
+	            }).done(function() {
+	            });
+	}
 </script>
 
 <style>
@@ -120,12 +140,12 @@
 							&nbsp;
 							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0" title='<spring:message code="integration.tooltips.deleteServer"/>'/></a>
 							&nbsp;
-							<a href="locationMapping.form?name=${serverItem.serverName}">
+							<a href="javascript:testConnection'${serverItem.serverName}');">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/lightning-icon.png" border="0" title='<spring:message code="integration.tooltips.testServerConnection"/>'/>	
 									</a>
 									
 							&nbsp;
-							<a href="locationMapping.form?name=${serverItem.serverName}">
+							<a href="javascript:updateServerData'${serverItem.serverName}');">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/Updateicon.png" border="0" title='<spring:message code="integration.tooltips.updateServerData"/>'/>	
 									</a>
 						</td>

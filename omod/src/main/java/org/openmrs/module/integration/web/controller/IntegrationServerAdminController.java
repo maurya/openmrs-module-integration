@@ -17,6 +17,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.api.DhisService;
+import org.openmrs.module.integration.api.db.DhisMetadataUtils;
+import org.openmrs.module.integration.api.db.IntegrationException;
+
+import com.mysql.jdbc.StringUtils;
 
 @Controller
 public class IntegrationServerAdminController {
@@ -63,6 +67,35 @@ public class IntegrationServerAdminController {
         }		
 		
 	}
+    
+    @RequestMapping(value = "/module/integration/testServerConnection", method = RequestMethod.POST)
+    public String testConnection(@RequestParam(value="serverName",required=true)  String serverName){
+	
+			
+			DhisService dhisService = Context.getService(DhisService.class);
+			IntegrationServer server=dhisService.getIntegrationServerByName(serverName);
+			String testResult=DhisMetadataUtils.testConnection(server);
+       
+		if(!StringUtils.isNullOrEmpty(testResult))
+			return "failure";
+		
+		return "success";
+    }
+    
+    @RequestMapping(value = "/module/integration/getServerMetadata", method = RequestMethod.POST)
+    public void getServerMeatadata(@RequestParam(value="serverName",required=true)  String serverName){
+	
+			
+			DhisService dhisService = Context.getService(DhisService.class);
+			IntegrationServer server=dhisService.getIntegrationServerByName(serverName);
+			try {
+				DhisMetadataUtils.getServerMetadata(server);
+			} catch (IntegrationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+       
+    }
     
     @RequestMapping(value = "/module/integration/saveIntegrationServer", method = RequestMethod.POST)
     public String saveServer(@ModelAttribute(value="integrationServer") IntegrationServer server,
