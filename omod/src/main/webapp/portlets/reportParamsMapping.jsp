@@ -1,4 +1,5 @@
-<%@ include file="/WEB-INF/template/include.jsp"%>	
+<%@ include file="/WEB-INF/template/include.jsp"%>
+<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />	
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 	});

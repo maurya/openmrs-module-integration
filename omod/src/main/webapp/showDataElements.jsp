@@ -49,6 +49,11 @@
 					   location.reload();
 		            });
 		}
+		openCohortPage(){
+			
+			window.open("/openmrs/module/reporting/definition/manageDefinitions.form?type=org.openmrs.module.reporting.cohort.definition.CohortDefinition");
+			location.reload();
+		}
 
 </script>
 <div id="breadCrumbs">
@@ -63,7 +68,7 @@
 					<th><spring:message code="integration.dhis.dataElement"/></th>
 					<th><spring:message code="integration.general.mappedTo"/></th>
 					<th><spring:message code="integration.dhis.categoryCombo"/></th>
-					<th align="center" width="1%"><spring:message code="integration.general.lastUpdated"/><spring:message code="integration.general.editMapping"/></th>
+					<th align="center" width="1%"><spring:message code="integration.general.editMapping"/></th>
 				</tr>
 			</thead>
 			<tbody>

@@ -112,7 +112,7 @@
 <div id="breadCrumbs">
 <a href="integrationServerAdmin.form"><spring:message code="integration.return.serverAdministration"/></a>|
 </div>
-<h2><spring:message code="integration.general.locationsFor"/> <spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
+<h2><spring:message code="integration.general.reportTemplatesFor"/> <spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
 
 <div >
 			<br/>

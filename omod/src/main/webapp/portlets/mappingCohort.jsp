@@ -36,6 +36,9 @@
    							 			</c:forEach>
 								</select>
 								</td>
+								<td>
+								<a href="javascript:openCohortPage();"><button><spring:message code="integration.button.createNewCohort"/></button></a>
+								</td>
 							</tr>
 							
 						
