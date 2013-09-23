@@ -26,21 +26,12 @@
 			<constraints nullable="false"/>
 			</column>
 			<column name="description" type="VARCHAR(230)"/>
-			<column name="username" type="VARCHAR(255)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="password" type="VARCHAR(255)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="mastertemplate" type="VARCHAR(255)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="emailorurl" type="VARCHAR(255)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="transport_type" type="VARCHAR(45)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="username" type="VARCHAR(255)"/>
+			<column name="password" type="VARCHAR(255)"/>
+			<column name="url" type="VARCHAR(255)"/>
+			<column name="mastertemplate" type="VARCHAR(255)"/>
+			<column name="emailorurl" type="VARCHAR(255)"/>
+			<column name="transport_type" type="VARCHAR(45)"/>
 			<column name="last_updated" type="DATETIME"/>
 		</createTable>
 	</changeSet> 
@@ -92,19 +83,11 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="type" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
+			<column name="type" type="VARCHAR(50)"/>
 			<column name="cohortdef_uuid" type="CHAR(38)"/>
-			<column name="categorycombo_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
+			<column name="categorycombo_id" type="INT"/>
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
 			</column>
@@ -132,12 +115,8 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
 			</column>
@@ -164,12 +143,8 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
 			</column>
@@ -196,12 +171,8 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
 			<column name="dimension_uuid" type="CHAR(38)"/>
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
@@ -229,12 +200,8 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
 			<column name="cohortdef_uuid" type="CHAR(38)"/>
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
@@ -262,12 +229,8 @@
 			<column name="name" type="VARCHAR(230)">
 			<constraints nullable="false"/>
 			</column>
-			<column name="code" type="VARCHAR(50)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="uid" type="CHAR(11)">
-			<constraints nullable="false"/>
-			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
 			<column name="frequency" type="VARCHAR(230)"/>
 			<column name="report_definition_uuid" type="CHAR(38)"/>
 			<column name="server_id" type="INT">
@@ -309,123 +272,7 @@
 			<column name="last_updated" type="DATETIME"/>
 		</createTable>
 	</changeSet> 
-	
-	<changeSet id="dhis-categorycombo categoryoption" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_catcombo_combooption"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the category combo category option link Table
-		</comment>
 
-		<createTable tableName="dhis_catcombo_combooption">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="catcombo_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="catoption_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet> 
-	
-	<changeSet id="dhis-categorycombo optionset" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_catcombo_optionset"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the category combo optionset link Table
-		</comment>
-
-		<createTable tableName="dhis_catcombo_optionset">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="catcombo_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="optionset_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet> 
-	
-		<changeSet id="dhis-categoryoption option" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_categoryoption_option"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the category option option link Table
-		</comment>
-
-		<createTable tableName="dhis_categoryoption_option">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="categoryoption_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="option_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet> 
-	
-		<changeSet id="dhis-optionset option" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_optionset_option"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the optionset option link Table
-		</comment>
-
-		<createTable tableName="dhis_optionset_option">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="optionset_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="option_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet>
-	
-	<changeSet id="dhis-orgunit location" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_orgunit_location"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the orgunit location link Table
-		</comment>
-
-		<createTable tableName="dhis_orgunit_location">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="orgunit_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="location_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet>
-	
-	
 	<changeSet author="maurya" id="foreign_key_constraints-dhis_orgunit">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -501,56 +348,6 @@
 		<addForeignKeyConstraint baseColumnNames="dataelement_id" baseTableName="dhis_datavaluetemplate" constraintName="datavaluetemplate_dataelement" referencedColumnNames="id" referencedTableName="dhis_dataelement"/>	
 		<addForeignKeyConstraint baseColumnNames="categoryoption_id" baseTableName="dhis_datavaluetemplate" constraintName="datavaluetemplate_categoryoption" referencedColumnNames="id" referencedTableName="dhis_categoryoption"/>
 		<addForeignKeyConstraint baseColumnNames="reporttemplate_id" baseTableName="dhis_datavaluetemplate" constraintName="datavaluetemplate_reporttemplate" referencedColumnNames="id" referencedTableName="dhis_reporttemplate"/>	
-	</changeSet>
-	
-	<changeSet author="maurya" id="foreign_key_constraints-dhis_catcombo_combooption">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<foreignKeyConstraintExists foreignKeyName="catcombo_combooption_categorycombo" />
-			</not>
-		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="catcombo_id" baseTableName="dhis_catcombo_combooption" constraintName="catcombo_combooption_categorycombo" referencedColumnNames="id" referencedTableName="dhis_categorycombo"/>
-		<addForeignKeyConstraint baseColumnNames="catoption_id" baseTableName="dhis_catcombo_combooption" constraintName="catcombo_combooption_categoryoption" referencedColumnNames="id" referencedTableName="dhis_categoryoption"/>	
-	</changeSet>
-	
-	<changeSet author="maurya" id="foreign_key_constraints-dhis_catcombo_optionset">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<foreignKeyConstraintExists foreignKeyName="catcombo_optionset_categorycombo" />
-			</not>
-		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="catcombo_id" baseTableName="dhis_catcombo_optionset" constraintName="catcombo_optionset_categorycombo" referencedColumnNames="id" referencedTableName="dhis_categorycombo"/>
-		<addForeignKeyConstraint baseColumnNames="optionset_id" baseTableName="dhis_catcombo_optionset" constraintName="catcombo_combooption_optionset" referencedColumnNames="id" referencedTableName="dhis_optionset"/>	
-	</changeSet>
-	
-	<changeSet author="maurya" id="foreign_key_constraints-dhis_categoryoption_option">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<foreignKeyConstraintExists foreignKeyName="categoryoption_option_categoryoption" />
-			</not>
-		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="categoryoption_id" baseTableName="dhis_categoryoption_option" constraintName="categoryoption_option_categoryoption" referencedColumnNames="id" referencedTableName="dhis_categoryoption"/>
-		<addForeignKeyConstraint baseColumnNames="option_id" baseTableName="dhis_categoryoption_option" constraintName="categoryoption_option_option" referencedColumnNames="id" referencedTableName="dhis_option"/>	
-	</changeSet>
-	
-	<changeSet author="maurya" id="foreign_key_constraints-dhis_optionset_option">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<foreignKeyConstraintExists foreignKeyName="optionset_option_optionset" />
-			</not>
-		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="optionset_id" baseTableName="dhis_optionset_option" constraintName="optionset_option_optionset" referencedColumnNames="id" referencedTableName="dhis_optionset"/>
-		<addForeignKeyConstraint baseColumnNames="option_id" baseTableName="dhis_optionset_option" constraintName="optionset_option_option" referencedColumnNames="id" referencedTableName="dhis_option"/>	
-	</changeSet>
-	
-	<changeSet author="maurya" id="foreign_key_constraints-dhis_orgunit_location">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<foreignKeyConstraintExists foreignKeyName="orgunit_location_orgunit" />
-			</not>
-		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="orgunit_id" baseTableName="dhis_orgunit_location" constraintName="orgunit_location_orgunit" referencedColumnNames="id" referencedTableName="dhis_orgunit"/>
-		<addForeignKeyConstraint baseColumnNames="location_id" baseTableName="dhis_orgunit_location" constraintName="orgunit_location_location" referencedColumnNames="id" referencedTableName="location"/>	
 	</changeSet>
 	
 </databaseChangeLog>
