@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.CohortService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.api.DhisService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("**/mappingCohort.portlet")
+@Authorized("Map Cohorts")
 public class MappingCohortPortletController extends PortletController {
 
 	private static final Log log = LogFactory.getLog(MappingCohortPortletController.class);

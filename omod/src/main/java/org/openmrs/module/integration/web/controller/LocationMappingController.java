@@ -2,6 +2,7 @@ package org.openmrs.module.integration.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.api.DhisService;
@@ -16,6 +17,7 @@ public class LocationMappingController {
 	protected final Log log = LogFactory.getLog(getClass());
 	
 	@RequestMapping(value = "/module/integration/locationMapping", method = RequestMethod.GET)
+	@Authorized("Manage Locations")
 	public void viewResult(@RequestParam(required=false, value="name") String name,
 			ModelMap model){
 		DhisService dhisService = Context.getService(DhisService.class);

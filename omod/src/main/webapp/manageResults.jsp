@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
-
+<openmrs:require privilege="Manage Results" otherwise="/login.htm" redirect="/module/integration/manageResults.form" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 	$(".integration-data-table").dataTable( {

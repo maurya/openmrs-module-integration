@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
+<openmrs:require privilege="View Server" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin.form" />
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
@@ -128,26 +129,55 @@
 						</td>
 						<td width="1%" align="center" nowrap >
 						&nbsp;
+						<openmrs:hasPrivilege privilege="Manage Locations">
 							<a href="locationMapping.form?name=${serverItem.serverName}">
+							</openmrs:hasPrivilege>
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/mapicon.png" border="0" title='<spring:message code="integration.tooltips.locationMapping"/>'/>	
+									<openmrs:hasPrivilege privilege="Manage Locations">
 									</a>
+									</openmrs:hasPrivilege>
 						&nbsp;
+						<openmrs:hasPrivilege privilege="Manage Report Templates">
 							<a href="manageReportTemplates.form?name=${serverItem.serverName}">
+							</openmrs:hasPrivilege>
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0" title='<spring:message code="integration.tooltips.viewReportTemplates"/>'/>	
+									<openmrs:hasPrivilege privilege="Manage Report Templates">
 									</a>
+									</openmrs:hasPrivilege>
 							&nbsp;
-							<a href="javascript:editServer('${serverItem.id}');"><img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.editServer"/>'/></a>
+							<openmrs:hasPrivilege privilege="Manage Server">
+							<a href="javascript:editServer('${serverItem.id}');">
+							</openmrs:hasPrivilege>
+							<img src="<c:url value='/images/edit.gif'/>" border="0" title='<spring:message code="integration.tooltips.editServer"/>'/>
+							<openmrs:hasPrivilege privilege="Manage Server">
+							</a>
+							</openmrs:hasPrivilege>
 							&nbsp;
-							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0" title='<spring:message code="integration.tooltips.deleteServer"/>'/></a>
+							<openmrs:hasPrivilege privilege="Manage Server">
+							<a href="javascript:confirmDelete('${serverItem.serverName}');">
+							</openmrs:hasPrivilege>
+							<img src="<c:url value='/images/trash.gif'/>" border="0" title='<spring:message code="integration.tooltips.deleteServer"/>'/>
+							<openmrs:hasPrivilege privilege="Manage Server">
+							</a>
+							</openmrs:hasPrivilege>
 							&nbsp;
+							<openmrs:hasPrivilege privilege="Manage Server">
 							<a href="javascript:testConnection'${serverItem.serverName}');">
+							</openmrs:hasPrivilege>
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/lightning-icon.png" border="0" title='<spring:message code="integration.tooltips.testServerConnection"/>'/>	
+									<openmrs:hasPrivilege privilege="Manage Server">
 									</a>
+									</openmrs:hasPrivilege>
 									
 							&nbsp;
+							<openmrs:hasPrivilege privilege="Manage Server">
 							<a href="javascript:updateServerData'${serverItem.serverName}');">
+							</openmrs:hasPrivilege>
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/Updateicon.png" border="0" title='<spring:message code="integration.tooltips.updateServerData"/>'/>	
+									<openmrs:hasPrivilege privilege="Manage Server">
 									</a>
+									</openmrs:hasPrivilege>
+									
 						</td>
 					</tr>
 				</c:forEach>	

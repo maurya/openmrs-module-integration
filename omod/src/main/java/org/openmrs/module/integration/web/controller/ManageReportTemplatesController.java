@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.DataElement;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ManageReportTemplatesController {
 	@RequestMapping(value = "/module/integration/manageReportTemplates", method = RequestMethod.GET)
+	@Authorized("Manage Report Templates")
 	public void showServerList(@RequestParam(required=false, value="name") String name,
 			ModelMap model) {
 		DhisService dhisService = Context.getService(DhisService.class);
@@ -62,6 +64,7 @@ public class ManageReportTemplatesController {
 	}
 	
 	@RequestMapping(value = "/module/integration/saveReportTemplateMapping", method = RequestMethod.POST)
+	@Authorized("Manage Report Templates")
     public void saveReportTemplate(@RequestParam(value = "mappedReport", required=true) String mappedReport,
     		@RequestParam(value = "id", required=true) String id){
 		try {

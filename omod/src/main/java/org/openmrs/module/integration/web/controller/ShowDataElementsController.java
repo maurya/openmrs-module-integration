@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ShowDataElementsController {
 	@RequestMapping(value = "/module/integration/showDataElements", method = RequestMethod.GET)
+	@Authorized("Manage Data Elements")
 	public void showDataElementsAndOptions(@RequestParam(required=true, value="reportTemplateId") int reportTemplateId,
 			@RequestParam(required=true, value="server") String server,
 			ModelMap model) {
@@ -46,6 +48,7 @@ public class ShowDataElementsController {
 	}
 	
 	@RequestMapping(value = "/module/integration/saveDataElementMapping", method = RequestMethod.POST)
+	@Authorized("Manage Data Elements")
     public void saveReportTemplate(@RequestParam(value = "uuid", required=true) String uuid,
     		@RequestParam(value = "id", required=true) String id){
 		try {

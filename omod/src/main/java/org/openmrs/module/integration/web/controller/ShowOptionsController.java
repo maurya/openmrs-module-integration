@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ShowOptionsController {
 	@RequestMapping(value = "/module/integration/showOptions", method = RequestMethod.GET)
+	@Authorized("Manage Options")
 	public void showDataElementsAndOptions(@RequestParam(required=false, value="reportTemplateId") int reportTemplateId,
 			@RequestParam(required=true, value="server") String server,
 			ModelMap model) {
@@ -46,6 +48,7 @@ public class ShowOptionsController {
 	}
 	
 	@RequestMapping(value = "/module/integration/saveOptionsSetMapping", method = RequestMethod.POST)
+	@Authorized("Manage Options")
     public void saveReportTemplate(@RequestParam(value = "uuid", required=true) String uuid,
     		@RequestParam(value = "id", required=true) String id){
 		try {

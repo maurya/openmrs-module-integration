@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlwidgets.web.WidgetUtil;
 import org.openmrs.module.integration.ReportTemplate;
@@ -34,6 +35,7 @@ public class RunReportsController {
 	protected final Log log = LogFactory.getLog(getClass());
 	
 	@RequestMapping(value = "/module/integration/runReports", method = RequestMethod.GET)
+	@Authorized("Run Reports")
 	public void showRunReports(ModelMap model) {
 		
 		List<ReportTemplate> reports = new ArrayList<ReportTemplate>();
@@ -52,6 +54,7 @@ public class RunReportsController {
 	}
 	
 	@RequestMapping(value = "/module/integration/submitReportMappings", method = RequestMethod.POST)
+	@Authorized("Run Reports")
     public void saveReportTemplate(@RequestParam(value = "startDate", required=true) String startDate,
     		@RequestParam(value = "endDate", required=true) String endDate,
     		@RequestParam(value = "Location", required=true) String Location){

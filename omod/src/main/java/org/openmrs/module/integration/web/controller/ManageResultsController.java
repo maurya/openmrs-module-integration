@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.ReportTemplate;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ManageResultsController {
 	protected final Log log = LogFactory.getLog(getClass());
 	@RequestMapping(value = "/module/integration/manageResults", method = RequestMethod.GET)
+	@Authorized("Manage Results")
 	public void showResultsList(ModelMap model,
 			@RequestParam(value="reportDefinition", required=false) ReportDefinition reportDefinition,
 			  @RequestParam(value="requestedBy", required=false) User requestedBy,
@@ -91,6 +93,7 @@ public class ManageResultsController {
 	}
 	
 	@RequestMapping("/module/integration/viewResult")
+	@Authorized("Manage Results")
 	public void viewResult(ModelMap model,
 			@RequestParam(value="uid", required=true) String uid,
 			@RequestParam(value="location", required=true) String location,

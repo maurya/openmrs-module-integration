@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
+<openmrs:require privilege="Manage Locations" otherwise="/login.htm" redirect="/module/integration/locationMapping.form" />
  <script>
             $(document).ready(function(){
               

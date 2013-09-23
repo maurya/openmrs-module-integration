@@ -19,7 +19,9 @@
 
 	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
 	<require_version>${openMRSVersion}</require_version>
-	<!-- / Module Properties -->
+	<!--  Module Properties -->
+	
+	
 
 
 	<!-- Required Modules -->
@@ -41,12 +43,42 @@
 		<point>org.openmrs.admin.list</point>
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
-
-	<privilege>
-		<name>Manage Integration Servers</name>
-		<description>Allows the user to manage Integration module Servers</description>
+<privilege>
+		<name>Run Reports</name>
+		<description>Base privilege for running the reports</description>
 	</privilege>
-
+	<privilege>
+		<name>Manage Results</name>
+		<description>View/Send/Delete Results</description>
+	</privilege>
+	<privilege>
+		<name>View Server</name>
+		<description>Viewing Servers</description>
+	</privilege>
+	<privilege>
+		<name>Manage Server</name>
+		<description>Add/Edit/Remove Server</description>
+	</privilege>
+	<privilege>
+		<name>Manage Locations</name>
+		<description>Add/Edit/Remove Location Mappings</description>
+	</privilege>
+	<privilege>
+		<name>Manage Data Elements</name>
+		<description>Map/Edit Data Element Mappings</description>
+	</privilege>
+	<privilege>
+		<name>Manage Options</name>
+		<description>Map/Edit Option Mappings</description>
+	</privilege>
+	<privilege>
+		<name>Manage Report Templates</name>
+		<description>Manage Editing Report Templates</description>
+	</privilege>
+	<privilege>
+		<name>Map Cohorts</name>
+		<description>Map DHIS elements to cohorts</description>
+	</privilege>
 	<!-- Internationalization -->
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
 	<messages>

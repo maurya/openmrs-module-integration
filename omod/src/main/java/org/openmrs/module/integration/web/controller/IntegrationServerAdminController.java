@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.api.DhisService;
@@ -28,15 +29,17 @@ public class IntegrationServerAdminController {
 	protected final Log log = LogFactory.getLog(getClass());
 	
 	@RequestMapping(value = "/module/integration/integrationServerAdmin", method = RequestMethod.GET)
-	public void showServerList(ModelMap model) {
-
+	@Authorized("View Server")
+	public void showServerList(ModelMap model) {	
 		List<IntegrationServer> servers = new ArrayList<IntegrationServer>();
 		DhisService dhisService = Context.getService(DhisService.class);
 		servers=dhisService.getAllIntegrationServers();
 		model.addAttribute("serverItems",servers);
 		model.addAttribute("integrationServer", new IntegrationServer());
 	}
-    @RequestMapping("/module/integration/deleteServer")
+	
+    @RequestMapping(value="/module/integration/deleteServer" ,method = RequestMethod.POST)
+    @Authorized("Manage Server")
     public String purgeServer(@RequestParam(required=false, value="serverName") String serverName) {
 
     	IntegrationServer server = new IntegrationServer();
@@ -53,6 +56,7 @@ public class IntegrationServerAdminController {
     } 
     
     @RequestMapping(value = "/module/integration/getServerDetails", method = RequestMethod.POST)
+    @Authorized("Manage Server")
 	public @ResponseBody
 	void getTemplate(@RequestParam(value="serverName",required=true)String serverName, ModelMap model) {
     	IntegrationServer server = new IntegrationServer();
@@ -69,6 +73,7 @@ public class IntegrationServerAdminController {
 	}
     
     @RequestMapping(value = "/module/integration/testServerConnection", method = RequestMethod.POST)
+    @Authorized("Manage Server")
     public String testConnection(@RequestParam(value="serverName",required=true)  String serverName){
 	
 			
@@ -83,6 +88,7 @@ public class IntegrationServerAdminController {
     }
     
     @RequestMapping(value = "/module/integration/getServerMetadata", method = RequestMethod.POST)
+    @Authorized("Manage Server")
     public void getServerMeatadata(@RequestParam(value="serverName",required=true)  String serverName){
 	
 			
@@ -98,6 +104,7 @@ public class IntegrationServerAdminController {
     }
     
     @RequestMapping(value = "/module/integration/saveIntegrationServer", method = RequestMethod.POST)
+    @Authorized("Manage Server")
     public String saveServer(@ModelAttribute(value="integrationServer") IntegrationServer server,
             HttpServletRequest request){
 		try {
