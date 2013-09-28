@@ -29,7 +29,7 @@
 		
 		$(".cancel").click( function() {
 			$('#addOrEditPopup').dialog('close');		
-			});
+		});
 		});
 
 	function confirmDelete(name) {
@@ -37,9 +37,21 @@
 		 {
 			 $.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",{serverName: name});	
 			 location.reload();
+	}
+		
+	function updateServer(name) {
+		if(confirm('<spring:message code="integration.confirm.serverUpdate"/>'))
+		{
+			 $.post("${pageContext.request.contextPath}/module/integration/updateServer.form?serverName"+name);	
+			 location.reload();
 		}
 	}
-	
+		
+	function testConnection(name) {
+			 $.post("${pageContext.request.contextPath}/module/integration/testConnection.form?serverName="+name);	
+			 location.reload();
+	}
+		
 	function editServer(id) {
 	
 			$("#id").val($.trim($("#sid"+id).html()));
@@ -54,27 +66,6 @@
 					$('#addOrEditPopup').dialog('open');
 		}
 
-	function testConnection(name) {
-		
-			 $.post("${pageContext.request.contextPath}/module/integration/testServerConnection.form",{serverName: name}, function(data) {
-				 var result = data;
-            }).fail(function(data) {
-                alert('Unable to test connection');
-            }).done(function(data) {
-               if(data=="success")
-            	   alert("connection successful");
-               else 
-            	   alert("please check the server details and enter them correctly, could not establish a successful connection");
-
-			});
-	}
-			 function updateServerData(name) {
-					
-				 $.post("${pageContext.request.contextPath}/module/integration/getServerMetadata.form",{serverName: name}, function() {
-					 alert('server data updated');
-	            }).done(function() {
-	            });
-	}
 </script>
 
 <style>

@@ -19,6 +19,7 @@ import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
@@ -580,6 +581,20 @@ public class HibernateDhisDAO implements DhisDAO{
 			trans.commit();
 			trans=null;
 		}
+	}
+	
+	@Override
+	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
+			String uid, IntegrationServer is) {
+		if (is==null || uid==null) {
+			return null;
+		} else if (uid.length()==0)
+			return null;
+		return (OpenmrsDhisObject) sessionFactory.getCurrentSession().createCriteria(k)
+		        .add(Restrictions.eq("uid", uid))
+		        .add(Restrictions.eq("integrationServer", is))
+		        .uniqueResult();
+		
 	}
 
 }

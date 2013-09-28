@@ -30,7 +30,7 @@
         </set>	
      
         
-        <set name="categoryCombos" table="dhis_catcombo_combooption" lazy="false">
+        <set name="categoryCombos" table="dhis_catcombo_combooption" lazy="false" inverse="true">
             <key column="catoption_id" not-null="true" />
              <many-to-many entity-name="org.openmrs.module.integration.CategoryCombo">
                 <column name="catcombo_id" not-null="true" />

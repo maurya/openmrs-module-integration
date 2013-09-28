@@ -19,6 +19,7 @@ import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
@@ -33,32 +34,34 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
 
 public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
-	
-		// Logger
-		private transient Log log = LogFactory.getLog(DhisServiceImpl.class);
-		private static final String MODULE_NAME = "Integration";
-		private static final String UNDEFINED_DESC = "For use by " + MODULE_NAME;
-		private static final String ALL_PATIENTS = "All Patients";
-		
-		// Private variables
-		private DhisDAO dao;
-		private CohortDefinition undefined;
-		private CohortDefinition allPatients;
-		private CohortDefinition serviceLocation;
 
-		/**
-		* @param dao the dao to set
-		*/
-		    public void setDao(DhisDAO dao) {
+	// Logger
+	private transient Log log = LogFactory.getLog(DhisServiceImpl.class);
+	private static final String MODULE_NAME = "Integration";
+	private static final String UNDEFINED_DESC = "For use by " + MODULE_NAME;
+	private static final String ALL_PATIENTS = "All Patients";
+
+	// Private variables
+	private DhisDAO dao;
+	private CohortDefinition undefined;
+	private CohortDefinition allPatients;
+	private CohortDefinition serviceLocation;
+
+	/**
+	 * @param dao
+	 *            the dao to set
+	 */
+	public void setDao(DhisDAO dao) {
 		this.dao = dao;
-		    }
-		    
-		    /**
-		* @return the dao
-		*/
-		    public DhisDAO getDao() {
+	}
+
+	/**
+	 * @return the dao
+	 */
+	public DhisDAO getDao() {
 		return dao;
-		    }
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public IntegrationServer getIntegrationServerById(Integer id) {
@@ -99,8 +102,8 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	@Transactional(readOnly = true)
 	public void deleteIntegrationServer(IntegrationServer IntegrationServer) {
-		 dao.deleteIntegrationServer(IntegrationServer);
-		
+		dao.deleteIntegrationServer(IntegrationServer);
+
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	@Transactional(readOnly = true)
 	public Option getOptionByUid(String uid, IntegrationServer is) {
-		return dao.getOptionByUid(uid,is);
+		return dao.getOptionByUid(uid, is);
 	}
 
 	@Override
@@ -137,7 +140,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteOption(Option Option) {
 		dao.deleteOption(Option);
-		
+
 	}
 
 	@Override
@@ -154,13 +157,15 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public CategoryOption getCategoryOptionByUid(String uid, IntegrationServer is) {
-		return dao.getCategoryOptionByUid(uid,is);
+	public CategoryOption getCategoryOptionByUid(String uid,
+			IntegrationServer is) {
+		return dao.getCategoryOptionByUid(uid, is);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CategoryOption> getCategoryOptionByServer(IntegrationServer IntegrationServer) {
+	public List<CategoryOption> getCategoryOptionByServer(
+			IntegrationServer IntegrationServer) {
 		return dao.getCategoryOptionByServer(IntegrationServer);
 	}
 
@@ -174,7 +179,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteCategoryOption(CategoryOption CategoryOption) {
 		dao.deleteCategoryOption(CategoryOption);
-		
+
 	}
 
 	@Override
@@ -189,16 +194,16 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		return dao.getReportTemplateByUuid(uuid);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<ReportTemplate> getReportTemplatesByServer(
+			IntegrationServer integrationServer) {
+		return dao.getReportTemplatesByServer(integrationServer);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<ReportTemplate> getReportTemplatesByServer(IntegrationServer integrationServer) {
-		return dao.getReportTemplatesByServer(integrationServer);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<ReportTemplate> getAllReportTemplates(){
+	public List<ReportTemplate> getAllReportTemplates() {
 		return dao.getAllReportTemplates();
 	}
 
@@ -212,7 +217,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteReportTemplate(ReportTemplate ReportTemplate) {
 		dao.deleteReportTemplate(ReportTemplate);
-		
+
 	}
 
 	@Override
@@ -230,18 +235,19 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	@Transactional(readOnly = true)
 	public DataElement getDataElementByUid(String uid, IntegrationServer is) {
-		return dao.getDataElementByUid(uid,is);
+		return dao.getDataElementByUid(uid, is);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public DataElement getDataElementByCode(String code, IntegrationServer is) {
-		return dao.getDataElementByCode(code,is);
+		return dao.getDataElementByCode(code, is);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<DataElement> getDataElementsByServer(IntegrationServer IntegrationServer) {
+	public List<DataElement> getDataElementsByServer(
+			IntegrationServer IntegrationServer) {
 		return dao.getDataElementsByServer(IntegrationServer);
 	}
 
@@ -255,7 +261,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteDataElement(DataElement DataElement) {
 		dao.deleteDataElement(DataElement);
-		
+
 	}
 
 	@Override
@@ -268,7 +274,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional(readOnly = true)
 	public DataValueTemplate getDataValueTemplateByUuid(String uuid) {
 		return dao.getDataValueTemplateByUuid(uuid);
-				
+
 	}
 
 	@Override
@@ -303,60 +309,56 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteDataValueTemplate(DataValueTemplate DataValueTemplate) {
 		dao.deleteDataValueTemplate(DataValueTemplate);
-		
+
 	}
 
-	/*@Override
-	@Transactional(readOnly = true)
-	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
-			ReportTemplate ReportTemplate) {
-		
-		DataElement de=new DataElement();
-		CategoryOption co=new CategoryOption();
-		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
-		for(DataValueTemplate d:DataValueTemplateList){
-			de=d.getDataElement();
-			co=d.getCategoryOption();			
-			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
-			if(temporaryCategoryOptionList== null){	
-				temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-				DataElementToCategoryOptionDictionary.put(de, temporaryCategoryOptionList);
-			}
-			temporaryCategoryOptionList.add(co);
-		}
-		return DataElementToCategoryOptionDictionary;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
-			ReportTemplate ReportTemplate) {
-		Set<Option> OptionsList=new HashSet<Option>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
-		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
-		for(DataValueTemplate d:DataValueTemplateList){
-			categoryOptionList.add(d.getCategoryOption());
-			}
-		for(CategoryOption co: categoryOptionList){
-			OptionsList.addAll(co.getOptions());
-			}
-		return OptionsList;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<ReportTemplate> getAllReportTemplatesMapped() {
-		List<ReportTemplate> mappedReportTemplates= dao.getAllReportTemplates();
-		for(ReportTemplate rt:mappedReportTemplates){
-			
-			if(rt.getMappedReportUuid()==null)
-				mappedReportTemplates.remove(rt);
-		}
-		return mappedReportTemplates;
-	}
-*/
+	/*
+	 * @Override
+	 * 
+	 * @Transactional(readOnly = true) public Map<DataElement,
+	 * List<CategoryOption>>
+	 * getDataElementToCategoryOptionDictionaryByReportTemplate( ReportTemplate
+	 * ReportTemplate) {
+	 * 
+	 * DataElement de=new DataElement(); CategoryOption co=new CategoryOption();
+	 * List<CategoryOption> temporaryCategoryOptionList=new
+	 * ArrayList<CategoryOption>(); Map<DataElement,List<CategoryOption>>
+	 * DataElementToCategoryOptionDictionary = new HashMap<DataElement,
+	 * List<CategoryOption>>(); List<DataValueTemplate>
+	 * DataValueTemplateList=getDataValueTemplateByReportTemplate
+	 * (ReportTemplate); for(DataValueTemplate d:DataValueTemplateList){
+	 * de=d.getDataElement(); co=d.getCategoryOption();
+	 * temporaryCategoryOptionList
+	 * =DataElementToCategoryOptionDictionary.get(de);
+	 * if(temporaryCategoryOptionList== null){ temporaryCategoryOptionList=new
+	 * ArrayList<CategoryOption>();
+	 * DataElementToCategoryOptionDictionary.put(de,
+	 * temporaryCategoryOptionList); } temporaryCategoryOptionList.add(co); }
+	 * return DataElementToCategoryOptionDictionary; }
+	 * 
+	 * @Override
+	 * 
+	 * @Transactional(readOnly = true) public Set<Option>
+	 * getOptionToCategoryOptionDictionaryByReportTemplate( ReportTemplate
+	 * ReportTemplate) { Set<Option> OptionsList=new HashSet<Option>();
+	 * List<DataValueTemplate>
+	 * DataValueTemplateList=getDataValueTemplateByReportTemplate
+	 * (ReportTemplate); Set<CategoryOption> categoryOptionList = new
+	 * HashSet<CategoryOption>(); for(DataValueTemplate
+	 * d:DataValueTemplateList){ categoryOptionList.add(d.getCategoryOption());
+	 * } for(CategoryOption co: categoryOptionList){
+	 * OptionsList.addAll(co.getOptions()); } return OptionsList; }
+	 * 
+	 * @Override
+	 * 
+	 * @Transactional(readOnly = true) public List<ReportTemplate>
+	 * getAllReportTemplatesMapped() { List<ReportTemplate>
+	 * mappedReportTemplates= dao.getAllReportTemplates(); for(ReportTemplate
+	 * rt:mappedReportTemplates){
+	 * 
+	 * if(rt.getMappedReportUuid()==null) mappedReportTemplates.remove(rt); }
+	 * return mappedReportTemplates; }
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public OrgUnit getOrgUnitById(Integer id) {
@@ -391,7 +393,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteOrgUnit(OrgUnit OrgUnit) {
 		dao.deleteOrgUnit(OrgUnit);
-		
+
 	}
 
 	@Override
@@ -409,7 +411,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	@Transactional(readOnly = true)
 	public CategoryCombo getCategoryComboByUid(String uid, IntegrationServer is) {
-		return dao.getCategoryComboByUid(uid,is);
+		return dao.getCategoryComboByUid(uid, is);
 	}
 
 	@Override
@@ -429,7 +431,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Transactional
 	public void deleteCategoryCombo(CategoryCombo CategoryCombo) {
 		dao.deleteCategoryCombo(CategoryCombo);
-		
+
 	}
 
 	@Override
@@ -442,7 +444,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public OptionSet getOptionSetByUid(String uid, IntegrationServer is) {
 		return dao.getOptionSetByUid(uid, is);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public OptionSet getOptionSetByUuid(String uuid) {
@@ -471,95 +473,99 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	@Override
 	public Map<DataElement, List<CategoryOption>> getDataElementToCategoryOptionDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
-		DataElement de=new DataElement();
-		CategoryOption co=new CategoryOption();
-		List<CategoryOption> temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-		Map<DataElement,List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
-		for(DataValueTemplate d:DataValueTemplateList){
-			de=d.getDataElement();
-			co=d.getCategoryOption();			
-			temporaryCategoryOptionList=DataElementToCategoryOptionDictionary.get(de);
-			if(temporaryCategoryOptionList== null){	
-				temporaryCategoryOptionList=new ArrayList<CategoryOption>();
-				DataElementToCategoryOptionDictionary.put(de, temporaryCategoryOptionList);
+		DataElement de = new DataElement();
+		CategoryOption co = new CategoryOption();
+		List<CategoryOption> temporaryCategoryOptionList = new ArrayList<CategoryOption>();
+		Map<DataElement, List<CategoryOption>> DataElementToCategoryOptionDictionary = new HashMap<DataElement, List<CategoryOption>>();
+		List<DataValueTemplate> DataValueTemplateList = getDataValueTemplateByReportTemplate(ReportTemplate);
+		for (DataValueTemplate d : DataValueTemplateList) {
+			de = d.getDataElement();
+			co = d.getCategoryOption();
+			temporaryCategoryOptionList = DataElementToCategoryOptionDictionary
+					.get(de);
+			if (temporaryCategoryOptionList == null) {
+				temporaryCategoryOptionList = new ArrayList<CategoryOption>();
+				DataElementToCategoryOptionDictionary.put(de,
+						temporaryCategoryOptionList);
 			}
 			temporaryCategoryOptionList.add(co);
 		}
 		return DataElementToCategoryOptionDictionary;
-		
+
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public Set<Option> getOptionToCategoryOptionDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
-		Set<Option> OptionsList=new HashSet<Option>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<Option> OptionsList = new HashSet<Option>();
+		List<DataValueTemplate> DataValueTemplateList = getDataValueTemplateByReportTemplate(ReportTemplate);
 		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
-		for(DataValueTemplate d:DataValueTemplateList){
+		for (DataValueTemplate d : DataValueTemplateList) {
 			categoryOptionList.add(d.getCategoryOption());
-			}
-		for(CategoryOption co: categoryOptionList){
+		}
+		for (CategoryOption co : categoryOptionList) {
 			OptionsList.addAll(co.getOptions());
-			}
+		}
 		return OptionsList;
 	}
 
 	@Override
-	public Map<String,ClassMetadata> getHibernateClassMetadata() {
+	public Map<String, ClassMetadata> getHibernateClassMetadata() {
 		return dao.getHibernateClassMetadata();
 	}
-	
+
 	@Override
 	public Map<DataElement, CategoryCombo> getDataElementToCategoryComboDictionaryByReportTemplate(
 			ReportTemplate ReportTemplate) {
-		DataElement de=new DataElement();
-		CategoryOption co=new CategoryOption();
-		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary = new HashMap<DataElement, CategoryCombo>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
-		Set<CategoryCombo> categoryComboList=new HashSet<CategoryCombo>();;
-		for(DataValueTemplate d:DataValueTemplateList){
-			de=d.getDataElement();
-			co=d.getCategoryOption();
-			categoryComboList=co.getCategoryCombos();
-			for(CategoryCombo c:categoryComboList){
-				DataElementToCategoryComboDictionary.put(de,c);
+		DataElement de = new DataElement();
+		CategoryOption co = new CategoryOption();
+		Map<DataElement, CategoryCombo> DataElementToCategoryComboDictionary = new HashMap<DataElement, CategoryCombo>();
+		List<DataValueTemplate> DataValueTemplateList = getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<CategoryCombo> categoryComboList = new HashSet<CategoryCombo>();
+		;
+		for (DataValueTemplate d : DataValueTemplateList) {
+			de = d.getDataElement();
+			co = d.getCategoryOption();
+			categoryComboList = co.getCategoryCombos();
+			for (CategoryCombo c : categoryComboList) {
+				DataElementToCategoryComboDictionary.put(de, c);
 			}
 		}
 		return DataElementToCategoryComboDictionary;
-		
+
 	}
-	
+
 	@Override
 	public Set<OptionSet> getOptionSetsByReportTemplate(
 			ReportTemplate ReportTemplate) {
-		Set<OptionSet> OptionSetList=new HashSet<OptionSet>();
-		Set<CategoryCombo> categoryComboList=new HashSet<CategoryCombo>();
-		List<DataValueTemplate> DataValueTemplateList=getDataValueTemplateByReportTemplate(ReportTemplate);
+		Set<OptionSet> OptionSetList = new HashSet<OptionSet>();
+		Set<CategoryCombo> categoryComboList = new HashSet<CategoryCombo>();
+		List<DataValueTemplate> DataValueTemplateList = getDataValueTemplateByReportTemplate(ReportTemplate);
 		Set<CategoryOption> categoryOptionList = new HashSet<CategoryOption>();
-		for(DataValueTemplate d:DataValueTemplateList){
+		for (DataValueTemplate d : DataValueTemplateList) {
 			categoryOptionList.add(d.getCategoryOption());
-			}
-		for(CategoryOption co: categoryOptionList){
+		}
+		for (CategoryOption co : categoryOptionList) {
 			categoryComboList.addAll(co.getCategoryCombos());
-			}
-		for(CategoryCombo cc: categoryComboList){
+		}
+		for (CategoryCombo cc : categoryComboList) {
 			OptionSetList.addAll(cc.getOptionSets());
-			}
+		}
 		return OptionSetList;
 	}
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public CohortDefinition getUndefinedCohortDefinition() {
-		if (undefined==null) {
-			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+		if (undefined == null) {
+			CohortDefinitionService cds = Context
+					.getService(CohortDefinitionService.class);
 			List<CohortDefinition> cd = cds.getAllDefinitions(true);
 			Boolean found = false;
 			for (CohortDefinition d : cd) {
 				if (d instanceof UndefinedCohortDefinition) {
-					undefined =  d;
+					undefined = d;
 					found = true;
 					break;
 				}
@@ -573,27 +579,29 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
 		return undefined;
 	}
-	
+
 	@Override
 	public void commit() {
 		dao.commit();
 	}
 
-     /**
-     * The allPatients cohort will be created if needed
-     * @return the AllPatients cohort
-     */
+	/**
+	 * The allPatients cohort will be created if needed
+	 * 
+	 * @return the AllPatients cohort
+	 */
 	@Override
-	@Transactional(readOnly=true)
-    public CohortDefinition getAllPatients() {
-    	if (allPatients==null) {
-			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+	@Transactional(readOnly = true)
+	public CohortDefinition getAllPatients() {
+		if (allPatients == null) {
+			CohortDefinitionService cds = Context
+					.getService(CohortDefinitionService.class);
 			List<CohortDefinition> cd = cds.getAllDefinitions(true);
 			Boolean found = false;
 			for (CohortDefinition d : cd) {
 				if (d instanceof AllPatientsCohortDefinition) {
-					if (d.getName().equals(ALL_PATIENTS) && 
-							d.getDescription().equals(UNDEFINED_DESC)) {
+					if (d.getName().equals(ALL_PATIENTS)
+							&& d.getDescription().equals(UNDEFINED_DESC)) {
 						allPatients = d;
 						found = true;
 						break;
@@ -602,27 +610,28 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 			}
 
 			if (!found) {
-    			allPatients = new AllPatientsCohortDefinition();
-    			allPatients.setName(ALL_PATIENTS);
-    			allPatients.setDescription(UNDEFINED_DESC);
-    			allPatients.setRetired(true);
-    			allPatients.setDateRetired(new Date());
-    			allPatients=cds.saveDefinition(allPatients);
+				allPatients = new AllPatientsCohortDefinition();
+				allPatients.setName(ALL_PATIENTS);
+				allPatients.setDescription(UNDEFINED_DESC);
+				allPatients.setRetired(true);
+				allPatients.setDateRetired(new Date());
+				allPatients = cds.saveDefinition(allPatients);
 			}
-    	}
-    	return allPatients;
-    }
+		}
+		return allPatients;
+	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public CohortDefinition getServiceLocationCohortDefinition() {
-		if (serviceLocation==null) {
-			CohortDefinitionService cds = Context.getService(CohortDefinitionService.class);
+		if (serviceLocation == null) {
+			CohortDefinitionService cds = Context
+					.getService(CohortDefinitionService.class);
 			List<CohortDefinition> cd = cds.getAllDefinitions(true);
 			Boolean found = false;
 			for (CohortDefinition d : cd) {
 				if (d instanceof ServiceLocationCohortDefinition) {
-					serviceLocation =  d;
+					serviceLocation = d;
 					found = true;
 					break;
 				}
@@ -637,4 +646,8 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 		return serviceLocation;
 	}
 
+	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
+			String uid, IntegrationServer is) {
+		return dao.getExistingByUid(k, uid, is);
+	}
 }

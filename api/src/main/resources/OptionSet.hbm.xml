@@ -26,7 +26,7 @@
 			length="38"/>
 			
 
-		<set name="categoryCombos" inverse="false" table="dhis_catcombo_optionset" >
+		<set name="categoryCombos" inverse="true" table="dhis_catcombo_optionset" >
             <key column="optionset_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.module.integration.CategoryCombo">
                 <column name="catcombo_id" not-null="true" />

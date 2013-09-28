@@ -5,6 +5,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.module.integration.api.db.ServerMetadata;
 import org.openmrs.module.integration.api.jaxb.CategoriesType;
 import org.openmrs.module.integration.api.jaxb.CategoryCombosType;
 import org.openmrs.module.integration.api.jaxb.DataValueSet;
@@ -16,6 +19,8 @@ import org.openmrs.module.integration.api.jaxb.ReportTemplates;
 public class JaxbObjects {
 
 //	singleton
+
+	private static Log log = LogFactory.getLog(JaxbObjects.class);
 	
 	private static JAXBContext jc;
 	private static Unmarshaller um;

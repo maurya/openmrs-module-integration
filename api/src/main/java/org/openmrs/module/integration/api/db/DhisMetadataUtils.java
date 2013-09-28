@@ -165,7 +165,7 @@ public class DhisMetadataUtils {
 // 		Handle exceptions and close the connection			
 
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
@@ -187,7 +187,7 @@ public class DhisMetadataUtils {
 					.getResourceAsStream(resource);
 			IOUtils.copy(in, os);
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 	}
 	
@@ -206,7 +206,7 @@ public class DhisMetadataUtils {
 			InputStream in = new FileInputStream(inFile);
 			IOUtils.copy(in, os);
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 	}
 	
@@ -276,12 +276,14 @@ public class DhisMetadataUtils {
 	 */
 	public static File getServerFile(ContentType meta, String subdir, String server) {
 		final StringBuilder sb = new StringBuilder();
+//		sb.append("/home/rfriedman/");
 		sb.append(MODULE_NAME);
 		sb.append(File.separatorChar);
 		sb.append(server);
 		sb.append(File.separatorChar);
 		sb.append(subdir);
 		File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
+//		File folder = new File(sb.toString());
 		return new File(folder, meta.toString().toLowerCase() + ".xml");
 	}
 	
@@ -297,12 +299,13 @@ public class DhisMetadataUtils {
 	public static ReportTemplates UnmarshalMaster(String subdir, String server) throws IntegrationException {
 		ReportTemplates user=null;
 		try {
-			FileInputStream in = new FileInputStream(getServerFile(ContentType.MASTER,subdir,server));
+			File f=getServerFile(ContentType.MASTER,subdir,server);
+			FileInputStream in = new FileInputStream(f);
 			StreamSource ss = new StreamSource(in);
 			JAXBElement<ReportTemplates> userElement = (JAXBElement<ReportTemplates>) JaxbObjects.getUM().unmarshal(ss,ReportTemplates.class);
 			user = userElement.getValue();
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 		return user;
 	}
@@ -325,7 +328,7 @@ public class DhisMetadataUtils {
 			JAXBElement<MetaData> userElement = (JAXBElement<MetaData>) JaxbObjects.getUM().unmarshal(ss,MetaData.class);
 			user = userElement.getValue();
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 		return user;
 	}
@@ -410,7 +413,7 @@ public class DhisMetadataUtils {
 					InputStream ins = new FileInputStream(inf);
 					IOUtils.copy(ins, os);
 				} catch (Exception e) {
-					throw new IntegrationException( e.getLocalizedMessage(),null);
+					throw new IntegrationException(e.getMessage(),e);
 				}
 			}
 		}
@@ -422,7 +425,7 @@ public class DhisMetadataUtils {
 			os = new FileOutputStream(getServerReportFile(server, report, asOf, sent));
 			JaxbObjects.getMM().marshal((Object) dvs, os);
 		} catch (Exception e) {
-			throw new IntegrationException( e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 	}
 	
@@ -436,7 +439,7 @@ public class DhisMetadataUtils {
 				JAXBElement<DataValueSet> userElement = (JAXBElement<DataValueSet>) JaxbObjects.getUM().unmarshal(ss,DataValueSet.class);
 				user = userElement.getValue();
 			} catch (Exception e) {
-				throw new IntegrationException(e.getLocalizedMessage(),null);
+				throw new IntegrationException(e.getMessage(),e);
 			}
 		}
 		return user;
@@ -499,7 +502,7 @@ public class DhisMetadataUtils {
 // 		Handle exceptions and close the connection			
 
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
