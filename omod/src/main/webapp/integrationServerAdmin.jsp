@@ -34,12 +34,25 @@
 
 	function confirmDelete(name) {
 		if(confirm('<spring:message code="integration.confirm.serverDeletion"/>'))
-		 {
+		{
 			 $.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",{serverName: name});	
 			 location.reload();
+		}
 	}
+		
+	function updateServer(name) {
+		if(confirm('<spring:message code="integration.confirm.serverUpdate"/>'))
+		{
+			 $.post("${pageContext.request.contextPath}/module/integration/updateServer.form?serverName"+name);	
+			 location.reload();
+		}
 	}
-	
+		
+	function testConnection(name) {
+			 $.post("${pageContext.request.contextPath}/module/integration/testConnection.form?serverName="+name);	
+			 location.reload();
+	}
+		
 	function editServer(id) {
 	
 			$("#id").val($.trim($("#sid"+id).html()));
@@ -120,12 +133,12 @@
 							&nbsp;
 							<a href="javascript:confirmDelete('${serverItem.serverName}');"><img src="<c:url value='/images/trash.gif'/>" border="0" title='<spring:message code="integration.tooltips.deleteServer"/>'/></a>
 							&nbsp;
-							<a href="locationMapping.form?name=${serverItem.serverName}">
+							<a href="testConnection.form?name=${serverItem.serverName}">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/lightning-icon.png" border="0" title='<spring:message code="integration.tooltips.testServerConnection"/>'/>	
 									</a>
 									
 							&nbsp;
-							<a href="locationMapping.form?name=${serverItem.serverName}">
+							<a href="updateServer.form?name=${serverItem.serverName}">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/Updateicon.png" border="0" title='<spring:message code="integration.tooltips.updateServerData"/>'/>	
 									</a>
 						</td>

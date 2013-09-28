@@ -11,6 +11,7 @@ import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
@@ -173,5 +174,8 @@ public interface DhisService extends OpenmrsService {
 	public CohortDefinition getServiceLocationCohortDefinition();
 	
 	public void commit();
+	
+	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
+			String uid, IntegrationServer is);
 
 }

@@ -17,6 +17,8 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.api.DhisService;
+import org.openmrs.module.integration.api.db.DhisMetadataUtils;
+import org.openmrs.module.integration.api.db.ServerMetadata;
 
 @Controller
 public class IntegrationServerAdminController {
@@ -31,9 +33,11 @@ public class IntegrationServerAdminController {
 		servers=dhisService.getAllIntegrationServers();
 		model.addAttribute("serverItems",servers);
 		model.addAttribute("integrationServer", new IntegrationServer());
+		log.info("integrationServerAdmin request processed");
 	}
-    @RequestMapping("/module/integration/deleteServer")
+	@RequestMapping(value="/module/integration/deleteServer" ,method = RequestMethod.POST)
     public String purgeServer(@RequestParam(required=false, value="serverName") String serverName) {
+		log.info("building server " + serverName);
 
     	IntegrationServer server = new IntegrationServer();
 		try {
@@ -77,4 +81,50 @@ public class IntegrationServerAdminController {
         }		
 		return "redirect:/module/integration/integrationServerAdmin.form";
     }
+    
+    @RequestMapping(value = "/module/integration/testConnection", method = RequestMethod.GET)
+    public String testConnection(@RequestParam(required=false, value="name") String serverName) {
+
+       	IntegrationServer server = new IntegrationServer();
+       	try {
+    			
+    		log.info("testing connection " + serverName);
+			DhisService dhisService = Context.getService(DhisService.class);	
+			server=dhisService.getIntegrationServerByName(serverName);
+			if (server==null) server=dhisService.getIntegrationServerById(39);
+    		String result = DhisMetadataUtils.testConnection(server);
+    		if (result==null) result="";
+    		if (result.isEmpty()) result="Connection works";
+    		log.info(serverName+": "+result);
+    	} catch (Exception e) {
+    		log.error("error testing connection "+server.getId(), e);
+    	}
+		return "redirect:/module/integration/integrationServerAdmin.form";
+    }
+    
+    @RequestMapping(value = "/module/integration/updateServer", method = RequestMethod.GET)
+    public String updateServer(@RequestParam(required=false, value="name") String serverName) {
+    	ServerMetadata sm;
+    	IntegrationServer server = new IntegrationServer();
+   	   try {
+    		log.info("building server " + serverName);
+			DhisService dhisService = Context.getService(DhisService.class);	
+			server=dhisService.getIntegrationServerByName(serverName);
+			if (server==null) server=dhisService.getIntegrationServerById(38);
+			log.info("Got server" + server.getId().toString());
+    		if (server.getId().equals(39)) {
+    			log.info("39 in");
+    			DhisMetadataUtils.getServerMetadata(server);
+    			log.info("39 out");
+    		}
+    		sm = new ServerMetadata();
+    		sm.buildDBObjects(serverName);
+    		log.info("server "+server.getId()+" built");
+       	} catch (Exception e) {
+    		log.error("error building server data: " + e.getMessage(), e);
+    	}
+    	sm = null;
+		return "redirect:/module/integration/integrationServerAdmin.form";
+    }
+    
 }

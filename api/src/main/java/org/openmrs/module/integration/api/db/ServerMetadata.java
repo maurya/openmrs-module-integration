@@ -9,8 +9,10 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -83,6 +85,7 @@ public class ServerMetadata {
 	 * @param name the name of the server to be built
 	 */
 	public void buildDBObjects(String name) throws IntegrationException {
+		log.info("In buildObjects");
 		this.name=name;
 		is=ds.getIntegrationServerByName(name);
 		if (is==null) {
@@ -90,6 +93,7 @@ public class ServerMetadata {
 			is.setServerName(name);
 			ds.saveIntegrationServer(is);
 		}
+ 
 		try {
 			master = DhisMetadataUtils.UnmarshalMaster("New", name);
 			cats = DhisMetadataUtils.UnmarshalMetaData(ContentType.CATS,"New", name);
@@ -97,11 +101,164 @@ public class ServerMetadata {
 		} catch (IntegrationException ie) {
 			throw ie;
 		} catch (Exception e) {
-			throw new IntegrationException(e.getLocalizedMessage(),null);
+			throw new IntegrationException(e.getMessage(),e);
 		}
 		
 		String result = "";
+		
+		processOpts();
+		processCats();
+		processMaster();
+		
+		return;
+	}
+
+	private void processOpts() {
+		for (CategoriesType.Category xcat : getOpts()) {
+			OptionSet ops = (OptionSet) ds.getExistingByUid(OptionSet.class, xcat.getId(), is);
+			if (ops==null) {
+				ops = new OptionSet(xcat.getName(),"",xcat.getId());
+				ops.setIntegrationServer(is);
+				ops = ds.saveOptionSet(ops);
+			}
+			for (CategoriesType.Category.CategoryOptions.CategoryOption xco : xcat.getCategoryOptions().getCategoryOption()) {
+				Option opv = (Option) ds.getExistingByUid(Option.class, xco.getId(), is);
+				if (opv==null) {
+					opv = new Option(xco.getName(),"",xco.getId());
+					opv.setIntegrationServer(is);
+					opv.setCohortdefUuid(ds.getUndefinedCohortDefinition().getUuid());
+					opv = ds.saveOption(opv);
+				}
+				ops.getOptions().add(opv);
+				opv.getOptionSets().add(ops);
+				opv=ds.saveOption(opv);
+			}
+			ops=ds.saveOptionSet(ops);
+		}
+		return;
+	}
 	
+	private void processCats() {
+		
+	// step through the category options
+		for (CategoryCombosType.CategoryOptionCombo xcoc : getCats()) {
+			
+	// build the category combo if necessary
+			CategoryCombosType.CategoryOptionCombo.CategoryCombo xcc = xcoc.getCategoryCombo();
+			CategoryCombo cc = (CategoryCombo) ds.getExistingByUid(CategoryCombo.class, xcc.getId(), is);
+			if (cc==null) {
+				cc = new CategoryCombo(xcc.getName(),"",xcc.getId());
+				cc.setIntegrationServer(is);
+				cc = ds.saveCategoryCombo(cc);
+			}
+			
+	// build the category option if necessary
+			CategoryOption co = (CategoryOption) ds.getExistingByUid(CategoryOption.class, xcoc.getId(), is);
+			if (co==null) {
+				co = new CategoryOption(xcoc.getName(),"",xcoc.getId());
+				co.setIntegrationServer(is);
+				co = ds.saveCategoryOption(co);
+			}
+			
+	// add the category combo and category option to each other's collections
+			cc.getCategoryOptions().add(co);
+			co.getCategoryCombos().add(cc);
+			
+	// add the options and category options to each other's collections
+			for (CategoryCombosType.CategoryOptionCombo.CategoryOptions.CategoryOption xov : xcoc.getCategoryOptions().getCategoryOption()) {
+				Option ov = ds.getOptionByUid(xov.getId(), is);
+				if (ov!=null) {
+					co.getOptions().add(ov);
+					ov.getCategoryOptions().add(co);
+					ov = ds.saveOption(ov);
+				}
+			}
+
+	// find the option sets for the category combo if necessary
+			if (cc.getOptionSets().size()==0) {
+				Set<OptionSet> oss = null;
+				for (CategoryCombosType.CategoryOptionCombo.CategoryOptions.CategoryOption xov : xcoc.getCategoryOptions().getCategoryOption()) {
+					Option ov = ds.getOptionByUid(xov.getId(), is);
+					if (ov!=null) {
+						if (oss==null) {
+							oss = new HashSet<OptionSet>(); 
+							oss.addAll(ov.getOptionSets());
+						} else {
+							oss.retainAll(ov.getOptionSets());
+						}
+					}
+				}
+				cc.getOptionSets().addAll(oss);
+			}
+			
+	// save the updated category combo and category option
+			ds.saveCategoryCombo(cc);
+			ds.saveCategoryOption(co);
+		}
+		
+		return;
+	}
+				
+	private void processMaster() {
+	// process data elements
+			for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
+				DataElement de = (DataElement) ds.getExistingByUid(DataElement.class, xde.getUid(), is);
+				if (de==null) {
+					de = new DataElement(xde.getName(),xde.getCode(),xde.getUid());
+					de.setIntegrationServer(is);
+					de.setCohortDefinitionUuid(ds.getUndefinedCohortDefinition().getUuid());
+					de = ds.saveDataElement(de);
+				}
+			}
+
+	// add codes to disaggregations
+			for (ReportTemplates.Disaggregations.Disaggregation xd : getMaster().getDisaggregations().getDisaggregation()) {
+				CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
+				if (co != null) {
+					co.setCode(xd.getCode());
+					ds.saveCategoryOption(co);
+				}
+			}
+			
+	// process report definitions
+			for (ReportTemplates.ReportTemplate xrt : getReportTemplates()) {
+				ReportTemplate rt = (ReportTemplate) ds.getExistingByUid(ReportTemplate.class, xrt.getUid(), is);
+				if (rt==null) {
+					rt = new ReportTemplate(xrt.getName(),xrt.getCode(),xrt.getUid());
+					rt.setIntegrationServer(is);
+					rt.setFrequency(xrt.getPeriodType());
+					rt = ds.saveReportTemplate(rt);
+				}
+				for (ReportTemplates.ReportTemplate.DataValueTemplates.DataValueTemplate xdv : xrt.getDataValueTemplates().getDataValueTemplate()) {
+					DataValueTemplate dv = new DataValueTemplate();
+					dv.setReportTemplate(rt);
+					dv.setIntegrationServer(is);
+					DataElement de = ds.getDataElementByCode(xdv.getDataElement(),is);
+					if (de==null) {
+						de = ds.getDataElementByUid(xdv.getDataElement(),is);
+					}
+					if (de!=null) {
+						dv.setDataElement(de);
+						dv.setCategoryOption(ds.getCategoryOptionByUid(xdv.getDisaggregation(),is));
+						dv=ds.saveDataValueTemplate(dv);
+						rt.getDataValueTemplates().add(dv);
+						if (de.getCategoryCombo() == null) {
+							CategoryOption co = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is);
+							if (co!=null) {
+								Iterator<CategoryCombo> it = co.getCategoryCombos().iterator();
+								CategoryCombo cb=it.next();
+								if (cb != null) {
+									de.setCategoryCombo(cb);
+								}
+							}
+						}
+					}
+				}
+			}
+			return;
+	}
+	
+/****************
 // process options/option sets
 		
 		for (CategoriesType.Category xcat : getOpts()) {
@@ -156,9 +313,26 @@ public class ServerMetadata {
 // for each optionSet/option, add the option to the catOption collection and the option set to the cat combo collection if needed
 		
 			for (CategoryCombosType.CategoryOptionCombo.CategoryOptions.CategoryOption xopv : xcco.getCategoryOptions().getCategoryOption()) {
-				Option opv = ds.getOptionByUid(xopv.getId(),is);
-				if (opv != null) {
-					cco.getOptions().add(opv);
+				Option opv = null;
+				List<Option> lopv = ds.getOptionsByServer(is);
+				for (Option v : lopv)
+					if (v.getId().equals(xopv.getId())) {
+						opv = v;
+						break;
+					} else if (v.getName().equals(xopv.getName())) {
+						opv = v;
+						break;
+					}
+//				if (ds.getOptionByUid(xopv.getId(),is)!=null) {
+//					opv=ds.getOptionByUid(xopv.getId(), is);
+//				}
+					if (opv != null) {
+						Set<Option> sopv = cco.getOptions();
+						if (sopv!=null) { 
+							cco.getOptions().add(opv);
+						} else {
+							nop=nop;
+						}
 					if (ccb.getOptionSets().size() < (cco.getOptions().size())){
 						Iterator<OptionSet> it = opv.getOptionSets().iterator();
 						if (it.hasNext()) {
@@ -169,6 +343,8 @@ public class ServerMetadata {
 				}
 			}
 		}
+		nop=ds.getCategoryComboByServer(is).size();
+		nov=ds.getCategoryOptionByServer(is).size();
 		
 // process data elements
 		for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
@@ -224,6 +400,7 @@ public class ServerMetadata {
 			}
 		}
 	}
+**********************/
 
 	// basic object methods
 
@@ -314,7 +491,6 @@ public class ServerMetadata {
 		}
 		return orgs.getOrganisationUnits().getOrganisationUnit();
 	}
-
 	
 	/**
 	 * 	This method prepares the org unit display.
