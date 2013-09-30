@@ -35,6 +35,13 @@
             	<key column="reporttemplate_id" not-null="true" />
         		<one-to-many class="org.openmrs.module.integration.DataValueTemplate" />
     	</set>
+    	
+    	<set name="dataelements" inverse="true" table="dhis_reporttemplate_dataelement" >
+            <key column="reporttemplate_id" not-null="true" />
+            <many-to-many entity-name="org.openmrs.module.integration.DataElement">
+                <column name="dataelement_id" not-null="true" />
+            </many-to-many>
+        </set>	
 				
 		<many-to-one name="integrationServer" class="org.openmrs.module.integration.IntegrationServer"
 			not-null="true">

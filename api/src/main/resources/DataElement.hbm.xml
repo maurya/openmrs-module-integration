@@ -42,9 +42,11 @@
 			<column name="server_Id" />
 		</many-to-one>		
 		
-		<many-to-one name="reportTemplate" class="org.openmrs.module.integration.ReportTemplate"
-			not-null="true">
-			<column name="reporttemplate_id" />
-		</many-to-one>		
+		<set name="reporttemplates" inverse="false" table="dhis_reporttemplate_dataelement" >
+            <key column="dataelement_id" not-null="true" />
+            <many-to-many entity-name="org.openmrs.module.integration.ReportTemplate">
+                <column name="reporttemplate_id" not-null="true" />
+            </many-to-many>
+        </set>	
 	</class>
 </hibernate-mapping>

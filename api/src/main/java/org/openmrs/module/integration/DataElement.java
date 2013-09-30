@@ -1,6 +1,8 @@
 package org.openmrs.module.integration;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +16,7 @@ public class DataElement extends OpenmrsDhisObject {
 	private Date lastUpdated;
 	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
-	private ReportTemplate reportTemplate;
+	private Set<ReportTemplate> reportTemplates =  new HashSet<ReportTemplate>(0);
 
 	public DataElement() {
 		super();
@@ -69,14 +71,14 @@ public class DataElement extends OpenmrsDhisObject {
         return this.integrationServer;
     }
 
-    public void setReportTemplate(ReportTemplate reportTemplate)
+    public void setReportTemplates(Set<ReportTemplate> reportTemplates)
     {
-        this.reportTemplate = reportTemplate;
+        this.reportTemplates = reportTemplates;
     }
 
-    public ReportTemplate getReportTemplate()
+    public Set<ReportTemplate> getReportTemplates()
     {
-        return this.reportTemplate;
+        return this.reportTemplates;
     }
     
 }

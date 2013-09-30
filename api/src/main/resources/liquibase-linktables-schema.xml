@@ -121,6 +121,29 @@
 		</createTable>
 	</changeSet>
 	
+	<changeSet id="dhis-reporttemplate dataelement" author="maurya">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="dhis_reporttemplate_dataelement"/>
+			</not>
+		</preConditions>
+		<comment>
+			Creating the reporttemplate dataelement link Table
+		</comment>
+
+		<createTable tableName="dhis_reporttemplate_dataelement">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="reporttemplate_id" type="INT">
+			<constraints nullable="false"/>
+			</column>
+			<column name="dataelement_id" type="INT">
+			<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	
 	<changeSet author="maurya" id="foreign_key_constraints-dhis_catcombo_combooption">
 		<preConditions onFail="MARK_RAN">
 			<not>
@@ -169,6 +192,16 @@
 		</preConditions>
 		<addForeignKeyConstraint baseColumnNames="orgunit_id" baseTableName="dhis_orgunit_location" constraintName="orgunit_location_orgunit" referencedColumnNames="id" referencedTableName="dhis_orgunit"/>
 		<addForeignKeyConstraint baseColumnNames="location_id" baseTableName="dhis_orgunit_location" constraintName="orgunit_location_location" referencedColumnNames="id" referencedTableName="location"/>	
+	</changeSet>
+	
+	<changeSet author="maurya" id="foreign_key_constraints-dhis_reporttemplate_dataelement">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<foreignKeyConstraintExists foreignKeyName="reporttemplate_dataelement_reporttemplate" />
+			</not>
+		</preConditions>
+		<addForeignKeyConstraint baseColumnNames="reporttemplate_id" baseTableName="dhis_reporttemplate_dataelement" constraintName="reporttemplate_dataelement_reporttemplate" referencedColumnNames="id" referencedTableName="dhis_reporttemplate"/>
+		<addForeignKeyConstraint baseColumnNames="dataelement_id" baseTableName="dhis_reporttemplate_dataelement" constraintName="reporttemplate_dataelement_dataelement" referencedColumnNames="id" referencedTableName="dhis_dataelement"/>	
 	</changeSet>
 	
 </databaseChangeLog>

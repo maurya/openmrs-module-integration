@@ -16,6 +16,7 @@ public class ReportTemplate extends OpenmrsDhisObject {
 	private Date lastUpdated;
 	private IntegrationServer integrationServer;
 	private Set<DataValueTemplate> dataValueTemplates = new HashSet<DataValueTemplate>(0);
+	private Set<DataElement> dataElements = new HashSet<DataElement>(0);
 	
 	public ReportTemplate() {
 		super();
@@ -63,5 +64,13 @@ public class ReportTemplate extends OpenmrsDhisObject {
  
     public void setDataValueTemplates(Set<DataValueTemplate> dataValueTemplates) {
         this.dataValueTemplates = dataValueTemplates;
+    }
+    
+    public Set<DataElement> getDataElements() {
+        return dataElements;
+    }
+ 
+    public void setDataElements(Set<DataElement> dataElements) {
+        this.dataElements = dataElements;
     }
 }
