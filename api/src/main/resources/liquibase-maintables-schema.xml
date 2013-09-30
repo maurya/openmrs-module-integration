@@ -35,6 +35,37 @@
 			<column name="last_updated" type="DATETIME"/>
 		</createTable>
 	</changeSet> 
+	
+	<changeSet id="dhis-report template" author="maurya">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="dhis_reporttemplate"/>
+			</not>
+		</preConditions>
+		<comment>
+			Creating the report template Table
+		</comment>
+
+		<createTable tableName="dhis_reporttemplate">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="uuid" type="CHAR(38)">
+			<constraints nullable="false"/>
+			</column>
+			<column name="name" type="VARCHAR(230)">
+			<constraints nullable="false"/>
+			</column>
+			<column name="code" type="VARCHAR(50)"/>
+			<column name="uid" type="CHAR(11)"/>
+			<column name="frequency" type="VARCHAR(230)"/>
+			<column name="report_definition_uuid" type="CHAR(38)"/>
+			<column name="server_id" type="INT">
+			<constraints nullable="false"/>
+			</column>
+			<column name="last_updated" type="DATETIME"/>
+		</createTable>
+	</changeSet> 
 	     
 	<changeSet id="dhis-Org unit" author="maurya">
 		<preConditions onFail="MARK_RAN">
@@ -91,6 +122,7 @@
 			<column name="server_id" type="INT">
 			<constraints nullable="false"/>
 			</column>
+			<column name="reporttemplate_id" type="INT"/>
 			<column name="last_updated" type="DATETIME"/>
 		</createTable>
 	</changeSet> 
@@ -209,36 +241,7 @@
 		</createTable>
 	</changeSet> 
 	
-	<changeSet id="dhis-report template" author="maurya">
-		<preConditions onFail="MARK_RAN">
-			<not>
-				<tableExists tableName="dhis_reporttemplate"/>
-			</not>
-		</preConditions>
-		<comment>
-			Creating the report template Table
-		</comment>
-
-		<createTable tableName="dhis_reporttemplate">
-			<column name="id" type="INT" autoIncrement="true">
-				<constraints nullable="false" primaryKey="true"/>
-			</column>
-			<column name="uuid" type="CHAR(38)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="name" type="VARCHAR(230)">
-			<constraints nullable="false"/>
-			</column>
-			<column name="code" type="VARCHAR(50)"/>
-			<column name="uid" type="CHAR(11)"/>
-			<column name="frequency" type="VARCHAR(230)"/>
-			<column name="report_definition_uuid" type="CHAR(38)"/>
-			<column name="server_id" type="INT">
-			<constraints nullable="false"/>
-			</column>
-			<column name="last_updated" type="DATETIME"/>
-		</createTable>
-	</changeSet> 
+	
 
 	<changeSet id="dhis-data value template" author="maurya">
 		<preConditions onFail="MARK_RAN">
@@ -290,7 +293,8 @@
 			</not>
 		</preConditions>
 		<addForeignKeyConstraint baseColumnNames="server_id" baseTableName="dhis_dataelement" constraintName="dataelement_serverid" referencedColumnNames="id" referencedTableName="dhis_integrationserver"/>
-		<addForeignKeyConstraint baseColumnNames="categorycombo_id" baseTableName="dhis_dataelement" constraintName="dataelement_categorycomboid" referencedColumnNames="id" referencedTableName="dhis_categorycombo"/>		
+		<addForeignKeyConstraint baseColumnNames="categorycombo_id" baseTableName="dhis_dataelement" constraintName="dataelement_categorycomboid" referencedColumnNames="id" referencedTableName="dhis_categorycombo"/>	
+		<addForeignKeyConstraint baseColumnNames="reporttemplate_id" baseTableName="dhis_dataelement" constraintName="dataelement_reporttemplateid" referencedColumnNames="id" referencedTableName="dhis_reporttemplate"/>			
 	</changeSet>
 	
 	<changeSet author="maurya" id="foreign_key_constraints-dhis_categorycombo">

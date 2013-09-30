@@ -14,6 +14,7 @@ public class DataElement extends OpenmrsDhisObject {
 	private Date lastUpdated;
 	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
+	private ReportTemplate reportTemplate;
 
 	public DataElement() {
 		super();
@@ -68,4 +69,14 @@ public class DataElement extends OpenmrsDhisObject {
         return this.integrationServer;
     }
 
+    public void setReportTemplate(ReportTemplate reportTemplate)
+    {
+        this.reportTemplate = reportTemplate;
+    }
+
+    public ReportTemplate getReportTemplate()
+    {
+        return this.reportTemplate;
+    }
+    
 }

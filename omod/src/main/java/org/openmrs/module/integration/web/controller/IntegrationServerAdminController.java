@@ -20,6 +20,7 @@ import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.api.DhisService;
 import org.openmrs.module.integration.api.db.DhisMetadataUtils;
 import org.openmrs.module.integration.api.db.IntegrationException;
+import org.openmrs.module.integration.api.db.ServerMetadata;
 
 import com.mysql.jdbc.StringUtils;
 
@@ -72,20 +73,20 @@ public class IntegrationServerAdminController {
 		
 	}
     
-    @RequestMapping(value = "/module/integration/testServerConnection", method = RequestMethod.POST)
-    @Authorized("Manage Server")
-    public String testConnection(@RequestParam(value="serverName",required=true)  String serverName){
-	
-			
-			DhisService dhisService = Context.getService(DhisService.class);
-			IntegrationServer server=dhisService.getIntegrationServerByName(serverName);
-			String testResult=DhisMetadataUtils.testConnection(server);
-       
-		if(!StringUtils.isNullOrEmpty(testResult))
-			return "failure";
-		
-		return "success";
-    }
+//    @RequestMapping(value = "/module/integration/testServerConnection", method = RequestMethod.POST)
+//    @Authorized("Manage Server")
+//    public String testConnection(@RequestParam(value="serverName",required=true)  String serverName){
+//	
+//			
+//			DhisService dhisService = Context.getService(DhisService.class);
+//			IntegrationServer server=dhisService.getIntegrationServerByName(serverName);
+//			String testResult=DhisMetadataUtils.testConnection(server);
+//       
+//		if(!StringUtils.isNullOrEmpty(testResult))
+//			return "failure";
+//		
+//		return "success";
+//    }
     
     @RequestMapping(value = "/module/integration/getServerMetadata", method = RequestMethod.POST)
     @Authorized("Manage Server")
