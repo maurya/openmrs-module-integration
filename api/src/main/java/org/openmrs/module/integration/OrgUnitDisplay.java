@@ -303,10 +303,12 @@ public class OrgUnitDisplay {
 	// close out previous level(s) if necessary
 				do {
 					if (uids.empty()) break;
-					if (org.getParent().equals(uids.peek())) break;	
+					if (org.getParent()!=null)
+						if (org.getParent().equals(uids.peek())) break;	
 					sb.append(" ] }");
 					sb.append(CRLF);
-					uids.pop();
+					if (!uids.isEmpty()) 
+						uids.pop();
 				} while (true);
 				
 
