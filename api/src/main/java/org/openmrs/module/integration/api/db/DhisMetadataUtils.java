@@ -276,14 +276,14 @@ public class DhisMetadataUtils {
 	 */
 	public static File getServerFile(ContentType meta, String subdir, String server) {
 		final StringBuilder sb = new StringBuilder();
-//		sb.append("/home/rfriedman/");
+		sb.append("/home/rfriedman/.OpenMRS/");
 		sb.append(MODULE_NAME);
 		sb.append(File.separatorChar);
 		sb.append(server);
 		sb.append(File.separatorChar);
 		sb.append(subdir);
-		File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
-//		File folder = new File(sb.toString());
+//		File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
+		File folder = new File(sb.toString());
 		return new File(folder, meta.toString().toLowerCase() + ".xml");
 	}
 	

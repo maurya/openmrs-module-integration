@@ -28,17 +28,17 @@ public class DhisMetadataUtilsTest extends BaseModuleContextSensitiveTest {
 	IntegrationServer is;
 	DhisService ds;
 
-//	@Override
-//	public Boolean useInMemoryDatabase() {
-//		return false;
-//	}
+	@Override
+	public Boolean useInMemoryDatabase() {
+		return false;
+	}
 	
 	@Before
 	public void setup() {
 		is = new IntegrationServer();
-		is.setServerName("dhis");
-		is.setServerDescription("DHIS demo server");
-		is.setUrl("http://apps.dhis2.org/demo");
+		is.setServerName("local");
+		is.setServerDescription("Test data");
+		is.setUrl("http://localhost:8080/dhis");
 		is.setUserName("admin");
 		is.setPassword("district");
 		ds=Context.getService(DhisService.class);
