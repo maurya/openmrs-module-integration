@@ -303,10 +303,12 @@ public class OrgUnitDisplay {
 	// close out previous level(s) if necessary
 				do {
 					if (uids.empty()) break;
-					if (org.getParent().equals(uids.peek())) break;	
+					if (org.getParent()!=null)
+						if (org.getParent().equals(uids.peek())) break;	
 					sb.append(" ] }");
 					sb.append(CRLF);
-					uids.pop();
+					if (!uids.isEmpty()) 
+						uids.pop();
 				} while (true);
 				
 
@@ -388,12 +390,14 @@ public class OrgUnitDisplay {
  */
 private static File getServerFile(ContentType meta, String subdir, String server) {
 	final StringBuilder sb = new StringBuilder();
+//	sb.append("/home/rfriedman/.OpenMRS/");
 	sb.append(MODULE_NAME);
 	sb.append(File.separatorChar);
 	sb.append(server);
 	sb.append(File.separatorChar);
 	sb.append(subdir);
 	File folder = OpenmrsUtil.getDirectoryInApplicationDataDirectory(sb.toString());
+//	File folder = new File(sb.toString());
 	return new File(folder, meta.toString().toLowerCase() + ".xml");
 }
 	
