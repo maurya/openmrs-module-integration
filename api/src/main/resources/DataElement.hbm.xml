@@ -42,7 +42,7 @@
 			<column name="server_Id" />
 		</many-to-one>		
 		
-		<set name="reporttemplates" inverse="false" table="dhis_reporttemplate_dataelement" >
+		<set name="reportTemplates" inverse="false" table="dhis_reporttemplate_dataelement" >
             <key column="dataelement_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.module.integration.ReportTemplate">
                 <column name="reporttemplate_id" not-null="true" />

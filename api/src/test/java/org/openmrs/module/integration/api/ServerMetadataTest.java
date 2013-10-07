@@ -43,6 +43,10 @@ public class ServerMetadataTest extends BaseModuleContextSensitiveTest {
 		is.setUserName("admin");
 		is.setPassword("district");
 		ds=Context.getService(DhisService.class);
+		try {
+			super.authenticate();
+		} catch (Exception e) {
+		}
 	}
 	
 	@Test
@@ -67,7 +71,7 @@ public class ServerMetadataTest extends BaseModuleContextSensitiveTest {
 	@Rollback(false)
 	@Test
 	public void BuildObjects_shouldWorkForExistingServer() {
-		final String server = "dhis";
+		final String server = "local";
 		String s = null;
 		ServerMetadata sm = new ServerMetadata();
 		try {
@@ -128,6 +132,7 @@ public class ServerMetadataTest extends BaseModuleContextSensitiveTest {
 		}
 		sb.append("\r\n");
 		
-		Assert.assertNotNull("Exception has been thrown: "+s,s);
+		if (s.equals("")) s=null;
+		Assert.assertNull("Exception has been thrown: "+s,s);
 	}
 }
