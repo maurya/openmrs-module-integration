@@ -22,4 +22,40 @@ public class ChangeRecord {
 	public String newFreq;
 	
 	public enum ChangeType {ADD, DELETE, CHANGE, REVISE};
+	
+	public String getObjClass() {
+		return objClass;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public String getUid() {
+		return uid;
+	}
+	
+	public String getChangeType() {
+		return change.toString();
+	}
+	
+	public String getOldName() {
+		return oldName;
+	}
+	
+	public String getOldCode() {
+		return oldCode;
+	}
+	
+	public String getNewFreq() {
+		return newFreq;
+	}
 }

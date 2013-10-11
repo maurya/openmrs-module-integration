@@ -222,6 +222,7 @@ public class ServerMetadata {
 				osmap.remove(os);
 			}
 			cc.setOptionSets(osmap.keySet());
+			ds.saveCategoryCombo(cc);
 		}
 			
 		return;
@@ -247,17 +248,6 @@ public class ServerMetadata {
 	 */
 	
 	private void processMaster() {
-	// process data elements
-		for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
-			DataElement de = (DataElement) ds.getExistingByUid(DataElement.class, xde.getUid(), is);
-			if (de==null) {
-				de = new DataElement(xde.getName(),xde.getCode(),xde.getUid());
-				de.setIntegrationServer(is);
-				de.setCohortDefinitionUuid(ds.getUndefinedCohortDefinition().getUuid());
-				de = ds.saveDataElement(de);
-			}
-		}
-
 	// add codes to disaggregations
 		for (ReportTemplates.Disaggregations.Disaggregation xd : getMaster().getDisaggregations().getDisaggregation()) {
 			CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
@@ -507,9 +497,26 @@ public class ServerMetadata {
 		updateCats();
 		updateMaster();
 		
+		log.info(dumpChanges());
 		return changes;
 	}
 
+	private String dumpChanges() {
+		final String CRLF = "\n\r";
+		StringBuffer sb = new StringBuffer();
+		sb.append(changes.size() + " changes");
+		sb.append(CRLF);
+		for (ChangeRecord cr : changes) {
+			sb.append(cr.objClass + " " + cr.uid + "\t");
+			sb.append(cr.name + "\t");
+			sb.append(cr.code + "\t");
+			sb.append(cr.oldName + "\t");
+			sb.append(cr.oldCode + "\t");
+			sb.append(cr.newFreq + CRLF);
+		}
+		return sb.toString();
+	}
+	
 	private void updateOpts() {
 		ChangeRecord cr=null;
 		Set<Option> setOptions;
@@ -587,13 +594,22 @@ public class ServerMetadata {
 			ops=ds.saveOptionSet(ops);
 			if (setOptions!=null) {
 				if (!ops.getOptions().containsAll(setOptions) || !setOptions.containsAll(ops.getOptions())) {
-					cr=new ChangeRecord();
-					cr.objClass=OptionSet.class.getSimpleName();
-					cr.name=ops.getName();
-					cr.code=ops.getCode();
-					cr.uid=ops.getUid();
-					cr.change=ChangeType.REVISE;
-					changes.add(cr);
+					boolean found = false;
+					for (ChangeRecord crt : changes) {
+						if (crt.objClass.equals(OptionSet.class.getSimpleName()) && crt.uid.equals(ops.getUid()) && crt.change.equals(ChangeType.ADD)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						cr=new ChangeRecord();
+						cr.objClass=OptionSet.class.getSimpleName();
+						cr.name=ops.getName();
+						cr.code=ops.getCode();
+						cr.uid=ops.getUid();
+						cr.change=ChangeType.REVISE;
+						changes.add(cr);
+					}
 				}
 			}
 		}
@@ -647,7 +663,7 @@ public class ServerMetadata {
 				changes.add(cr);
 				setOptions=null;
 			} else {
-				setOptions= new HashSet(cc.getCategoryOptions());
+				setOptions= new HashSet<CategoryOption>(cc.getCategoryOptions());
 				catCombos.remove(cc);
 				cr = new ChangeRecord();
 				cr.objClass = CategoryCombo.class.getSimpleName();
@@ -712,42 +728,120 @@ public class ServerMetadata {
 					}
 				}
 			}
-
-	// find the option sets for the category combo if necessary
-			if (cr.change==ChangeType.ADD) {
-				if (cc.getOptionSets().size()==0) {
-					Set<OptionSet> oss = null;
-					for (CategoryCombosType.CategoryOptionCombo.CategoryOptions.CategoryOption xov : xcoc.getCategoryOptions().getCategoryOption()) {
-						Option ov = ds.getOptionByUid(xov.getId(), is);
-						if (ov!=null) {
-							if (oss==null) {
-								oss = new HashSet<OptionSet>(ov.getOptionSets()); 
-							} else {
-								oss.retainAll(ov.getOptionSets());
-							}
-						}
-					}
-					cc.getOptionSets().addAll(oss);
-				}
-			}
 			
 	// save the possibly updated category combo and category option
 			ds.saveCategoryCombo(cc);
 			ds.saveCategoryOption(co);
 			if (setOptions!=null) {
 				if (!cc.getCategoryOptions().containsAll(setOptions) || !setOptions.containsAll(cc.getCategoryOptions())) {
-					cr=new ChangeRecord();
-					cr.objClass=CategoryCombo.class.getSimpleName();
-					cr.name=cc.getName();
-					cr.code=cc.getCode();
-					cr.uid=cc.getUid();
-					cr.change=ChangeType.REVISE;
-					changes.add(cr);
+					boolean found = false;
+					for (ChangeRecord crt : changes) {
+						if (crt.objClass.equals(CategoryCombo.class.getSimpleName()) && crt.uid.equals(cc.getUid()) && crt.change.equals(ChangeType.ADD)) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						cr=new ChangeRecord();
+						cr.objClass=CategoryCombo.class.getSimpleName();
+						cr.name=cc.getName();
+						cr.code=cc.getCode();
+						cr.uid=cc.getUid();
+						cr.change=ChangeType.REVISE;
+						changes.add(cr);
+					}
 				}
 			}
 		}
 
-	// delete the unmatched objects
+	// find the option sets for the category combos
+	// -- from the options in the category options in the catcombo, get all possible option sets
+		List<CategoryCombo> ccs = ds.getCategoryComboByServer(is);
+		for (CategoryCombo cc : ccs) {
+			if (!catCombos.contains(cc)) {
+				Set<OptionSet> oss = new HashSet<OptionSet>();
+				for (CategoryOption co : cc.getCategoryOptions()) {
+					for (Option op : co.getOptions()) {
+						oss.addAll(op.getOptionSets());
+					}
+				}
+		// -- eliminate those which are not capable of supporting all category options of the cc
+				Set<OptionSet> nos = new HashSet<OptionSet>();
+				for (OptionSet os : oss) {
+					for (CategoryOption co : cc.getCategoryOptions()) {
+						Set<Option> tos = new HashSet<Option>(co.getOptions());
+						tos.retainAll(os.getOptions());
+						if (tos.isEmpty()) {
+							nos.add(os);
+							break;
+						}
+					}
+				}
+				oss.removeAll(nos);
+	
+		// -- get the options of option sets usable by the cc
+				Map<OptionSet,Set<Option>> osmap = new HashMap<OptionSet,Set<Option>>();
+				for (CategoryOption co : cc.getCategoryOptions()) {
+					for (OptionSet os : oss) {
+						osmap.put(os, os.getOptions());
+					}
+				}
+		// -- build in tos the set of all option sets containing at least one option in os.options
+				nos = new HashSet<OptionSet>();
+				for (OptionSet os : osmap.keySet()) {
+					if (!nos.contains(os)) {
+						Set<OptionSet> tos = new HashSet<OptionSet>();
+						for (OptionSet os2 : osmap.keySet()) {
+							if (os2.equals(os)) {
+								tos.add(os2);
+							} else if (!tos.isEmpty() && !nos.contains(os2)) {
+								Set<Option> tov = new HashSet<Option>(os2.getOptions());
+								tov.retainAll(os.getOptions());
+								if (!tov.isEmpty()) {
+									tos.add(os2);
+								}
+							}
+						}
+			// -- use the smallest set
+						if (tos.size()>1) {
+							OptionSet minops = os;
+							for (OptionSet os2 : tos) {
+								if (os2.getOptions().size()<minops.getOptions().size()) {
+									minops = os2;
+								}
+							}
+							tos.remove(minops);
+							nos.addAll(tos);
+						}
+					}
+				}
+				for (OptionSet os : nos) {
+					osmap.remove(os);
+				}
+				if (!cc.getOptionSets().isEmpty()) {
+					if (!cc.getOptionSets().containsAll(osmap.keySet()) || !osmap.keySet().containsAll(cc.getOptionSets())) {
+						boolean found = false;
+						for (ChangeRecord crt : changes) {
+							if (crt.objClass.equals(CategoryCombo.class.getSimpleName()) && crt.uid.equals(cc.getUid()) && crt.change.equals(ChangeType.ADD)) {
+								found = true;
+								break;
+							}
+						}
+						if (!found) {
+							cr = new ChangeRecord();
+							cr.objClass=CategoryCombo.class.getSimpleName();
+							cr.name=cc.getName();
+							cr.code=cc.getCode();
+							cr.uid=cc.getUid();
+							cr.change=ChangeType.REVISE;
+						}
+					}
+				}
+				cc.setOptionSets(osmap.keySet());
+				ds.saveCategoryCombo(cc);
+			}
+		}
+				// delete the unmatched objects
 		for (CategoryOption opv : catOptions) {
 			cr = new ChangeRecord();
 			cr.objClass=CategoryOption.class.getSimpleName();
@@ -793,6 +887,15 @@ public class ServerMetadata {
 	private void updateMaster() {
 		ChangeRecord cr;
 		ChangeRecord crx;
+	// add codes to disaggregations
+		for (ReportTemplates.Disaggregations.Disaggregation xd : getMaster().getDisaggregations().getDisaggregation()) {
+			CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
+			if (co != null) {
+				co.setCode(xd.getCode());
+				ds.saveCategoryOption(co);
+			}
+		}
+			
 	// process data elements
 		for (ReportTemplates.DataElements.DataElement xde : getDataElements()) {
 			DataElement de = (DataElement) ds.getExistingByUid(DataElement.class, xde.getUid(), is);
@@ -821,7 +924,7 @@ public class ServerMetadata {
 				} else {
 					cr.name=de.getName();
 				}
-				if (!de.getCode().equals(xde.getCode())) {
+				if (!"".equals(xde.getCode()) && !de.getCode().equals(xde.getCode())) {
 					cr.oldCode = de.getCode();
 					cr.code = xde.getCode();
 					de.setCode(xde.getCode());
@@ -836,15 +939,6 @@ public class ServerMetadata {
 			}
 		}
 
-// add codes to disaggregations
-		for (ReportTemplates.Disaggregations.Disaggregation xd : getMaster().getDisaggregations().getDisaggregation()) {
-			CategoryOption co = ds.getCategoryOptionByUid(xd.getUid(), is);
-			if (co != null) {
-				co.setCode(xd.getCode());
-				ds.saveCategoryOption(co);
-			}
-		}
-		
 // process report definitions
 		for (ReportTemplates.ReportTemplate xrt : getReportTemplates()) {
 			ReportTemplate rt = (ReportTemplate) ds.getExistingByUid(ReportTemplate.class, xrt.getUid(), is);
@@ -873,7 +967,7 @@ public class ServerMetadata {
 				} else {
 					cr.name=rt.getName();
 				}
-				if (!rt.getCode().equals(xrt.getCode())) {
+				if (!"".equals(xrt.getCode()) && !rt.getCode().equals(xrt.getCode())) {
 					cr.oldCode = rt.getCode();
 					cr.code = xrt.getCode();
 					rt.setCode(xrt.getCode());
@@ -890,10 +984,11 @@ public class ServerMetadata {
 					changes.add(cr);
 					rt = ds.saveReportTemplate(rt);
 				}
-//TODO: Check report for different composition of data elements
+
 			}
 // Replace all old data value templates
 			List<DataValueTemplate> dvt = ds.getDataValueTemplateByReportTemplate(rt);
+			rt.getDataValueTemplates().clear();
 			for (DataValueTemplate dv : dvt) {
 				ds.deleteDataValueTemplate(dv);
 			}
@@ -916,19 +1011,66 @@ public class ServerMetadata {
 					dv.setCategoryOption(ds.getCategoryOptionByUid(xdv.getDisaggregation(),is));
 					dv=ds.saveDataValueTemplate(dv);
 					rt.getDataValueTemplates().add(dv);
-					if (de.getCategoryCombo() == null) {
-						CategoryOption co = ds.getCategoryOptionByUid(xdv.getDisaggregation(),is);
-						if (co!=null) {
-							Iterator<CategoryCombo> it = co.getCategoryCombos().iterator();
-							CategoryCombo cb=it.next();
-							if (cb != null) {
-								de.setCategoryCombo(cb);
-							}
-						}
-					}
 				}
 			}
 		}
+		
+		// delete unmatched data elements
+		for (DataElement de : dataElements) {
+			cr = new ChangeRecord();
+			cr.objClass=DataElement.class.getSimpleName();
+			cr.name=de.getName();
+			cr.code=de.getCode();
+			cr.uid=de.getUid();
+			cr.change=ChangeType.DELETE;
+			changes.add(cr);
+			ds.deleteDataElement(de);
+		}
+
+		// find the catcombo for the data element 
+		// note this is done across reports in case reports are divided by dimension values
+		List<DataElement> des = ds.getDataElementsByServer(is);
+		for (DataElement de : des) {
+			Set<CategoryCombo> ccs = new HashSet<CategoryCombo>();
+			Set<CategoryOption> cos = new HashSet<CategoryOption>();
+			List<DataValueTemplate> dvts = ds.getDataValueTemplateByDataElement(de);
+			for (DataValueTemplate dvt : dvts) {
+				ccs.addAll(dvt.getCategoryOption().getCategoryCombos());
+				cos.add(dvt.getCategoryOption());
+			}
+			Set<CategoryCombo> ncs = new HashSet<CategoryCombo>();
+			for (CategoryCombo cc : ccs) {
+				Set<CategoryOption> tco = new HashSet<CategoryOption>(cos);
+				tco.removeAll(cc.getCategoryOptions());
+				if (!tco.isEmpty()) {
+					ncs.add(cc);
+				}
+			}	
+			ccs.removeAll(ncs);
+			CategoryCombo mincc=null;
+			for (CategoryCombo cc: ccs) {
+				if (mincc==null) {
+					mincc=cc;
+				} else if (cc.getCategoryOptions().size()<mincc.getCategoryOptions().size()) {
+					mincc=cc;
+				}
+			}
+			if (!mincc.equals(de.getCategoryCombo())) {
+				if (de.getCategoryCombo()!=null) {
+					cr = new ChangeRecord();
+					cr.objClass = DataElement.class.getSimpleName();
+					cr.name = de.getName();
+					cr.code = de.getCode();
+					cr.uid = de.getUid();
+					cr.change = ChangeType.REVISE;
+					cr.newFreq = mincc.getName();
+					changes.add(cr);
+				}
+				de.setCategoryCombo(mincc);
+				ds.saveDataElement(de);
+			}
+		}
+
 		for (ReportTemplate rt : reports) {
 			cr = new ChangeRecord();
 			cr.objClass=ReportTemplate.class.getSimpleName();
@@ -937,10 +1079,15 @@ public class ServerMetadata {
 			cr.uid=rt.getUid();
 			cr.change=ChangeType.DELETE;
 			changes.add(cr);
-			rt.getDataValueTemplates().clear();
 			List<DataValueTemplate> dvt = ds.getDataValueTemplateByReportTemplate(rt);
 			for (DataValueTemplate dv : dvt) {
+				rt.getDataValueTemplates().remove(dv);
 				ds.deleteDataValueTemplate(dv);
+			}
+			List<DataElement> del = new ArrayList<DataElement>(rt.getDataElements());
+			rt.getDataElements().clear();
+			for (DataElement de : del) {
+				ds.deleteDataElement(de);
 			}
 			ds.deleteReportTemplate(rt);
 		}

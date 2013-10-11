@@ -1,5 +1,6 @@
 package org.openmrs.module.integration.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.integration.ChangeRecord;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.api.DhisService;
@@ -89,12 +91,30 @@ public class DhisMetadataUtilsTest extends BaseModuleContextSensitiveTest {
 	public void createNewServer_shouldWorkForAPI(){
 		String s="";
 		try {
-			DhisMetadataUtils.getServerMetadata(is);
+//			DhisMetadataUtils.getServerMetadata(is);
 			ServerMetadata sm = new ServerMetadata();
-			sm.buildDBObjects(is.getServerName());
+			sm.buildDBObjects("local");
 		} catch (Exception e) {
 			s=e.getMessage();
 		}
+		Assert.assertEquals("Exception returned","",s);
+	}
+
+	@Rollback(false)
+	@Test
+	public void updateServer_shouldWorkForAPI(){
+		String s="";
+		List<ChangeRecord> crs=new ArrayList<ChangeRecord>();
+		is = ds.getIntegrationServerByName("local");
+		try {
+//			DhisMetadataUtils.getServerMetadata(is);
+			ServerMetadata sm = new ServerMetadata();
+			crs = sm.updateServer(is.getServerName());
+		} catch (Exception e) {
+			s=e.getMessage();
+		}
+		if (s==null) s="";
+		Assert.assertTrue("No changes",crs.size()>0);
 		Assert.assertEquals("Exception returned","",s);
 	}
 
