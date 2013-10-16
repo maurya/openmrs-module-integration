@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
+import org.openmrs.module.integration.ChangeRecord;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.Option;
@@ -80,59 +81,23 @@ public class ServerMetadataTest extends BaseModuleContextSensitiveTest {
 			s = e.getMessage();
 		}
 		
-		DhisService ds = Context.getService(DhisService.class);
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("CATEGORY COMBOS");
-		List<CategoryCombo> ccs = ds.getCategoryComboByServer(ds.getIntegrationServerByName(server));
-		for (CategoryCombo cc : ccs) {
-			sb.append("\r\n");
-			sb.append(cc.getUid());
-			sb.append("\t");
-			sb.append(cc.getName());
-			sb.append("\t");
-			sb.append(cc.getCode());
-			sb.append("\r\n");
-			sb.append("Option Sets:");
-			for (OptionSet os : cc.getOptionSets()) {
-				sb.append("\t");
-				sb.append(os.getName());
-			}
-			sb.append("\r\n");
-			sb.append("Cat Options:");
-			for (CategoryOption co : cc.getCategoryOptions()) {
-				sb.append("\t");
-				sb.append(co.getName());
-			}
+		if ("".equals(s)) s=null;
+		Assert.assertNull("Exception has been thrown: "+s,s);
+	}
+
+	@Rollback(false)
+	@Test
+	public void UpdateObjects_shouldWorkForExistingServer() {
+		final String server = "local";
+		String s = null;
+		ServerMetadata sm = new ServerMetadata();
+		try {
+			List<ChangeRecord> crs = sm.updateServer(server);
+		} catch (IntegrationException e) {
+			s = e.getMessage();
 		}
-		sb.append("\r\n");
-			
-		sb.append("CATEGORY OPTIONS");
-		List<CategoryOption> cos = ds.getCategoryOptionByServer(ds.getIntegrationServerByName(server));
-		for (CategoryOption co : cos) {
-			sb.append("\r\n");
-			sb.append(co.getUid());
-			sb.append("\t");
-			sb.append(co.getName());
-			sb.append("\t");
-			sb.append(co.getCode());
-			sb.append("\r\n");
-			sb.append("Options:");
-			for (Option ov : co.getOptions()) {
-				sb.append("\t");
-				sb.append(ov.getName());
-			}
-			sb.append("\r\n");
-			sb.append("Cat Combos:");
-			for (CategoryCombo cc : co.getCategoryCombos()) {
-				sb.append("\t");
-				sb.append(cc.getName());
-			}
-			sb.append("\r\n");
-		}
-		sb.append("\r\n");
 		
-		if (s.equals("")) s=null;
+		if ("".equals(s)) s=null;
 		Assert.assertNull("Exception has been thrown: "+s,s);
 	}
 }
