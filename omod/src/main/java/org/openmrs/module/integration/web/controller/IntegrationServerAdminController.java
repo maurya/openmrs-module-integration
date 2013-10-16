@@ -17,8 +17,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
 import org.openmrs.module.integration.api.db.DhisMetadataUtils;
+import org.openmrs.module.integration.api.db.DhisReportingUtils;
 import org.openmrs.module.integration.api.db.IntegrationException;
 import org.openmrs.module.integration.api.db.ServerMetadata;
 
@@ -162,6 +164,19 @@ public class IntegrationServerAdminController {
     	}
     	sm = null;
 		return "redirect:/module/integration/integrationServerAdmin.form";
+    }
+    
+    @RequestMapping(value = "/module/integration/manageReportTemplatesForServer", method = RequestMethod.GET)
+    public String manageReportTemplates(@RequestParam(required=false, value="name") String serverName) {
+    	IntegrationServer server = new IntegrationServer();
+    	DhisService dhisService = Context.getService(DhisService.class);	
+		server=dhisService.getIntegrationServerByName(serverName);
+    	for(ReportTemplate rt: dhisService.getReportTemplatesByServer(server)){
+    	
+    		DhisReportingUtils.createReportObject(rt, rt.getName());
+    	}
+    	
+		return "redirect:/module/integration/manageReportTemplates.form?name="+serverName;
     }
     
 }

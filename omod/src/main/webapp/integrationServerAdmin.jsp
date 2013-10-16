@@ -52,6 +52,10 @@
 			 location.reload();
 	}
 		
+	function manageReportTemplates(name){
+		$.post("${pageContext.request.contextPath}/module/integration/manageReportTemplatesForServer.form?serverName="+name);
+	}
+	
 	function editServer(id) {
 	
 			$("#id").val($.trim($("#sid"+id).html()));
@@ -129,7 +133,7 @@
 									</openmrs:hasPrivilege>
 						&nbsp;
 						<openmrs:hasPrivilege privilege="Manage Report Templates">
-							<a href="manageReportTemplates.form?name=${serverItem.serverName}">
+							<a href="javascript:manageReportTemplates('${serverItem.serverName}');">
 							</openmrs:hasPrivilege>
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/attributes.png" border="0" title='<spring:message code="integration.tooltips.viewReportTemplates"/>'/>	
 									<openmrs:hasPrivilege privilege="Manage Report Templates">
