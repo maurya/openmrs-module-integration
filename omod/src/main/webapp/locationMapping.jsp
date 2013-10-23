@@ -59,11 +59,23 @@
 			var node=$("#treeViewDiv1").jstree("get_selected").text();
 			alert(node);
 		}
-        </script>
+
+			function updateOrgs(name) {
+				<div id="${name}" class="addOrEditPopup">
+					<openmrs:portlet url="dhisApi.portlet" id="orgUpdate_${name}" 
+							moduleId="integration" parameters="operation=ORGS_API|server=${name}" />
+				</div>
+			}
+				
+
+			</script>
     <div id="breadCrumbs">
 <a href="integrationServerAdmin.form"><spring:message code="integration.return.serverAdministration"/></a>|
 </div>
 <h2><spring:message code="integration.general.locationsFor"/> <spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
+	<a align="right" href="javascript:updateOrgs'${serverItem.serverName}');">
+		<spring:message code="integration.general.updateDhisLocations"/>
+	</a>
 
 	    <div id=mainDiv>
 	        <div id="treeViewDiv1">

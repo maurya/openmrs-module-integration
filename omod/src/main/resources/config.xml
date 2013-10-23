@@ -60,8 +60,8 @@
 		<description>Add/Edit/Remove Server</description>
 	</privilege>
 	<privilege>
-		<name>Manage Locations</name>
-		<description>Add/Edit/Remove Location Mappings</description>
+		<name>Manage DHIS Locations</name>
+		<description>Add/Edit/Remove DHIS Location Mappings</description>
 	</privilege>
 	<privilege>
 		<name>Manage Data Elements</name>
@@ -95,22 +95,6 @@
 	</messages>
 	<!-- /Internationalization -->
 	
-	<!-- Maps hibernate file's, if present -->
-	<mappingFiles>
-				
-<!-- 		Integration_ns.hbm.xml -->
-		IntegrationServer.hbm.xml
-		OrgUnit.hbm.xml 
-		CategoryCombo.hbm.xml
-		CategoryOption.hbm.xml
-		OptionSet.hbm.xml
-		Option.hbm.xml
-		ReportTemplate.hbm.xml
-		DataElement.hbm.xml
-		DataValueTemplate.hbm.xml
-				
-	</mappingFiles>
-
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 

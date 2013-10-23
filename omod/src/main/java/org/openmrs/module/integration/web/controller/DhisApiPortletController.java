@@ -29,29 +29,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DhisApiPortletController extends PortletController {
 	
 	private static final Log log = LogFactory.getLog(DhisApiPortletController.class);
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void populateModel(HttpServletRequest request, Map<String, Object> model) {
 		Date asOf;
 		Date sent;
 		Future<DhisApiResult> future;
-		Boolean done;
+		String done;
 		
-		if (log.isDebugEnabled())
-			log.debug("In DhisApiPortlet...");
+		log.info("In DhisApiPortlet...");
 		
 		HttpSession session = request.getSession();
 		String operation = request.getParameter("operation");
 		String server = request.getParameter("server");
+		log.info("op: " + operation + " svr: " + server);
 		DhisService ds = Context.getService(DhisService.class);
 		DhisApiService as = Context.getService(DhisApiService.class);
 		IntegrationServer is = ds.getIntegrationServerByName(server);
 		model.remove("done");
 		
 		if ("TEST".equalsIgnoreCase(operation)) {
+			log.info("TEST");
 			future = (Future<DhisApiResult>) as.testConnection(is);
 			session.setAttribute("apiresult", future);
 			
 		} else if ("CREATE_API".equalsIgnoreCase(operation)) {
+			log.info("CREATE_API");
 			future = (Future<DhisApiResult>) as.createServerMetadata(is);
 			session.setAttribute("apiresult", future);
 			return;
@@ -61,6 +64,7 @@ public class DhisApiPortletController extends PortletController {
 			session.setAttribute("apiresult", future);
 
 		} else if ("UPDATE_API".equalsIgnoreCase(operation)) {
+			log.info("UPDATE_API");
 			future = (Future<DhisApiResult>) as.updateServerMetadata(is);
 			session.setAttribute("apiresult", future);
 
@@ -69,6 +73,7 @@ public class DhisApiPortletController extends PortletController {
 			session.setAttribute("apiresult", future);
 
 		} else if ("ORGS_API".equalsIgnoreCase(operation)) {
+			log.info("ORGS_API");
 			future = (Future<DhisApiResult>) as.updateServerOrgUnits(is);
 			session.setAttribute("apiresult", future);
 
@@ -78,6 +83,8 @@ public class DhisApiPortletController extends PortletController {
 
 		} else if ("SEND".equalsIgnoreCase(operation)) {
 			String report = request.getParameter("report");
+			log.info("SEND rpt: " + report + " asof: " + request.getParameter("asof") + " sent: " + request.getParameter("sent"));
+
 			DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
 			try {
 				asOf = df.parse(request.getParameter("asof"));
@@ -90,18 +97,19 @@ public class DhisApiPortletController extends PortletController {
 			session.setAttribute("apiresult", future);
 
 		} else if ("STATUS".equalsIgnoreCase(operation)) {
-			if (session.getAttribute("apiresult")==null) {
-				done=false;
-			} else {
+			done="";
+			if (session.getAttribute("apiresult")!=null) {
 				future = (Future<DhisApiResult>) session.getAttribute("apiresult");
-				done=future.isDone();
+				if (future.isDone()) {
+					done="DONE";
+				}
 			}
+			log.info("STATUS done: " + done);
 			model.put("done",done);
 			
 		} else if ("CANCEL".equalsIgnoreCase(operation)) {
-			if (session.getAttribute("apiresult")==null) {
-				done=false;
-			} else {
+			done="";
+			if (session.getAttribute("apiresult")!=null) {
 				future = (Future<DhisApiResult>) session.getAttribute("apiresult");
 				if (!future.isDone()) {
 					future.cancel(true);
@@ -109,9 +117,10 @@ public class DhisApiPortletController extends PortletController {
 					result.setError(true);
 					result.setStatus("integration.ApiPortlet.Cancelled");
 					session.setAttribute("apiresult", new AsyncResult<DhisApiResult> (result));
+					done = "CANCEL";
 				}
-				done=true;
 			}
+			log.info("CANCEL done: " + done);
 			model.put("done", done);
 			
 		}

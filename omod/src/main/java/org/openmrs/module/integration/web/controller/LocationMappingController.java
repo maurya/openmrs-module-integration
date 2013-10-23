@@ -17,7 +17,7 @@ public class LocationMappingController {
 	protected final Log log = LogFactory.getLog(getClass());
 	
 	@RequestMapping(value = "/module/integration/locationMapping", method = RequestMethod.GET)
-	@Authorized("Manage Locations")
+	@Authorized("Manage DHIS Locations")
 	public void viewResult(@RequestParam(required=false, value="name") String name,
 			ModelMap model){
 		DhisService dhisService = Context.getService(DhisService.class);

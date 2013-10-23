@@ -1,21 +1,22 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
-<openmrs:htmlInclude file="/scripts/calendar/calendar.js" />	
 
 <script type="text/javascript"	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		var timer = setInterval(function() {
-			$.ajax({
-				url: 'dhisApi.portlet?operation=STATUS',
-				success: function() {
-					if(${model.done}) {
-						clearInterval(timer);
-					}
-				}
-			});
-		}, 3000);
+		var timer = setInterval(ajaxfunction(),3000);
 	});
+	
+	function ajaxfunction() {
+		$j.ajax({
+			url: 'dhisApi.portlet?operation=STATUS',
+			success: function() {
+				if ((${model.done}=='DONE') || (${model.done}=='CANCEL')) {
+					clearInterval(timer);
+				}
+			}
+		});
+	}
 </script>
 
 	<div>
@@ -26,12 +27,12 @@
 						<spring:message code="integration.ApiPortlet.PleaseWait" />
 					</c:if>
 					<c:if test="!empty ${model.done}">
-						<c:if test="!${model.done}">
+						<c:if test="${model.done!='DONE'}">
 							<spring:message code="integration.ApiPortlet.PleaseWait" />
 						</c:if>
-						<c:if test="${model.done}">
+						<c:if test="${model.done=='DONE'}">
 							<c:if test="${attributes.apiresult.error}">
-								<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/error.gif" border="0"'/>	
+								<img width="20" height="20" src="/images/error.gif" border="0"'/>	
 							</c:if>
 							<spring:message code="${attributes.apiresult.status}" />
 						</c:if>
@@ -42,16 +43,16 @@
 					<div id="updateresult">
 						<table>
 							<tbody>
-								<th>
-									<td><spring:message code="integration.ApiPortlet.ChangeType" /></td>
-									<td><spring:message code="integration.ApiPortlet.Object" /></td>
-									<td><spring:message code="integration.ApiPortlet.UID" /></td>
-									<td><spring:message code="integration.ApiPortlet.Name" /></td>
-									<td><spring:message code="integration.ApiPortlet.Code" /></td>
-									<td><spring:message code="integration.ApiPortlet.OldName" /></td>
-									<td><spring:message code="integration.ApiPortlet.OldCode" /></td>
-									<td><spring:message code="integration.ApiPortlet.Revision" /></td>
-								</th>
+								<tr>
+									<th><spring:message code="integration.ApiPortlet.ChangeType" /></th>
+									<th><spring:message code="integration.ApiPortlet.Object" /></th>
+									<th><spring:message code="integration.ApiPortlet.UID" /></th>
+									<th><spring:message code="integration.ApiPortlet.Name" /></th>
+									<th><spring:message code="integration.ApiPortlet.Code" /></th>
+									<th><spring:message code="integration.ApiPortlet.OldName" /></th>
+									<th><spring:message code="integration.ApiPortlet.OldCode" /></th>
+									<th><spring:message code="integration.ApiPortlet.Revision" /></th>
+								</tr>
 								<c:forEach items="${attributes.apiresult.changes}" var="change">
 										<tr>
 	 									<td>${change.changeType}</td>
@@ -108,18 +109,17 @@
 					</div>
 				</c:if>
 				
-				<c:if test="!${model.done}">
+				<c:if test="${model.done!='DONE'}">
 					<input 
-						id="cancel${model.extraClass}${model.portletId}"
+						id="cancel"
 						type="reset" 
 						value='<spring:message code="integration.button.cancel"/>' 
-						class="cancel${model.extraClass}">
 					/>
 				</c:if>
-				<c:if test="${model.done}">
+				<c:if test="${model.done=='DONE'}">
 					<input 
-						id="${model.portletId}" 
-						type="button" 
+						id="ok" 
+						type="submit" 
 						value='<spring:message code="integration.button.OK"/>' 
 					/>
 				</c:if>

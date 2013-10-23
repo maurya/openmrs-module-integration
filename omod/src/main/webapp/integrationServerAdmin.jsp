@@ -3,9 +3,9 @@
 <%@ include file="localInclude.jsp" %>
 <openmrs:require privilege="View Server" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin.form" />
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
+	$j(document).ready(function() {
 		
-		$('#addOrEditPopup').dialog({
+		$j('#addOrEditPopup').dialog({
 			autoOpen: false,
 			modal: true,
 			title: 'Add Or Edit Server',
@@ -13,7 +13,7 @@
 		});
 			
 		
-		$(".integration-data-table").dataTable( {
+		$j(".integration-data-table").dataTable( {
 			"bPaginate": false,
 			"iDisplayLength": 25,
 			"bLengthChange": false,
@@ -23,49 +23,66 @@
 			"bAutoWidth": false
 		} );
 		
-		$(".newdetails").click( function() {
-			$('#addOrEditPopup').dialog('open');
+		$j(".newdetails").click( function() {
+			$j('#addOrEditPopup').dialog('open');
 		});
 		
-		$(".cancel").click( function() {
-			$('#addOrEditPopup').dialog('close');		
-		});
+		$j(".cancel").click( function() {
+			$j('#addOrEditPopup').dialog('close');		
 		});
 
+	} )};
+	
+	
 	function confirmDelete(name) {
 		if(confirm('<spring:message code="integration.confirm.serverDeletion"/>'))
-		 {
-			 $.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",{serverName: name});	
+		{
+			 $j.post("${pageContext.request.contextPath}/module/integration/deleteServer.form",
+			 		{serverName: name} );	
 			 location.reload();
+		}
 	}
 		
 	function updateServer(name) {
 		if(confirm('<spring:message code="integration.confirm.serverUpdate"/>'))
 		{
-			 $.post("${pageContext.request.contextPath}/module/integration/updateServer.form?serverName"+name);	
+			 $j.post("${pageContext.request.contextPath}/module/integration/updateServer.form?serverName"+name);	
 			 location.reload();
 		}
 	}
-		
-	function testConnection(name) {
-			 $.post("${pageContext.request.contextPath}/module/integration/testConnection.form?serverName="+name);	
-			 location.reload();
-	}
-		
+
 	function editServer(id) {
 	
-			$("#id").val($.trim($("#sid"+id).html()));
-			$("#servername").val($.trim($("#sname"+id).html()));
-			$("#description").val($.trim($("#sdescription"+id).html()));
-			$("#url").val($.trim($("#surl"+id).html()));
-			$("#uname").val($.trim($("#suserName"+id).html()));
-			$("#password").val($.trim($("#spassword"+id).html()));
-			$("#emailurl").val($.trim($("#semail"+id).html()));
-			$("#masterTemplate").val($.trim($("#smasterTemplate"+id).html()));
-			$("#transportType").val($.trim($("#stransportType"+id).html()));
-					$('#addOrEditPopup').dialog('open');
+			$j("#id").val($j.trim($j("#sid"+id).html()));
+			$j("#servername").val($j.trim($j("#sname"+id).html()));
+			$j("#description").val($j.trim($j("#sdescription"+id).html()));
+			$j("#url").val($j.trim($j("#surl"+id).html()));
+			$j("#uname").val($j.trim($j("#suserName"+id).html()));
+			$j("#password").val($j.trim($j("#spassword"+id).html()));
+			$j("#emailurl").val($j.trim($j("#semail"+id).html()));
+			$j("#masterTemplate").val($j.trim($j("#smasterTemplate"+id).html()));
+			$j("#transportType").val($j.trim($j("#stransportType"+id).html()));
+			$j('#addOrEditPopup').dialog('open');
 		}
+}
 
+	function changeVisibility(divID) {
+		if (document.getElementById(divID)) {
+			var item = document.getElementById(divID);
+			item.style.display=(item.style.display=='block')?'none':'block';
+		}
+	} 	
+
+	function updateServerData(name) {
+					
+				 $j.post("${pageContext.request.contextPath}/module/integration/getServerMetadata.form",
+				 		{serverName: name}, 
+				 		function() {
+					 		alert('server data updated');
+	            		}
+	            ).done(function() {
+	            };
+	}
 </script>
 
 <style>
@@ -74,6 +91,11 @@
 
 <h2><spring:message code="integration.serverAdmin"/></h2>
 
+<div id="testConnectionPortlet" display="none">
+			<openmrs:portlet url="dhisApi.portlet" id="testConnection_${serverItem.serverName}" 
+					moduleId="integration" parameters="operation=TEST|server=${serverItem.serverName}" />
+
+</div>
 <div >
 		       			<table id="table" class="integration-data-table display">
 			<thead>
@@ -152,18 +174,16 @@
 							</a>
 							</openmrs:hasPrivilege>
 							&nbsp;
-							<openmrs:hasPrivilege privilege="Manage Server">
-							<a href="javascript:testConnection'${serverItem.serverName}');">
-							</openmrs:hasPrivilege>
-										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/lightning-icon.png" border="0" title='<spring:message code="integration.tooltips.testServerConnection"/>'/>	
-									<openmrs:hasPrivilege privilege="Manage Server">
-									</a>
-									</openmrs:hasPrivilege>
+
+							<a href="javascript:changeVisibility('testConnectionPortlet');">
+								<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/lightning-icon.png" border="0" title='<spring:message code="integration.tooltips.testServerConnection"/>'/>	
+							</a>
 									
 							&nbsp;
 							<openmrs:hasPrivilege privilege="Manage Server">
 							<a href="javascript:updateServerData'${serverItem.serverName}');">
 							</openmrs:hasPrivilege>
+							<a href="updateServer.form?name=${serverItem.serverName}">
 										<img width="20" height="20" src="${pageContext.request.contextPath}/moduleResources/integration/images/Updateicon.png" border="0" title='<spring:message code="integration.tooltips.updateServerData"/>'/>	
 									<openmrs:hasPrivilege privilege="Manage Server">
 									</a>
