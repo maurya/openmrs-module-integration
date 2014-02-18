@@ -15,7 +15,9 @@ import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.ReportTemplateDisplay;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -177,5 +179,9 @@ public interface DhisService extends OpenmrsService {
 	
 	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
 			String uid, IntegrationServer is);
+
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is);
+
+	public List<ReportTemplateDisplay> getReportTemplateDisplay(IntegrationServer is);
 
 }

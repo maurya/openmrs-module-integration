@@ -11,8 +11,11 @@ import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
+import org.openmrs.module.integration.api.impl.DhisReportingUtils;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
 import org.openmrs.util.OpenmrsClassLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +32,7 @@ public class ShowDataElementsController {
 			ModelMap model) {
 		DhisService dhisService = Context.getService(DhisService.class);
 		ReportTemplate reportTemplate=dhisService.getReportTemplateById(reportTemplateId);
+		
 		model.addAttribute("reportTemplate",reportTemplate);
 		model.addAttribute("server",server);
 		Map<DataElement,CategoryCombo> DataElementToCategoryComboDictionary= dhisService.getDataElementToCategoryComboDictionaryByReportTemplate(reportTemplate);

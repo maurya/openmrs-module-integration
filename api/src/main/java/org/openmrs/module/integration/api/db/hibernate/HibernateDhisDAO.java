@@ -1,5 +1,7 @@
 package org.openmrs.module.integration.api.db.hibernate;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.db.DhisDAO;
 
@@ -593,8 +596,45 @@ public class HibernateDhisDAO implements DhisDAO{
 		return (OpenmrsDhisObject) sessionFactory.getCurrentSession().createCriteria(k)
 		        .add(Restrictions.eq("uid", uid))
 		        .add(Restrictions.eq("integrationServer", is))
-		        .uniqueResult();
-		
+		        .uniqueResult();		
+	}
+
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is) {
+	// get one row per data element for all reports for this server
+		String sql = 
+				" from ReportTemplate as rt inner join rt.dataElements as de inner join de.categoryCombo as cc" +
+				" where rt.integrationServer.id=" + is.getId().toString() +
+				" order by rt.name,cc.name,de.name";
+		List<Object[]> qr = sessionFactory.getCurrentSession().createQuery(sql).list();
+		List<ReportMapDisplay> result = new ArrayList<ReportMapDisplay>(0);
+	// start building the first rmd
+		ReportTemplate rt = (ReportTemplate) qr.get(0)[0];
+		CategoryCombo cc = (CategoryCombo) qr.get(0)[2];
+		ReportMapDisplay rmd = new ReportMapDisplay(rt, cc);
+		for (OptionSet os : cc.getOptionSets()) {
+			rmd.addOptionSet(os);
+		}
+		Collections.sort(rmd.getOptionSets());
+	// step through the query result
+		for (Object[] oo : qr) {
+			rt = (ReportTemplate) oo[0];
+			cc = (CategoryCombo) oo[2];
+	// if we have a report/combo break, write the current rmd and start a new one
+			if (!rmd.getReportId().equals(rt.getId()) || !rmd.getComboId().equals(cc.getId())) {
+				result.add(rmd);
+				rmd = new ReportMapDisplay(rt, cc);
+				for (OptionSet os : cc.getOptionSets()) {
+					rmd.addOptionSet(os);
+				}
+				Collections.sort(rmd.getOptionSets());
+			}
+	// add the data element to the existing rmd
+			DataElement de = (DataElement) oo[1];
+			rmd.addElement(de);
+		}
+	// save the last rmd
+		result.add(rmd);
+		return result;
 	}
 
 }

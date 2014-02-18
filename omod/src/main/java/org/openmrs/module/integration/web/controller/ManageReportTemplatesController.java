@@ -10,10 +10,13 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.ReportTemplateDisplay;
 import org.openmrs.module.integration.api.DhisService;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.util.OpenmrsClassLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +29,27 @@ public class ManageReportTemplatesController {
 	@Authorized("Manage Report Templates")
 	public void showServerList(@RequestParam(required=false, value="name") String name,
 			ModelMap model) {
+		Thread.currentThread().setContextClassLoader(OpenmrsClassLoader.getInstance());
 		DhisService dhisService = Context.getService(DhisService.class);
 		IntegrationServer server=dhisService.getIntegrationServerByName(name);
 		model.addAttribute("server",server);
-		List<ReportTemplate> reportTemplates = new ArrayList<ReportTemplate>();
-		reportTemplates=dhisService.getReportTemplatesByServer(server);
+		List<ReportTemplateDisplay> reportTemplates = new ArrayList<ReportTemplateDisplay>();
+		reportTemplates=dhisService.getReportTemplateDisplay(server);
 		model.addAttribute("reportTemplates",reportTemplates);
 		
 		ReportDefinitionService rds=Context.getService(ReportDefinitionService.class);
-
 		List<ReportDefinition> reportList=rds.getAllDefinitions(false);
+		Map<String,ReportDefinition> uuidToReportDefinitionMap = new HashMap<String,ReportDefinition>(reportList.size());
+		for (ReportDefinition rd : reportList) {
+			uuidToReportDefinitionMap.put(rd.getUuid(), rd);
+		}
+		model.addAttribute("uuidToReportDefinitionMap",uuidToReportDefinitionMap);
+		
+		List<ReportMapDisplay> reportMapDisplay = dhisService.getReportMapDisplay(server);
+		model.addAttribute("reportMapDisplay",reportMapDisplay);
+
+/*
+ * Maurya's original code
 		Map<String,ReportDefinition> uuidToReportDefinitionMap=new HashMap<String, ReportDefinition>();
 		for(ReportDefinition r: reportList){
 
@@ -61,6 +75,7 @@ public class ManageReportTemplatesController {
 			temporaryDataElementList.add(entry.getKey());		
 		}
 		model.addAttribute("CategoryComboToDataElementDictionary",CategoryComboToDataElementDictionary);
+*/
 	}
 	
 	@RequestMapping(value = "/module/integration/saveReportTemplateMapping", method = RequestMethod.POST)

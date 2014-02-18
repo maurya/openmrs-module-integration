@@ -23,7 +23,9 @@ import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
+import org.openmrs.module.integration.ReportTemplateDisplay;
 import org.openmrs.module.integration.ServiceLocationCohortDefinition;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.api.DhisService;
@@ -32,6 +34,9 @@ import org.openmrs.module.integration.api.db.DhisDAO;
 import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.service.CohortDefinitionService;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.definition.service.ReportDefinitionService;
+import org.openmrs.util.OpenmrsClassLoader;
 
 public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 
@@ -601,6 +606,7 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 			for (CohortDefinition d : cd) {
 				if (d instanceof AllPatientsCohortDefinition) {
 					if (d.getName().equals(ALL_PATIENTS)
+							&& d.getDescription()!=null
 							&& d.getDescription().equals(UNDEFINED_DESC)) {
 						allPatients = d;
 						found = true;
@@ -649,5 +655,33 @@ public class DhisServiceImpl extends BaseOpenmrsService implements DhisService {
 	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
 			String uid, IntegrationServer is) {
 		return dao.getExistingByUid(k, uid, is);
+	}
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is) {
+		return dao.getReportMapDisplay(is);
+
+	}
+
+	public List<ReportTemplateDisplay> getReportTemplateDisplay(IntegrationServer is) {
+		Thread.currentThread().setContextClassLoader(OpenmrsClassLoader.getInstance());
+		ReportDefinitionService rds=Context.getService(ReportDefinitionService.class);
+		CohortDefinitionService cds=Context.getService(CohortDefinitionService.class);
+		List<ReportTemplate> rtList= dao.getReportTemplatesByServer(is);
+		List<ReportTemplateDisplay> rtdList=new ArrayList<ReportTemplateDisplay>(rtList.size());
+		for (ReportTemplate rt : rtList) {
+			ReportTemplateDisplay rtd = new ReportTemplateDisplay(rt);
+			if (rtd.getMappedReportUuid()!=null) {
+				ReportDefinition rd = rds.getDefinitionByUuid(rtd.getMappedReportUuid());
+				if (rd!=null) {
+					rtd.setMappedReportName(rd.getName());
+					CohortDefinition cd = rd.getBaseCohortDefinition().getParameterizable();
+					if (cd!=null) {
+						rtd.setBaseCohortName(cd.getName());
+						rtd.setBaseCohortUuid(cd.getUuid());
+					}
+				}
+			}
+		rtdList.add(rtd);
+		}
+		return rtdList;
 	}
 }

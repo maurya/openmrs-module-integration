@@ -14,6 +14,7 @@ import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.DhisService;
 
@@ -176,4 +177,7 @@ public interface DhisDAO {
 	void commit();
 	
 	OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,String uid,IntegrationServer is);
+
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is);
+
 }

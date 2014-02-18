@@ -8,8 +8,11 @@ import org.openmrs.module.integration.IntegrationServer;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
+import org.openmrs.module.integration.ReportTemplateDisplay;
 import org.openmrs.module.integration.UndefinedCohortDefinition;
 import org.openmrs.module.integration.UndefinedCohortDefinitionEvaluator;
+import org.openmrs.module.integration.api.db.hibernate.HibernateDhisDAO;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.AllPatientsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -23,12 +26,16 @@ import org.springframework.test.annotation.Rollback;
 
 import junit.framework.Assert;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 
+	private static Log log = LogFactory.getLog(DhisServiceTest.class);
+	
 	private static final String ALL_PATIENTS = "All Patients";
 	private DhisService ds;
 
@@ -232,5 +239,33 @@ public class DhisServiceTest extends BaseModuleContextSensitiveTest {
 		Assert.assertTrue("OptionSet.Options is empty",os.getOptions().size()>0);
 		Assert.assertTrue("Option.OptionSets is empty",op.getOptionSets().size()>0);
 	}
-	
+
+	@Test
+	public void getReportMapDisplay_shouldWork() {
+		IntegrationServer is = ds.getIntegrationServerByName("local");
+		List<ReportMapDisplay> display = ds.getReportMapDisplay(is);
+		log.info(display.size());
+		Assert.assertEquals("Wrong number of rows returned",5, display.size());
+		for (ReportMapDisplay rmd : display) {
+			Assert.assertTrue("No data elements in "+rmd.toString(),rmd.getElements().size()>0);
+			Assert.assertTrue("No option sets in "+rmd.toString(),rmd.getOptionSets().size()>0);
+		}
+	}
+
+	@Test
+	public void getReportTemplateDisplay_shouldWork() {
+		IntegrationServer is = ds.getIntegrationServerByName("local");
+		List<ReportTemplateDisplay> display = ds.getReportTemplateDisplay(is);
+		log.info(display.size());
+		Assert.assertEquals("Wrong number of rows returned",2, display.size());
+		for (ReportTemplateDisplay rtd : display) {
+			if (rtd.getMappedReportUuid()!= null) {
+				Assert.assertNotNull("Report name is null",rtd.getMappedReportName());
+				if (rtd.getBaseCohortUuid()!=null) {
+					Assert.assertNotNull("Base cohort name is null",rtd.getBaseCohortName());
+				}
+			}
+		}
+	}
 }
+ 
