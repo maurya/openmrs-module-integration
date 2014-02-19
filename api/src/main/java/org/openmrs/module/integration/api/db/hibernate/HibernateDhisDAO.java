@@ -1,20 +1,31 @@
 package org.openmrs.module.integration.api.db.hibernate;
 
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
 import org.openmrs.module.integration.api.db.DhisDAO;
 
@@ -23,7 +34,7 @@ public class HibernateDhisDAO implements DhisDAO{
 	private static Log log = LogFactory.getLog(HibernateDhisDAO.class);
 
     private SessionFactory sessionFactory;
-    
+	private Transaction trans = null;
     
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -118,7 +129,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<ReportTemplate> list = sessionFactory.getCurrentSession()
 											.createCriteria(ReportTemplate.class)
 											.add(Restrictions.eq("integrationServer", integrationServer))
-											.addOrder(Order.asc("reportTemplateId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -190,7 +201,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<OrgUnit> list = sessionFactory.getCurrentSession()
 											.createCriteria(OrgUnit.class)
 											.add(Restrictions.eq("integrationServer", integrationServer))
-											.addOrder(Order.asc("orgUnitId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 
 		}
@@ -201,7 +212,7 @@ public class HibernateDhisDAO implements DhisDAO{
 			List<OrgUnit> list = sessionFactory.getCurrentSession()
 											.createCriteria(OrgUnit.class)
 											.add(Restrictions.eq("parentOrg", OrgUnit))
-											.addOrder(Order.asc("orgUnitId")).list();
+											.addOrder(Order.asc("id")).list();
 			return list;
 
 		}
@@ -252,7 +263,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public List<DataElement> getDataElementsByServer(IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<DataElement> list = sessionFactory.getCurrentSession().createCriteria(DataElement.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("dataElementId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -287,7 +298,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				ReportTemplate reportTemplate) {	
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("reportTemplate", reportTemplate)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("reportTemplate", reportTemplate)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -296,7 +307,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				DataElement dataElement) {
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("dataElement", dataElement)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("dataElement", dataElement)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -305,7 +316,7 @@ public class HibernateDhisDAO implements DhisDAO{
 				CategoryOption categoryOption) {
 			@SuppressWarnings("unchecked")
 			List<DataValueTemplate> list = sessionFactory.getCurrentSession().createCriteria(DataValueTemplate.class)
-			        .add(Restrictions.eq("categoryOption", categoryOption)).addOrder(Order.asc("dataValueTemplateId")).list();
+			        .add(Restrictions.eq("categoryOption", categoryOption)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -357,10 +368,10 @@ public class HibernateDhisDAO implements DhisDAO{
 				IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<CategoryCombo> list = sessionFactory.getCurrentSession().createCriteria(CategoryCombo.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("categoryComboId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
-
+		
 		@Override
 		public CategoryCombo saveCategoryCombo(CategoryCombo CategoryCombo) {
 			sessionFactory.getCurrentSession().saveOrUpdate(CategoryCombo);
@@ -373,7 +384,6 @@ public class HibernateDhisDAO implements DhisDAO{
 			
 		}
 
-		
 		//category option
 		@Override
 		public CategoryOption getCategoryOptionById(Integer id) {
@@ -410,7 +420,7 @@ public class HibernateDhisDAO implements DhisDAO{
 		public List<CategoryOption> getCategoryOptionByServer(IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<CategoryOption> list = sessionFactory.getCurrentSession().createCriteria(CategoryOption.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("categoryOptionId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
 
@@ -464,19 +474,19 @@ public class HibernateDhisDAO implements DhisDAO{
 				IntegrationServer integrationServer) {
 			@SuppressWarnings("unchecked")
 			List<OptionSet> list = sessionFactory.getCurrentSession().createCriteria(OptionSet.class)
-			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("optionSetId")).list();
+			        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 			return list;
 		}
-
+		
 		@Override
-		public OptionSet saveOptionSet(OptionSet OptionSet) {
-			sessionFactory.getCurrentSession().saveOrUpdate(OptionSet);
-			return OptionSet;
+		public OptionSet saveOptionSet(OptionSet optionSet) {
+			sessionFactory.getCurrentSession().saveOrUpdate(optionSet);
+			return optionSet;
 		}
 
 		@Override
-		public void deleteOptionSet(OptionSet OptionSet) {
-			sessionFactory.getCurrentSession().delete(OptionSet);
+		public void deleteOptionSet(OptionSet optionSet) {
+			sessionFactory.getCurrentSession().delete(optionSet);
 			
 		}	
 		
@@ -515,7 +525,7 @@ public class HibernateDhisDAO implements DhisDAO{
 	public List<Option> getOptionsByServer(IntegrationServer integrationServer) {
 		@SuppressWarnings("unchecked")
 		List<Option> list = sessionFactory.getCurrentSession().createCriteria(Option.class)
-		        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("optionId")).list();
+		        .add(Restrictions.eq("integrationServer", integrationServer)).addOrder(Order.asc("id")).list();
 		return list;
 	}
 
@@ -530,11 +540,10 @@ public class HibernateDhisDAO implements DhisDAO{
 			sessionFactory.getCurrentSession().delete(Option);
 	}
 
+
+
 	
-
-	
-
-
+// misc
 	
 
 	
@@ -562,7 +571,70 @@ public class HibernateDhisDAO implements DhisDAO{
 //	}
 
 	
+	@Override
+	public Map<String,ClassMetadata> getHibernateClassMetadata() {
+		return sessionFactory.getAllClassMetadata();
+	}
+		
+	@Override
+	public void commit() {
+		if (trans==null) {
+			trans=sessionFactory.getCurrentSession().beginTransaction();
+		} else {
+			trans.commit();
+			trans=null;
+		}
+	}
 	
-	
+	@Override
+	public OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,
+			String uid, IntegrationServer is) {
+		if (is==null || uid==null) {
+			return null;
+		} else if (uid.length()==0)
+			return null;
+		return (OpenmrsDhisObject) sessionFactory.getCurrentSession().createCriteria(k)
+		        .add(Restrictions.eq("uid", uid))
+		        .add(Restrictions.eq("integrationServer", is))
+		        .uniqueResult();		
+	}
+
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is) {
+	// get one row per data element for all reports for this server
+		String sql = 
+				" from ReportTemplate as rt inner join rt.dataElements as de inner join de.categoryCombo as cc" +
+				" where rt.integrationServer.id=" + is.getId().toString() +
+				" order by rt.name,cc.name,de.name";
+		List<Object[]> qr = sessionFactory.getCurrentSession().createQuery(sql).list();
+		List<ReportMapDisplay> result = new ArrayList<ReportMapDisplay>(0);
+	// start building the first rmd
+		ReportTemplate rt = (ReportTemplate) qr.get(0)[0];
+		CategoryCombo cc = (CategoryCombo) qr.get(0)[2];
+		ReportMapDisplay rmd = new ReportMapDisplay(rt, cc);
+		for (OptionSet os : cc.getOptionSets()) {
+			rmd.addOptionSet(os);
+		}
+		Collections.sort(rmd.getOptionSets());
+	// step through the query result
+		for (Object[] oo : qr) {
+			rt = (ReportTemplate) oo[0];
+			cc = (CategoryCombo) oo[2];
+	// if we have a report/combo break, write the current rmd and start a new one
+			if (!rmd.getReportId().equals(rt.getId()) || !rmd.getComboId().equals(cc.getId())) {
+				result.add(rmd);
+				rmd = new ReportMapDisplay(rt, cc);
+				for (OptionSet os : cc.getOptionSets()) {
+					rmd.addOptionSet(os);
+				}
+				Collections.sort(rmd.getOptionSets());
+			}
+	// add the data element to the existing rmd
+			DataElement de = (DataElement) oo[1];
+			rmd.addElement(de);
+		}
+	// save the last rmd
+		result.add(rmd);
+		return result;
+	}
 
 }

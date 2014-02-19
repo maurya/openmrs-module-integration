@@ -1,65 +1,31 @@
 package org.openmrs.module.integration;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class DataElement extends BaseOpenmrsObject {
+public class DataElement extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(DataElement.class);
 
-	private int dataElementId;
-	private String dataElementName;
-	private String dataElementCode;
-	private String dataElementUid;
 	private String dataElementType;
 	private String cohortDefinitionUuid;
 	private Date lastUpdated;
 	private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
+	private Set<ReportTemplate> reportTemplates =  new HashSet<ReportTemplate>(0);
 
-	@Override
-	public Integer getId() {
-		return getDataElementId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setDataElementId(id);		
+	public DataElement() {
+		super();
 	}
 
-	public int getDataElementId() {
-		return dataElementId;
+	public DataElement(String name,String code,String uid) {
+		super(name,code,uid);
 	}
 
-	public void setDataElementId(int dataElementId) {
-		this.dataElementId = dataElementId;
-	}
-	
-	public String getDataElementName() {
-		return dataElementName;
-	}
-
-	public void setDataElementName(String dataElementName) {
-		this.dataElementName = dataElementName;
-	}
-	
-	public String getDataElementCode() {
-		return dataElementCode;
-	}
-
-	public void setDataElementCode(String dataElementCode) {
-		this.dataElementCode = dataElementCode;
-	}
-	
-	public String getDataElementUid() {
-		return dataElementUid;
-	}
-
-	public void setDataElementUid(String dataElementUid) {
-		this.dataElementUid = dataElementUid;
-	}
 	public String getDataElementType() {
 		return dataElementType;
 	}
@@ -105,4 +71,14 @@ public class DataElement extends BaseOpenmrsObject {
         return this.integrationServer;
     }
 
+    public void setReportTemplates(Set<ReportTemplate> reportTemplates)
+    {
+        this.reportTemplates = reportTemplates;
+    }
+
+    public Set<ReportTemplate> getReportTemplates()
+    {
+        return this.reportTemplates;
+    }
+    
 }

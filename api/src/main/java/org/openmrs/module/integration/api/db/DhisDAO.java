@@ -2,14 +2,20 @@ package org.openmrs.module.integration.api.db;
 
 import java.util.List;
 
+import java.util.Map;
+import java.util.Set;
+
+import org.hibernate.metadata.ClassMetadata;
 import org.openmrs.module.integration.CategoryCombo;
 import org.openmrs.module.integration.CategoryOption;
 import org.openmrs.module.integration.DataElement;
 import org.openmrs.module.integration.DataValueTemplate;
 import org.openmrs.module.integration.IntegrationServer;
+import org.openmrs.module.integration.OpenmrsDhisObject;
 import org.openmrs.module.integration.Option;
 import org.openmrs.module.integration.OptionSet;
 import org.openmrs.module.integration.OrgUnit;
+import org.openmrs.module.integration.ReportMapDisplay;
 import org.openmrs.module.integration.ReportTemplate;
 
 public interface DhisDAO {
@@ -166,4 +172,12 @@ public interface DhisDAO {
 //	
 //	 List<OptionSet> getOptionSetsByReportTemplate(ReportTemplate ReportTemplate);
 	
+	Map<String,ClassMetadata> getHibernateClassMetadata();
+
+	void commit();
+	
+	OpenmrsDhisObject getExistingByUid(Class<? extends OpenmrsDhisObject> k,String uid,IntegrationServer is);
+
+	public List<ReportMapDisplay> getReportMapDisplay(IntegrationServer is);
+
 }

@@ -44,6 +44,7 @@
 			Libraries to add as dependencies with compile or runtime scope:
 			Find matching dependencies in the maven central repository.
 			<dependency>
+			
 				<groupId>org.other.library</groupId>
 				<artifactId>library-name</artifactId>
 				<version>library.version</version>
@@ -57,40 +58,39 @@
 			
 						
 			<dependency>
-			
-				<groupId>org.openmrs.module</groupId>
-												
-				<artifactId>reporting-api</artifactId>
-																								
-				<version>0.7.8</version>
-												
-				<scope>provided</scope>
-				
+				<groupId>org.openmrs.module</groupId>									
+				<artifactId>reporting-api</artifactId>																					
+				<version>0.8</version>									
+				<scope>provided</scope>	
 			</dependency>
 			
 			<dependency>
-			
-				<groupId>org.openmrs.module</groupId>
-												
-				<artifactId>calculation-api</artifactId>
-																								
-				<version>1.0</version>
-												
-				<scope>provided</scope>
-				
+				<groupId>org.openmrs.module</groupId>									
+				<artifactId>calculation-api</artifactId>																					
+				<version>1.0</version>									
+				<scope>provided</scope>	
 			</dependency>
 			
 			<dependency>
-			
-				<groupId>org.openmrs.module</groupId>
-												
-				<artifactId>serialization.xstream-api</artifactId>
-																								
-				<version>0.2.7</version>
-												
-				<scope>provided</scope>
-				
+				<groupId>org.openmrs.module</groupId>									
+				<artifactId>serialization.xstream-api</artifactId>																					
+				<version>0.2.7</version>									
+				<scope>provided</scope>	
 			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-api</artifactId>
+				<version>1.6.4</version>
+				<scope>provided</scope>
+			</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>htmlwidgets-omod</artifactId>
+			<version>1.6.4</version>
+			<scope>provided</scope>
+		</dependency>
 						
 			<!-- End OpenMRS modules -->
 			

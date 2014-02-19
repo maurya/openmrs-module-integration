@@ -1,68 +1,46 @@
 package org.openmrs.module.integration;
 
+
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
+import org.openmrs.Location;
 
-public class OrgUnit extends BaseOpenmrsObject {
+public class OrgUnit extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(OrgUnit.class);
 
-	private int orgUnitId;
-	private String name;
-	private String code;
-	private String uid;
-	private OrgUnit parentOrg;
+	private Set<OrgUnit> childOrgs;
 	private IntegrationServer integrationServer;
+	private Set<Location> locations;
 
-	@Override
-	public Integer getId() {
-		return getOrgUnitId();
+	public OrgUnit() {
+		super();
 	}
-
-	@Override
-	public void setId(Integer id) {
-		setOrgUnitId(id);		
+	
+	public OrgUnit(String name,String code,String uid) {
+		super(name,code,uid);
 	}
 
 	public int getOrgUnitId() {
-		return orgUnitId;
+		return this.getId();
 	}
 
 	public void setOrgUnitId(int orgUnitId) {
-		this.orgUnitId = orgUnitId;
+		this.setId(orgUnitId);
 	}
 	
-	public String getName() {
-		return name;
+	
+	public Set<OrgUnit> getChildOrgs() {
+		if (childOrgs==null) {
+			childOrgs=new HashSet<OrgUnit>();
+		}
+		return childOrgs;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	
-	
-	public OrgUnit getParentOrg() {
-		return parentOrg;
-	}
-
-	public void setParentOrg(OrgUnit parentOrg) {
-		this.parentOrg = parentOrg;
+	public void setChildOrgs(Set<OrgUnit> childOrgs) {
+		this.childOrgs = childOrgs;
 	}
 	
 	public void setIntegrationServer(IntegrationServer integrationServer)
@@ -74,4 +52,15 @@ public class OrgUnit extends BaseOpenmrsObject {
     {
         return this.integrationServer;
     }
+    
+    public Set<Location> getLocations() {
+		if (locations==null) {
+			locations=new HashSet<Location>();
+		}
+		return locations;
+	}
+
+	public void setLocations(Set<Location> locations) {
+		this.locations = locations;
+	}
 }

@@ -7,58 +7,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class Option extends BaseOpenmrsObject {
+public class Option extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(Option.class);
 
-	private int optionId;
-	private String name;
-	private String code;
-	private String uid;
 	private String cohortdefUuid;
 	private Set<CategoryOption> categoryOptions=  new HashSet<CategoryOption>(0);
 	private Set<OptionSet> optionSets=  new HashSet<OptionSet>(0);
 	private IntegrationServer integrationServer;
 
-	@Override
-	public Integer getId() {
-		return getOptionId();
+	public Option() {
+		super();
 	}
 
-	@Override
-	public void setId(Integer id) {
-		setOptionId(id);		
-	}
-
-	public int getOptionId() {
-		return optionId;
-	}
-
-	public void setOptionId(int optionId) {
-		this.optionId = optionId;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
+	public Option(String name,String code,String uid) {
+		super(name,code,uid);
 	}
 	
 	public String getCohortdefUuid() {

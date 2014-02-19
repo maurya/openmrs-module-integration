@@ -8,53 +8,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class ReportTemplate extends BaseOpenmrsObject {
+public class ReportTemplate extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(ReportTemplate.class);
 
-	private int reportTemplateId;
-	private String reportTemplateName;
-	private String reportTemplateCode;
 	private String frequency;
 	private String mappedReportUuid;
-	private String uid;
 	private Date lastUpdated;
 	private IntegrationServer integrationServer;
 	private Set<DataValueTemplate> dataValueTemplates = new HashSet<DataValueTemplate>(0);
-
-	@Override
-	public Integer getId() {
-		return getReportTemplateId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setReportTemplateId(id);		
-	}
-
-	public int getReportTemplateId() {
-		return reportTemplateId;
-	}
-
-	public void setReportTemplateId(int reportTemplateId) {
-		this.reportTemplateId = reportTemplateId;
-	}
+	private Set<DataElement> dataElements = new HashSet<DataElement>(0);
 	
-	public String getReportTemplateName() {
-		return reportTemplateName;
+	public ReportTemplate() {
+		super();
 	}
 
-	public void setReportTemplateName(String reportTemplateName) {
-		this.reportTemplateName = reportTemplateName;
-	}
-	
-	public String getReportTemplateCode() {
-		return reportTemplateCode;
+	public ReportTemplate(String name,String code,String uid) {
+		super(name,code,uid);
 	}
 
-	public void setReportTemplateCode(String reportTemplateCode) {
-		this.reportTemplateCode = reportTemplateCode;
-	}
-	
 	public String getFrequency() {
 		return frequency;
 	}
@@ -69,13 +40,7 @@ public class ReportTemplate extends BaseOpenmrsObject {
 	public void setMappedReportUuid(String mappedReportUuid) {
 		this.mappedReportUuid = mappedReportUuid;
 	}
-	public String getUid() {
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
+	
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
@@ -99,5 +64,13 @@ public class ReportTemplate extends BaseOpenmrsObject {
  
     public void setDataValueTemplates(Set<DataValueTemplate> dataValueTemplates) {
         this.dataValueTemplates = dataValueTemplates;
+    }
+    
+    public Set<DataElement> getDataElements() {
+        return dataElements;
+    }
+ 
+    public void setDataElements(Set<DataElement> dataElements) {
+        this.dataElements = dataElements;
     }
 }

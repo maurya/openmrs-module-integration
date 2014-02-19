@@ -3,8 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="org.openmrs.module.integration.OptionSet" table="dhis_optionset">
-		<id name="optionSetId" type="int" column="id"
-			unsaved-value="0">
+		<id name="id" type="int" unsaved-value="0" column="id">
 			<generator class="native" />
 		</id>
 		<discriminator column="id" insert="false" />
@@ -18,7 +17,7 @@
 			not-null="true" length="230" />
 			
 			<property name="code" type="java.lang.String" column="code"
-			not-null="true" length="50" />
+			not-null="false" length="50" />
 			
 			<property name="uid" type="java.lang.String" column="uid"
 			not-null="true" length="11" />	
@@ -27,7 +26,7 @@
 			length="38"/>
 			
 
-		<set name="categoryCombos" inverse="false" table="dhis_catcombo_optionset" >
+		<set name="categoryCombos" inverse="true" table="dhis_catcombo_optionset" >
             <key column="optionset_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.module.integration.CategoryCombo">
                 <column name="catcombo_id" not-null="true" />

@@ -7,52 +7,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.BaseOpenmrsObject;
 
-public class CategoryOption extends BaseOpenmrsObject {
+public class CategoryOption extends OpenmrsDhisObject {
 	public static Log log = LogFactory.getLog(CategoryOption.class);
-
-	private int categoryOptionId;
-	private String name;
-	private String code;
 
 	private Set<Option> options=  new HashSet<Option>(0);
 	private Set<CategoryCombo> categoryCombos= new HashSet<CategoryCombo>(0);
 	//private CategoryCombo categoryCombo;
 	private IntegrationServer integrationServer;
-
-	@Override
-	public Integer getId() {
-		return getCategoryOptionId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		setCategoryOptionId(id);		
-	}
-
-	public int getCategoryOptionId() {
-		return categoryOptionId;
-	}
-
-	public void setCategoryOptionId(int categoryOptionId) {
-		this.categoryOptionId = categoryOptionId;
-	}
 	
-	public String getName() {
-		return name;
+	public CategoryOption() {
+		super();
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public CategoryOption(String name,String code,String uid) {
+		super(name,code,uid);
 	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	
 	 public Set<Option> getOptions() {
 	        return options;

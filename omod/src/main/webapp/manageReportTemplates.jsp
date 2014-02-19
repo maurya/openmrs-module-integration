@@ -1,266 +1,256 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="localInclude.jsp" %>
-<%@ include file="localHeader.jsp" %>
-<openmrs:require privilege="Manage Integration Servers" otherwise="/login.htm" redirect="/module/integration/integrationServerAdmin" />
+<openmrs:require privilege="Manage Report Templates" otherwise="/login.htm" redirect="/module/integration/manageReportTemplates.form" />
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		
-		$('#editReportTemplateMapping').dialog({
-			autoOpen: false,
-			modal: true,
-			title: 'Mapping Cohorts',
-			width: '90%'
-		});
-		
-		$('.addOrEditPopup').dialog({
-			autoOpen: false,
-			modal: true,
-			title: 'Mapping Cohorts',
-			width: '90%'
-		});
-		
-		$(".integration-data-table").dataTable( {
-			"bPaginate": false,
-			"iDisplayLength": 25,
-			"bLengthChange": false,
-			"bFilter": false,
-			"bSort": true,
-			"bInfo": true,
-			"bAutoWidth": false
-		} );
-		
-		$(".cancel").click( function() {
-			$('#editReportTemplateMapping').dialog('close');	
+
+	$j(document).ready(function() {
+			$j('#report-table').dataTable( {
+				"bPaginate": false,
+				"iDisplayLength": 8,
+				"bLengthChange": false,
+				"bFilter": false,
+				"bSort": false,
+				"bInfo": true,
+				"bAutoWidth": false,
+				"bScrollY" : true,
+			} );
 			
-		});
+			$j('.radio').click(function() {
+				var reportId=$j(this).attr('id').substring(5); // strip 'radio'
+				alert(reportId);
+			} );
 
-		$(".cancelde").click( function() {
-			var id=this.id.replace("cancelde","");
-			$('#addOrEditPopupde'+id.trim()).dialog('close');	
+			$j('.edit').click(function() {
+				var reportId = $j(this).attr('id').substring(4); // strip 'edit'
+				alert(reportId);
+				$j("#id").val(reportId);
+				$j("#reportName").val($j.trim($j("#name"+reportId).html()));
+				$j("#mappedReport").val($j.trim($j("#mappedReport"+reportId).html()));
+				$j("#baseCohort").val($j.trim($j("#baseCohort"+reportId).html()));
+				$j('#editReportTemplateMapping').dialog('open');
+			} );
+
+			$j('.mapDE').click(function() {
+				var reportId = $j(this).attr('id').substring(5); // strip 'mapDE'
+				alert(reportId);
+				var url = "showDataElements.form?reportTemplateId=" + reportId + "&server=${server.serverName}";
+				alert(url);
+				window.location.replace(url);
+				} );
+
+			$j('.mapOS').click(function() {
+				var reportId = $j(this).attr('id').substring(5); // strip 'mapOS'
+				alert(reportId);
+				var url = "showOptions.form?reportTemplateId=" +reportId +"&server=${server.serverName}";
+				alert(url);
+				window.location.replace(url);
+			} );
 			
-		});
-		$(".cancelo").click( function() {
-			var id=this.id.replace("cancelo","");
-			$('#addOrEditPopupo'+id.trim()).dialog('close');	
-			
-		});
-	} );
-
-	function editReportTemplate(id) {
-	
-			$("#id").val(id);
-			$("#reportName").val($.trim($("#name"+id).html()));
-			$("#mappedReport").val($.trim($("#mappedReport"+id).html()));
-			$('#editReportTemplateMapping').dialog('open');
-		}
-		function saveReportTemplate() {
-	
-			var mapped=$("#mappedReport").val();
-		var idmap=$("#id").val();
-				 $.post("${pageContext.request.contextPath}/module/integration/saveReportTemplateMapping.form",{mappedReport: mapped,id: idmap},function() {
-		               //alert('got data');
-		            }).error(function() {
-		               // alert('Unable load Templates');
-		            }).success(function() {
-		                // alert('success');
-		            }).complete(function() {
-		               //alert('complete');
-					   location.reload();
-		            });
-				
-		}
-		
-		function editDataElement(id) {
-
-			$("#id"+id).val(id);
-			$("#DataElementName"+id).val($.trim($("#dataElement"+id).html()));
-			$('#addOrEditPopupde'+id).dialog('open');
-		}
-		function saveDataElement(id) {
-	
-			var uuid=$("#cohorts"+id).val();
-				 $.post("${pageContext.request.contextPath}/module/integration/saveDataElementMapping.form",{uuid: uuid,id: id},function() {
-		               //alert('got data');
-		            }).error(function() {
-		               // alert('Unable load Templates');
-		            }).success(function() {
-		                // alert('success');
-		            }).complete(function() {
-		               //alert('complete');
-					   location.reload();
-		            });
-		}
-		function editOption(id) {
-			
-			$("#id"+id).val(id);
-			$("#OptionName"+id).val($.trim($("#option"+id).html()));
-			$('#addOrEditPopupo'+id).dialog('open');
-		}
-		function saveOption(id) {
-	
-			var uuid=$("#cohorts"+id).val();
-				 $.post("${pageContext.request.contextPath}/module/integration/saveOptionsSetMapping.form",{uuid: uuid,id: id},function() {
-		               //alert('got data');
-		            }).error(function() {
-		               // alert('Unable load Templates');
-		            }).success(function() {
-		                // alert('success');
-		            }).complete(function() {
-		               //alert('complete');
-					   location.reload();
-		            });
-		}
-</script>
-<h2><spring:message code="integration.serverAdmin"/> : ${server.serverName}</h2>
-
-<div >
-			<br/>
-
-		       			<table class="integration-data-table display">
-			<thead>
-				<tr>
-					<th><spring:message code="integration.general.name"/></th>
-					<th><spring:message code="integration.general.code"/></th>
-					<th><spring:message code="integration.general.frequency"/></th>
-					<th><spring:message code="integration.general.baseCohort"/></th>
-					<th><spring:message code="integration.general.reportMappedTo"/></th>
-					<th><spring:message code="integration.general.validMappings"/></th>
-					<th><spring:message code="integration.general.lastUpdated"/></th>
-					<th align="center" width="1%"><spring:message code="integration.general.actions"/></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${reportTemplates}" var="reportTemplate" >
-					<tr id="${reportTemplate.reportTemplateId}">
-						<td width="10%" id="name${reportTemplate.reportTemplateId}">
-							${reportTemplate.reportTemplateName}
-						</td>
-						<td width="10%" id="code${reportTemplate.reportTemplateId}">
-							${reportTemplate.reportTemplateCode}
-						</td>
-						<td width="10%" id="frequency${reportTemplate.reportTemplateId}">
-							${reportTemplate.frequency}
-						</td>
-						<td width="10%" id="baseCohort${reportTemplate.reportTemplateId}">
-						${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid].baseCohortDefinition}
-						</td>
-						<td width="10%" id="mappedReport${reportTemplate.reportTemplateId}">
-							${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid]}
-						</td>
-						<td width="10%" id="check${reportTemplate.reportTemplateId}">
-							<input type="checkbox" checked="checked">
-						</td>
-						<td width="10%" id="lastUpdated${reportTemplate.reportTemplateId}">
-							${reportTemplate.lastUpdated}
-						</td>
-						<td align="center" nowrap>
-							<a href="javascript:editReportTemplate('${reportTemplate.reportTemplateId}');"> <button >
-                  <spring:message code="integration.button.editReports"/>
-                    </button>
-                    </a>
-							
-						
-						
-						 <a href="showDataElements.form?reportTemplateId=${reportTemplate.reportTemplateId}">
-						  <button >
-                   <spring:message code="integration.button.mapDataElement"/>
-                    </button>
-                    </a>
-                     <a href="showOptions.form?reportTemplateId=${reportTemplate.reportTemplateId}">
-                      <button >
-                   <spring:message code="integration.button.mapOptionSets"/>
-                    </button>
-                     </a>
-                     </td>
-										</tr>
-				</c:forEach>	
-			</tbody>
-			<tfoot>
-			</tfoot>
-		</table>
-		</div>
-		
-		<div id="editReportTemplateMapping">
-					<b class="boxHeader"><spring:message code="integration.reportMapping"/></b>
-					<div class="box">
-					<form method="post" id="detailsedit" >
-					<table>
-						<tbody>	
-							<tr>
-								<td><spring:message code="integration.general.name"/></td>
-								<td>:</td>
-								<td>
-								<input id="id" type="hidden"/>
-								<input id="reportName" type="text" size="40" /></td>
-							</tr>
-							<tr>
-								<td><spring:message code="integration.general.reportMappedTo"/></td>
-								<td>:</td>
-								<td>
-								<input id="mappedReport" type="text" size="40" /></td>
-							</tr>
-							
-						
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td><a href="javascript:saveReportTemplate();"><input type="button" value='<spring:message code="integration.button.save"/>' /> </a><input
-								type="reset" value='<spring:message code="integration.button.cancel"/>' class="cancel">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-					</div>
-					</div>
-			<div >
-			<br/>
-
-		       			<table class="integration-data-table display">
-			<thead>
-				<tr>
-					<th><spring:message code="integration.dhis.dataElement"/></th>
-					<th><spring:message code="integration.dhis.categoryCombo"/></th>
-					<th><spring:message code="integration.dhis.optionSet"/></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${CategoryComboToDataElementDictionary}" var="element" >
-					<tr id="${element.key.id}">
+			$j('#editReportTemplateMapping').dialog({
+				autoOpen: false,
+				modal: true,
+				title: '<openmrs:message code="integration.general.reportMappedTo" javaScriptEscape="true" />',
+				width: '90%'
+			} );
 					
-						<td width="10%" id="dataElementCollection${element.key.id}" >
-							<c:forEach items="${element.value}" var="dataElement" >
-								<a href="javascript:editDataElement('${dataElement.dataElementId}');"><p id="dataElement${dataElement.dataElementId}">${dataElement.dataElementName}</p></a>
-								<div id="addOrEditPopupde${dataElement.dataElementId}" class="addOrEditPopup">
-								<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${dataElement.dataElementId}" moduleId="integration" parameters="type=DataElement|mappedCohort=${dataElement.cohortDefinitionUuid}|portletId=${dataElement.dataElementId}|extraClass=de" />
-								</div>
-							</c:forEach>
-						</td>
-						<td width="10%" id="categoryCombo${element.key.id}">
-							${element.key.name}
-						</td>
-						<td width="10%" id="optionSets${element.key.id}">
-							<c:forEach items="${element.key.optionSets}" var="optionSet" >	
-							<c:forEach items="${optionSet.options}" var="option" >
-							<a href="javascript:editOption('${option.id}');"><p id="option${option.id}">${option.name}</p></a>
-							<div id="addOrEditPopupo${option.id}" class="addOrEditPopup">
-							<openmrs:portlet url="mappingCohort.portlet" id="mappingCohort${option.id}" moduleId="integration" parameters="mappedCohort=${option.cohortdefUuid}|type=Option|portletId=${option.id}|extraClass=o" />
-							</div>
-							</c:forEach>
-									</c:forEach>
-						</td>
-					</tr>
-				</c:forEach>	
+			$j(".cancel").click( function() {
+				$j('#editReportTemplateMapping').dialog('close');	
+			} );
+
+			$j('#combo-table').dataTable( {
+				"bPaginate": false,
+				"iDisplayLength": 8,
+				"bLengthChange": false,
+				"bFilter": false,
+				"bSort": false,
+				"bInfo": true,
+				"bAutoWidth": false,
+				"bScrollY" : true,
+			} );
+			
+			$j('.deText').click(function() {
+				var deId = $j(this).attr('id');
+				alert("DE: " + deId);
+			} );
+			
+			$j('.osText').click(function() {
+				var osId = $j(this).attr('id');
+				alert("OS: " + osId);
+			} );
+			
+			var tReport = $j('#report-table');
+			var tCombo = $j('#combo-table');
+			var rid = "XXX";
+			tCombo.fnFilter(rid,0,false,false,false,true);
+
+			$j('.radio').click(function() {
+				rid = $j(this).attr('id').substring(5);  //string radio
+				alert("report: " + rid);
+				tCombo.fnFilter(rid,0,false,false,false,true);
+			} );
+
+			
+	} );		
+</script>
+
+<style>
+	.small { font-size: x-small; }
+	.oddRow { background-color: white;}
+	.evenRow { background-color: gainsboro; }
+	.deText { border-style: none;}
+	.osText { border-style: none;}
+</style>
+
+<div id="breadCrumbs">
+	<a href="integrationServerAdmin.form">
+		<openmrs:message code="integration.return.serverAdministration"/>
+	</a>|
+</div>
+<h2>
+	<openmrs:message code="integration.general.reportTemplatesFor"/> 
+	&nbsp;:&nbsp;${server.serverName}
+</h2>
+
+<div id="base-page"><form>
+<div id="radio">
+	<br/>
+	<table id="report-table" width="90%">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th><openmrs:message code="integration.general.name"/></th>
+				<th><openmrs:message code="integration.general.code"/></th>
+				<th><openmrs:message code="integration.general.frequency"/></th>
+				<th><openmrs:message code="integration.general.baseCohort"/></th>
+				<th><openmrs:message code="integration.general.reportMappedTo"/></th>
+				<th align="center" width="1%"><openmrs:message code="integration.general.actions"/></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${reportTemplates}" var="reportTemplate" varStatus="rtstatus">
+				<tr id="${reportTemplate.id}" style="${rtstatus.index % 2 == 0 ? 'evenRow' : 'oddRow'}" >
+					<td>
+						<input id="radio${reportTemplate.id }" class="radio" type="radio"/>
+					</td>
+					<td width="20%" id="name${reportTemplate.id}" class="reportRow">
+						${reportTemplate.name}
+					</td>
+					<td width="10%" id="code${reportTemplate.id}">
+						${reportTemplate.code}
+					</td>
+					<td width="10%" id="frequency${reportTemplate.id}">
+						${reportTemplate.frequency}
+					</td>
+						<td width="10%" id="baseCohort${reportTemplate.id}">
+						${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid].baseCohortDefinition}
+					</td>
+					<td width="10%" id="mappedReport${reportTemplate.id}">
+						${uuidToReportDefinitionMap[reportTemplate.mappedReportUuid].name}
+					</td>
+					<td align="center" nowrap>
+						<button type="button" class="edit" id="edit${reportTemplate.id}">
+                 			<openmrs:message code="integration.button.editReports"/>
+                   		</button>
+
+						<button type="button" class="mapDE" id="mapDE${reportTemplate.id}">
+                  			<openmrs:message code="integration.button.mapDataElement"/>
+                   		</button>
+
+                     	<button type="button" class="mapOS" id="mapOS${reportTemplate.id}">
+                  			<openmrs:message code="integration.button.mapOptionSets"/>
+                   		</button>
+                    </td>
+				</tr>
+			</c:forEach>	
+		</tbody>
+	</table>
+</div>
+	
+<div id="report-mapping">
+	<br/>
+	<table id="combo-table" width="90%">
+		<thead>
+			<tr>
+				<th style="display:none" />
+				<th><openmrs:message code="integration.dhis.dataElement"/></th>
+				<th><openmrs:message code="integration.dhis.categoryCombo"/></th>
+				<th><openmrs:message code="integration.dhis.optionSet"/></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${reportMapDisplay}" var="rd" varStatus="rdstatus">
+				<tr id="rdrow${rd.reportId}" class='${status.index % 2 == 0 ? "evenRow" : "oddRow"}' >
+					<td id="rpt${rd.reportId }" style="display:none">
+						${rd.reportId }
+					</td>
+					<td>
+						<c:forEach items="${rd.elements}" var="de">
+							<button type="button" id="${de.id }" class="deText"  >
+								<img src="<c:url value='/images/edit.gif'/>" border="0" />
+							</button>
+							${de.name}
+							<c:if test="${de.mapped}">
+								<img src="<c:url value='/images/checkmark.png'/>" border="0" />
+							</c:if>
+							<br/>
+						</c:forEach>
+					</td>
+					<td id="${rd.comboId }">
+						${rd.comboName }
+					</td>
+					<td style="background-color:${rdstatus.index % 2 == 0 ? 'evenRow' : 'oddRow'}" >
+						<c:forEach items="${rd.optionSets}" var="os">
+							<button type="button" id="${os.id}" class="osText" >
+								<img src="<c:url value='/images/edit.gif'/>" border="0" />
+							</button>
+							${os.name}
+							<c:if test="${os.mapped}">
+								<img src="<c:url value='/images/checkmark.png'/>" border="0" />
+							</c:if>
+							<br/>
+						</c:forEach>
+					</td>
+			</c:forEach>
+		</tbody>
+	</table>
+</div>
+</form></div>
+
+<div id="editReportTemplateMapping">				
+	<form method="post" id="detailsedit" action="saveReportTemplateMapping.form">
+		<table>
+			<tbody>	
+				<tr>
+					<td><openmrs:message code="integration.general.name"/></td>
+					<td>:</td>
+					<td>
+						<input id="id" type="hidden"/>
+						<input id="reportName" type="text" width="50" input="disabled" />
+					</td>
+				</tr>
+				<tr>
+					<td><openmrs:message code="integration.general.reportMappedTo"/></td>
+					<td>:</td>
+					<td> <input id="mappedReport" type="text" size="40" /></td>
+				</tr>
+				<tr>
+					<td><openmrs:message code="integration.general.baseCohort"/></td>
+					<td>:</td>
+					<td><input id="baseCohort" type="text" size="40" /></td>
+				</tr>
+				<tr></tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td>
+						<input type="submit" name="submit" value='<openmrs:message code="integration.button.save"/>' javaScriptEscape="true" /> 
+						<input type="reset" id="cancel" value='<openmrs:message code="integration.button.cancel" javaScriptEscape="true"/>' class="cancel">
+					</td>
+				</tr>
 			</tbody>
-			<tfoot>
-			</tfoot>
 		</table>
-		</div>
+	</form>
+</div>
 
 <%@ include file="/WEB-INF/template/footer.jsp"%>

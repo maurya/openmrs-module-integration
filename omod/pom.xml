@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" >
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -18,6 +19,7 @@
 		<!-- 
 		Add other dependencies from parent's pom: 
 		<dependency> 
+		
 			<groupId>org.other.library</groupId> 
 			<artifactId>library-name</artifactId> 
 		</dependency> 
@@ -32,25 +34,33 @@
 		</dependency>
 		
 				
-		<dependency>
 
-			<groupId>org.openmrs.module</groupId>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>reporting-api</artifactId>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>						
+				<artifactId>calculation-api</artifactId>											
+			</dependency>
+			
+			<dependency>
+				<groupId>org.openmrs.module</groupId>						
+				<artifactId>serialization.xstream-api</artifactId>											
+			</dependency>
+			
+			 <dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-api</artifactId>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>htmlwidgets-omod</artifactId>
+			</dependency>
 						
-			<artifactId>reporting-api</artifactId>
-				<scope>provided</scope>								
-		</dependency>
-		
-		 <dependency>
-		<groupId>org.openmrs.module</groupId>
-   <artifactId>calculation-api</artifactId>
-  </dependency>
-   
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>serialization.xstream-api</artifactId>
-        </dependency>
-					
-	
 		<!-- End OpenMRS modules -->
 		
 
