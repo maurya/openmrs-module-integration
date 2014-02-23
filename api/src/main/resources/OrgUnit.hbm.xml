@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.OrgUnit" table="dhis_orgunit">
+	<class name="org.openmrs.module.integration.OrgUnit" table="dim_orgunit">
 		<id name="id" type="int" unsaved-value="0">
 			<column name="id" />
 			<generator class="native" />
@@ -31,7 +31,7 @@
 			<one-to-many class="org.openmrs.module.integration.OrgUnit" />
 		</set>
 		
-		<set name="locations" table="dhis_orgunit_location" >
+		<set name="locations" table="dim_orgunit_location" >
             <key column="orgunit_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.Location">
                 <column name="location_id" not-null="true" />

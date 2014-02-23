@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.openmrs.module.integration.DataElement" table="dhis_dataelement">
+	<class name="org.openmrs.module.integration.DataElement" table="dim_dataelement">
 		<id name="id" type="int" unsaved-value="0">
 			<column name="id" />
 			<generator class="native" />
@@ -42,7 +42,7 @@
 			<column name="server_Id" />
 		</many-to-one>		
 		
-		<set name="reportTemplates" inverse="false" table="dhis_reporttemplate_dataelement" >
+		<set name="reportTemplates" inverse="false" table="dim_reporttemplate_dataelement" >
             <key column="dataelement_id" not-null="true" />
             <many-to-many entity-name="org.openmrs.module.integration.ReportTemplate">
                 <column name="reporttemplate_id" not-null="true" />
