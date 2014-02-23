@@ -8,9 +8,9 @@
 <!--     Adding demo dhis server -->
     <changeSet author="maurya" id="demo integrationserver">
     	<preConditions onFail="MARK_RAN">
-				 <sqlCheck expectedResult="0"> SELECT count(*) FROM dhis_integrationserver WHERE name="dhis"</sqlCheck>
+				 <sqlCheck expectedResult="0"> SELECT count(*) FROM dim_integrationserver WHERE name="dhis"</sqlCheck>
 		</preConditions>
-		<insert tableName="dhis_integrationserver">
+		<insert tableName="dim_integrationserver">
 			<column name="uuid" value="854ad257-54ac-426e-8e04-8f1ce7ad36a7"/>
 			<column name="name" value="dhis"/>
 			<column name="description" value="dhis2 demo server"/>
