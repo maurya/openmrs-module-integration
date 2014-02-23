@@ -81,7 +81,7 @@
 			$j('#addOrEditPopup').dialog({
 				autoOpen: false,
 				modal: true,
-				title: '<openmrs:message code="integration.general.addOrUpgrade" javaScriptEscape="true" />',
+				title: '<openmrs:message code="integration.general.addOrUpdate" javaScriptEscape="true" />',
 				width: '90%'
 			});
 					
@@ -147,7 +147,6 @@
 						<td id="smasterTemplate${serverItem.serverName}" STYLE=display:NONE>
 							${serverItem.masterTemplate}
 						</td>
-<<
 						<td id="stransportType${serverItem.serverName}" STYLE=display:NONE>
 							${serverItem.transportType}
 						</td>
